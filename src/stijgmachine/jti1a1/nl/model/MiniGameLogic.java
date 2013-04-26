@@ -1,4 +1,4 @@
-package jta1.a1.nl.model;
+package stijgmachine.jti1a1.nl.model;
 
 public abstract class MiniGameLogic {
 

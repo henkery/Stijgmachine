@@ -1,7 +1,7 @@
-package jta1.a1.nl.controller;
+package stijgmachine.jti1a1.nl.controller;
 
-import jta1.a1.nl.model.*;
-import jta1.a1.nl.view.*;
+import stijgmachine.jti1a1.nl.model.*;
+import stijgmachine.jti1a1.nl.view.*;
 
 public class Main {
 

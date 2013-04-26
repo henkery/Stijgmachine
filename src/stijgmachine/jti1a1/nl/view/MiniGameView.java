@@ -1,4 +1,4 @@
-package jta1.a1.nl.view;
+package stijgmachine.jti1a1.nl.view;
 
 public abstract class MiniGameView {
 
