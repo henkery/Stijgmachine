@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Tim/Desktop/JTI1A4 per4 project map/Stijgmachine/Stijgmachine/wiiusej.jar"/>
+	<classpathentry kind="lib" path="wiiusej.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
