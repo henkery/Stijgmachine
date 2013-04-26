@@ -1,4 +1,4 @@
-package jta1.a1.nl.controller;
+package stijgmachine.jti1a1.nl.controller;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
