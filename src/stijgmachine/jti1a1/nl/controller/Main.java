@@ -1,8 +1,11 @@
 package stijgmachine.jti1a1.nl.controller;
 
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import stijgmachine.jti1a1.nl.model.*;
+import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.*;
 
 public class Main {
@@ -11,8 +14,8 @@ public class Main {
 	 * @param args
 	 */
 	
-	private MiniGameLogic logicSlot;
-	private JPanel viewSlot;
+	private static MiniGameLogic logicSlot;
+	private MiniGameView viewSlot;
 	private JFrame frame;
 	
 	public static void main(String[] args)
@@ -25,7 +28,7 @@ public class Main {
 		frame = new JFrame();
 		setLogicSlot(new StartMenuLogic());
 		viewSlot = new StartMenuView();
-		frame.setSize(800, 600);
+		//frame.setSize(800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
 		frame.setVisible(true);
@@ -38,17 +41,30 @@ public class Main {
 		while (true)
 		{
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			viewSlot = new TestView();
-			frame.revalidate();
+			
 			logicSlot.tick();
-			frame.getContentPane().add(viewSlot);
+			
 			if (logicSlot.isDone())
-				System.exit(0);
+			{
+				switch (viewSlot.getID()){
+					case MiniGameView.STARTMENU:
+						viewSlot = new TestView();
+						break;
+					
+					case MiniGameView.TEST:
+						viewSlot = new StartMenuView();
+						break;
+					
+				}
+				frame.revalidate();
+				frame.getContentPane().add(viewSlot);
+				setLogicSlot(new StartMenuLogic());
+			}
 		}
 		
 	}
@@ -68,9 +84,14 @@ public class Main {
 		return viewSlot;
 	}
 
-	public void setViewSlot(JPanel viewSlot)
+	public void setViewSlot(MiniGameView viewSlot)
 	{
 		this.viewSlot = viewSlot;
+	}
+
+	public static ArrayList<GameObject> getObjects() {
+		// TODO Auto-generated method stub
+		return logicSlot.getObjects();
 	}
 	
 }
