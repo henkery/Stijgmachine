@@ -7,4 +7,6 @@ public abstract class MiniGameLogic {
 		
 	}
 
+	public abstract boolean isDone();
+
 }

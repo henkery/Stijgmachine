@@ -12,20 +12,24 @@ public class Main {
 	 */
 	
 	private MiniGameLogic logicSlot;
-	private MiniGameView viewSlot;
+	private JPanel viewSlot;
+	private JFrame frame;
 	
 	public static void main(String[] args)
 	{
-		Main game = new Main();
+		new Main();
 	}
 	
 	public Main()
 	{
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		setLogicSlot(new StartMenuLogic());
-		setViewSlot(new StartMenuView());
-		frame.setContentPane(MiniGameView.panel);
+		viewSlot = new StartMenuView();
 		frame.setSize(800, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(viewSlot);
+		frame.setVisible(true);
+		frame.pack();
 		gameloop();
 	}
 
@@ -34,12 +38,17 @@ public class Main {
 		while (true)
 		{
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			viewSlot = new TestView();
+			frame.revalidate();
 			logicSlot.tick();
+			frame.getContentPane().add(viewSlot);
+			if (logicSlot.isDone())
+				System.exit(0);
 		}
 		
 	}
@@ -54,12 +63,12 @@ public class Main {
 		this.logicSlot = logicSlot;
 	}
 
-	public MiniGameView getViewSlot()
+	public JPanel getViewSlot()
 	{
 		return viewSlot;
 	}
 
-	public void setViewSlot(MiniGameView viewSlot)
+	public void setViewSlot(JPanel viewSlot)
 	{
 		this.viewSlot = viewSlot;
 	}
