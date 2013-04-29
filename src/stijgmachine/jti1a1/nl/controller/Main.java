@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.*;
+import wiiusej.*;
 
 public class Main {
 
@@ -17,6 +19,7 @@ public class Main {
 	private static MiniGameLogic logicSlot;
 	private MiniGameView viewSlot;
 	private JFrame frame;
+	private Wiimote[] wiimotes;
 	
 	public static void main(String[] args)
 	{
@@ -29,11 +32,24 @@ public class Main {
 		setLogicSlot(new StartMenuLogic());
 		viewSlot = new StartMenuView();
 		//frame.setSize(800, 600);
+		gameinit();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
 		frame.setVisible(true);
 		frame.pack();
+		logicSlot.giveMotes(wiimotes);
 		gameloop();
+	}
+
+	private void gameinit() {
+		System.out.println("Connecting wiimotes...");
+		while (wiimotes == null)
+		{
+			wiimotes = WiiUseApiManager.getWiimotes(1, true);
+			if (wiimotes.length < 1)
+				wiimotes = null;
+		}
+		
 	}
 
 	private void gameloop()
@@ -64,7 +80,9 @@ public class Main {
 				frame.revalidate();
 				frame.getContentPane().add(viewSlot);
 				setLogicSlot(new StartMenuLogic());
+				logicSlot.giveMotes(wiimotes);
 			}
+			viewSlot.repaint();
 		}
 		
 	}
