@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import stijgmachine.jti1a1.nl.controller.SwipeEvent;
 import stijgmachine.jti1a1.nl.objects.GameButton;
+import stijgmachine.jti1a1.nl.objects.GameMenuItem;
+import stijgmachine.jti1a1.nl.objects.GameMenuSelector;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
@@ -21,7 +23,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 public class StartMenuLogic extends MiniGameLogic {
 	
-	private ArrayList<GameButton> buttons;
+	private ArrayList<GameMenuItem> buttons;
 
 	private int count;
 
@@ -29,14 +31,17 @@ public class StartMenuLogic extends MiniGameLogic {
 	
 	private int point;
 	
+	private int menu;
+	
 	public StartMenuLogic() {
 		count = 0;
+		menu = 0;
 		point = 0;
-		buttons = new ArrayList<GameButton>();
-		buttons.add(new GameButton(20, 20, 1000, 100, "henk"));
-		buttons.add(new GameButton(20, 200, 1000, 100, "henk"));
-		buttons.add(new GameButton(20, 380, 1000, 100, "henk"));
-		buttons.add(new GameButton(20, 560, 1000, 100, "henk"));
+		buttons = new ArrayList<GameMenuItem>();
+		buttons.add(new GameButton(20, 20, 1000, 100, 42, "start game"));
+		buttons.add(new GameButton(20, 200, 1000, 100, 42, "settings"));
+		buttons.add(new GameButton(20, 380, 1000, 100, 42, "about"));
+		buttons.add(new GameMenuSelector(new String[]{"ja", "nee",  "mischien"}, 20, 560));
 		done = false;
 	}
 
@@ -48,7 +53,7 @@ public class StartMenuLogic extends MiniGameLogic {
 	@Override
 	public void tick() {
 		count ++;
-		for (GameButton button : buttons)
+		for (GameMenuItem button : buttons)
 		{
 			button.unsetPointed();
 		}
@@ -153,6 +158,11 @@ public class StartMenuLogic extends MiniGameLogic {
 			point++;
 			if (point >= buttons.size())
 				point = 0;
+		}
+		else if (arg0.isButtonRightPressed())
+		{
+			if (buttons.get(point).getID() == 5)
+				((GameMenuSelector) buttons.get(point)).goRight();
 		}
 		else if (arg0.isButtonAPressed())
 		{

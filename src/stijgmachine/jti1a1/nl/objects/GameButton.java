@@ -1,20 +1,32 @@
 package stijgmachine.jti1a1.nl.objects;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-public class GameButton extends GameObject {
+public class GameButton extends GameMenuItem {
 	
 	private int l, w;
+	private float fontsize;
 	private String content;
-	private boolean pointed;
 
 	public GameButton(int x, int y, int l, int w, String string) {
 		this.x = x;
 		this.y = y;
 		this.l = l;
 		this.w = w;
+		this.fontsize = 12;
+		content = string;
+		pointed = false;
+	}
+	
+	public GameButton(int x, int y, int l, int w, int fontsize, String string) {
+		this.x = x;
+		this.y = y;
+		this.l = l;
+		this.w = w;
+		this.fontsize = (float)fontsize;
 		content = string;
 		pointed = false;
 	}
@@ -28,7 +40,11 @@ public class GameButton extends GameObject {
 			g2.setColor(Color.black);
 		g2.fill(new Rectangle2D.Double(x, y, l, w));
 		g2.setColor(Color.white);
-		g2.drawString(content, x, y+10);
+		Font oldfont = g2.getFont();
+		g2.setFont(oldfont.deriveFont(fontsize));
+		g2.drawString(content, x-((content.length()/2)), y+(w/2));
+		System.out.println(l/2 + " " + w/2);
+		g2.setFont(oldfont);
 
 	}
 
@@ -59,13 +75,5 @@ public class GameButton extends GameObject {
 		return (x > this.x && y > this.y) && (x < this.x + w && y < this.y + l);
 	}
 
-	public void unsetPointed() {
-		pointed = false;
-		
-	}
 	
-	public void setPointed() {
-		pointed = true;
-		//System.out.println("got pointed");
-	}
 }
