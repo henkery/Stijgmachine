@@ -26,12 +26,9 @@ public class StartMenuLogic extends MiniGameLogic {
 	
 	private ArrayList<GameObject> items;
 
-	private int count;
-
 	private boolean done;
 	
 	public StartMenuLogic() {
-		count = 0;
 		items = new ArrayList<GameObject>();
 		items.add(new GameMenu(0, 0, new GameObject[]{
 				new GameButton(20, 20, 1000, 100, 42, "Start game"),
@@ -49,9 +46,6 @@ public class StartMenuLogic extends MiniGameLogic {
 
 	@Override
 	public void tick() {
-		count ++;
-		
-		//System.out.println(point);
 	}
 
 	@Override
