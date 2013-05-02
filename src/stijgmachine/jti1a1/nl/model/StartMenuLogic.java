@@ -151,7 +151,23 @@ public class StartMenuLogic extends MiniGameLogic {
 		}
 		else if (arg0.isButtonAPressed())
 		{
-			//System.out.println("button " + point + " is pressed! Do something!");
+			items = new ArrayList<GameObject>();
+			items.add(new GameMenu(0, 0, new GameObject[]{
+					new GameButton(20, 20, 1000, 100, 42, "Secundaire menu"),
+					new GameButton(20, 200, 1000, 100, 42, "Of niet"),	
+					new GameButton(20, 380, 1000, 100, 42, "Druk op B"),
+					new GameMenuSelector(new String[]{"gna", "nya"}, 20, 560)
+					}));
+		}
+		else if (arg0.isButtonBPressed())
+		{
+			items = new ArrayList<GameObject>();
+			items.add(new GameMenu(0, 0, new GameObject[]{
+					new GameButton(20, 20, 1000, 100, 42, "Start game"),
+					new GameButton(20, 200, 800, 80, 42, "settings"),	
+					new GameButton(20, 380, 600, 100, 42, "druk op A"),
+					new GameMenuSelector(new String[]{"ja", "nee",  "mischien"}, 20, 560)
+					}));
 		}
 	}
 
