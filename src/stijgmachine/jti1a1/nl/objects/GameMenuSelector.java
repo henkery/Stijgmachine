@@ -34,4 +34,11 @@ public class GameMenuSelector extends GameMenuItem {
 			select = 0;
 	}
 
+	public void goLeft() {
+		select--;
+		if (select < 0)
+			select = items.length-1;
+		
+	}
+
 }

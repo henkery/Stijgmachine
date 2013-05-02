@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import stijgmachine.jti1a1.nl.controller.SwipeEvent;
 import stijgmachine.jti1a1.nl.objects.GameButton;
+import stijgmachine.jti1a1.nl.objects.GameMenu;
 import stijgmachine.jti1a1.nl.objects.GameMenuItem;
 import stijgmachine.jti1a1.nl.objects.GameMenuSelector;
 import stijgmachine.jti1a1.nl.objects.GameObject;
@@ -23,25 +24,21 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 public class StartMenuLogic extends MiniGameLogic {
 	
-	private ArrayList<GameMenuItem> buttons;
+	private ArrayList<GameObject> items;
 
 	private int count;
 
 	private boolean done;
 	
-	private int point;
-	
-	private int menu;
-	
 	public StartMenuLogic() {
 		count = 0;
-		menu = 0;
-		point = 0;
-		buttons = new ArrayList<GameMenuItem>();
-		buttons.add(new GameButton(20, 20, 1000, 100, 42, "start game"));
-		buttons.add(new GameButton(20, 200, 1000, 100, 42, "settings"));
-		buttons.add(new GameButton(20, 380, 1000, 100, 42, "about"));
-		buttons.add(new GameMenuSelector(new String[]{"ja", "nee",  "mischien"}, 20, 560));
+		items = new ArrayList<GameObject>();
+		items.add(new GameMenu(0, 0, new GameObject[]{
+				new GameButton(20, 20, 1000, 100, 42, "Start game"),
+				new GameButton(20, 200, 1000, 100, 42, "settings"),	
+				new GameButton(20, 380, 1000, 100, 42, "about"),
+				new GameMenuSelector(new String[]{"ja", "nee",  "mischien"}, 20, 560)
+				}));
 		done = false;
 	}
 
@@ -53,19 +50,14 @@ public class StartMenuLogic extends MiniGameLogic {
 	@Override
 	public void tick() {
 		count ++;
-		for (GameMenuItem button : buttons)
-		{
-			button.unsetPointed();
-		}
-	//	if (point < buttons.size() && point >= 0)
-		buttons.get(point).setPointed();
+		
 		//System.out.println(point);
 	}
 
 	@Override
 	public ArrayList<GameObject> getObjects() {
 		ArrayList<GameObject> objects = new ArrayList<GameObject>();
-		objects.addAll(buttons);
+		objects.addAll(items);
 		return objects;
 	}
 	
@@ -149,24 +141,23 @@ public class StartMenuLogic extends MiniGameLogic {
 		//System.out.println(arg0.getButtonsJustPressed());
 		if (arg0.isButtonUpPressed())
 		{
-			point--;
-			if (point < 0)
-				point = buttons.size()-1;
+			((GameMenu) items.get(0)).itemUp();
 		}
 		else if (arg0.isButtonDownPressed())
 		{
-			point++;
-			if (point >= buttons.size())
-				point = 0;
+			((GameMenu) items.get(0)).itemDown();
 		}
 		else if (arg0.isButtonRightPressed())
 		{
-			if (buttons.get(point).getID() == 5)
-				((GameMenuSelector) buttons.get(point)).goRight();
+			((GameMenu) items.get(0)).itemRight();
+		}
+		else if (arg0.isButtonLeftPressed())
+		{
+			((GameMenu) items.get(0)).itemLeft();
 		}
 		else if (arg0.isButtonAPressed())
 		{
-			System.out.println("button " + point + " is pressed! Do something!");
+			//System.out.println("button " + point + " is pressed! Do something!");
 		}
 	}
 

@@ -43,7 +43,7 @@ public class GameButton extends GameMenuItem {
 		Font oldfont = g2.getFont();
 		g2.setFont(oldfont.deriveFont(fontsize));
 		g2.drawString(content, x-((content.length()/2)), y+(w/2));
-		System.out.println(l/2 + " " + w/2);
+		//System.out.println(l/2 + " " + w/2);
 		g2.setFont(oldfont);
 
 	}
