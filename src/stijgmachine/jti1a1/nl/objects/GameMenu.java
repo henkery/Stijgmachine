@@ -8,8 +8,11 @@ public class GameMenu extends GameMenuItem {
 	
 	public int pointer;
 	
+	public boolean visible;
+	
 	public GameMenu(int x, int y, GameObject[] items)
 	{
+		visible = true;
 		this.x = x;
 		this.y = y;
 		this.items = items;
@@ -19,8 +22,9 @@ public class GameMenu extends GameMenuItem {
 
 	@Override
 	public void draw(Graphics2D g) {
-		for (GameObject item : items)
-			item.draw(g);
+		if (visible)
+			for (GameObject item : items)
+				item.draw(g);
 
 	}
 
@@ -68,6 +72,14 @@ public class GameMenu extends GameMenuItem {
 		if (items[pointer].getID() == 5)
 			((GameMenuSelector) items[pointer]).goLeft();
 		update();
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 	
 
