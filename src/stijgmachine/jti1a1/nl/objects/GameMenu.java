@@ -87,4 +87,9 @@ public class GameMenu extends GameMenuItem {
 		
 	}
 
+	public int getPointer() {
+		// TODO Auto-generated method stub
+		return pointer;
+	}
+
 }

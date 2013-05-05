@@ -43,6 +43,16 @@ public class StartMenuLogic extends MiniGameLogic {
 				new GameMenuResolutionSelector(20, 560, GameObject.ABSOLUTE)
 				}, 0, 0, GameObject.ABSOLUTE));
 	}
+	
+	public void menu2() {
+		items = new ArrayList<GameObject>();
+		items.add(new GameMenu(new GameObject[]{
+				new GameButton(20, 20, GameObject.ABSOLUTE, 1000, 100, 42, "Secundaire menu"),
+				new GameButton(20, 200, GameObject.ABSOLUTE, 1000, 100, 42, "Of niet"),	
+				new GameButton(20, 380, GameObject.ABSOLUTE, 1000, 100, 42, "Druk op B"),
+				new GameMenuResolutionSelector(20, 560, GameObject.ABSOLUTE)
+				}, 0, 0, GameObject.ABSOLUTE));
+	}
 
 	@Override
 	public boolean isDone() {
@@ -156,17 +166,17 @@ public class StartMenuLogic extends MiniGameLogic {
 		}
 		else if (arg0.isButtonHomePressed())
 		{
-			items = new ArrayList<GameObject>();
-			items.add(new GameMenu(new GameObject[]{
-					new GameButton(20, 20, GameObject.ABSOLUTE, 1000, 100, 42, "Secundaire menu"),
-					new GameButton(20, 200, GameObject.ABSOLUTE, 1000, 100, 42, "Of niet"),	
-					new GameButton(20, 380, GameObject.ABSOLUTE, 1000, 100, 42, "Druk op B"),
-					new GameMenuResolutionSelector(20, 560, GameObject.ABSOLUTE)
-					}, 0, 0, GameObject.ABSOLUTE));
+			menu2();
 		}
 		else if (arg0.isButtonAPressed())
 		{
-			items.get(0).click();
+			switch (((GameMenu) items.get(0)).getPointer()){
+				case (0):
+					done = true;
+					break;
+				default:
+					items.get(0).click();
+			}
 		}
 		else if (arg0.isButtonBPressed())
 		{

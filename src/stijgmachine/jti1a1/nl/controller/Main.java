@@ -73,16 +73,18 @@ public class Main {
 				switch (viewSlot.getID()){
 					case MiniGameView.STARTMENU:
 						viewSlot = new TestView();
+						setLogicSlot(new TestLogic());
 						break;
 					
 					case MiniGameView.TEST:
 						viewSlot = new StartMenuView();
+						setLogicSlot(new StartMenuLogic());
 						break;
 					
 				}
 				frame.revalidate();
 				frame.getContentPane().add(viewSlot);
-				setLogicSlot(new StartMenuLogic());
+			//	
 				logicSlot.giveMotes(wiimotes);
 			}
 			viewSlot.repaint();
