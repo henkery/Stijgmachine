@@ -7,16 +7,15 @@ public class GameMenuSelector extends GameMenuItem {
 	public int select;
 	public String[] items;
 
-	public GameMenuSelector(String[] items, int x, int y)
+	public GameMenuSelector(String[] items, int x, int y, int relativeTo)
 	{
+		super(x, y, relativeTo);
 		select = 0; 
 		this.items = items;
-		this.x = x;
-		this.y = y;
 	}
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g, int h, int w, int x2, int y2) {
 		g.drawString("< " + items[select] + " >", x, y);
 
 	}
@@ -38,6 +37,12 @@ public class GameMenuSelector extends GameMenuItem {
 		select--;
 		if (select < 0)
 			select = items.length-1;
+		
+	}
+
+	@Override
+	public void click() {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -1,5 +1,6 @@
 package stijgmachine.jti1a1.nl.controller;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -17,9 +18,11 @@ public class Main {
 	 */
 	
 	private static MiniGameLogic logicSlot;
-	private MiniGameView viewSlot;
-	private JFrame frame;
+	private static MiniGameView viewSlot;
+	private static JFrame frame;
 	private Wiimote[] wiimotes;
+	public static int resX = 800; 
+	public static int resY = 600; 
 	
 	public static void main(String[] args)
 	{
@@ -36,7 +39,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
 		frame.setVisible(true);
-		frame.pack();
+		callResize();
 		logicSlot.giveMotes(wiimotes);
 		gameloop();
 	}
@@ -110,6 +113,12 @@ public class Main {
 	public static ArrayList<GameObject> getObjects() {
 		// TODO Auto-generated method stub
 		return logicSlot.getObjects();
+	}
+
+	public static void callResize() {
+		
+		viewSlot.resize();
+		frame.setSize(resX, resY);
 	}
 	
 }

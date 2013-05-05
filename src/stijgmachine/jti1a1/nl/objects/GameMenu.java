@@ -10,21 +10,20 @@ public class GameMenu extends GameMenuItem {
 	
 	public boolean visible;
 	
-	public GameMenu(int x, int y, GameObject[] items)
+	public GameMenu(GameObject[] items, int x, int y, int relativeTo)
 	{
+		super(x,y,relativeTo);
 		visible = true;
-		this.x = x;
-		this.y = y;
 		this.items = items;
 		pointer = 0;
 		update();
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g, int h, int w, int x2, int y2) {
 		if (visible)
 			for (GameObject item : items)
-				item.draw(g);
+				item.draw(g, h, w, x2, y2);
 
 	}
 
@@ -81,6 +80,11 @@ public class GameMenu extends GameMenuItem {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
+
+	@Override
+	public void click() {
+		items[pointer].click();
+		
+	}
 
 }
