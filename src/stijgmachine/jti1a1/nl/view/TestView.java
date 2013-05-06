@@ -12,6 +12,7 @@ public class TestView extends MiniGameView {
 	public TestView(){
 		super();
 		this.add(new JLabel("nee"));
+		System.out.println("nee");
 	}
 
 	public int getID() {
@@ -19,11 +20,11 @@ public class TestView extends MiniGameView {
 		return MiniGameView.TEST;
 	}
 	
-	public void paintComponent(Graphics g)
+	/*public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.clearRect(0, 0, 800, 600);
 		Shape lel = new Rectangle2D.Double(50,100,20,30);
 		g2.fill(lel);
-	}
+	}*/
 }

@@ -28,6 +28,8 @@ public class StartMenuLogic extends MiniGameLogic {
 	private ArrayList<GameObject> items;
 
 	private boolean done;
+
+	private Wiimote wiimote;
 	
 	public StartMenuLogic() {
 		menu1();
@@ -73,8 +75,8 @@ public class StartMenuLogic extends MiniGameLogic {
 
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
-		wiimotes[0].addWiiMoteEventListeners(this);
-		
+		wiimote = wiimotes[0];
+		wiimote.addWiiMoteEventListeners(this);
 	}
 
 	@Override
@@ -173,6 +175,7 @@ public class StartMenuLogic extends MiniGameLogic {
 			switch (((GameMenu) items.get(0)).getPointer()){
 				case (0):
 					done = true;
+				wiimote.removeWiiMoteEventListeners(this);
 					break;
 				default:
 					items.get(0).click();

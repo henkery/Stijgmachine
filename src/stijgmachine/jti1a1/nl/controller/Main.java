@@ -31,16 +31,13 @@ public class Main {
 	
 	public Main()
 	{
-		frame = new JFrame();
-		setLogicSlot(new StartMenuLogic());
-		viewSlot = new StartMenuView();
-		//frame.setSize(800, 600);
 		gameinit();
+		setGame(new StartMenuLogic(), new StartMenuView());
+		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
 		frame.setVisible(true);
 		callResize();
-		logicSlot.giveMotes(wiimotes);
 		gameloop();
 	}
 
@@ -70,10 +67,12 @@ public class Main {
 			
 			if (logicSlot.isDone())
 			{
-				switch (viewSlot.getID()){
+				logicSlot = null;
+				/*switch (viewSlot.getID()){
 					case MiniGameView.STARTMENU:
 						viewSlot = new TestView();
-						setLogicSlot(new TestLogic());
+						//setLogicSlot(new TestLogic());
+						logicSlot = new TestLogic();
 						break;
 					
 					case MiniGameView.TEST:
@@ -81,13 +80,18 @@ public class Main {
 						setLogicSlot(new StartMenuLogic());
 						break;
 					
-				}
-				frame.revalidate();
-				frame.getContentPane().add(viewSlot);
+				}*/
+				setGame(new TestLogic(), null);
+				//frame.getContentPane().removeAll();
+				//frame.revalidate();
+				//frame.getContentPane().add(viewSlot);
 			//	
 				logicSlot.giveMotes(wiimotes);
 			}
-			viewSlot.repaint();
+			//viewSlot.repaint();
+			frame.repaint();
+			//System.out.println(((MiniGameView) frame.getContentPane().getComponents()[0]).getID());
+			//frame.getContentPane().repaint();
 		}
 		
 	}
@@ -114,6 +118,7 @@ public class Main {
 
 	public static ArrayList<GameObject> getObjects() {
 		// TODO Auto-generated method stub
+		
 		return logicSlot.getObjects();
 	}
 
@@ -121,6 +126,16 @@ public class Main {
 		
 		viewSlot.resize();
 		frame.setSize(resX, resY);
+	}
+	
+	public void setGame(MiniGameLogic logic, MiniGameView view) {
+		if (view != null)
+			viewSlot = view;
+		//System.out.println("view is in");
+		if (logic != null)
+			logicSlot = logic;
+		//System.out.println("logic is in");
+		logicSlot.giveMotes(wiimotes);
 	}
 	
 }

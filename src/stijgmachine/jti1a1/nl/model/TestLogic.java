@@ -3,6 +3,7 @@ package stijgmachine.jti1a1.nl.model;
 import java.util.ArrayList;
 
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -23,13 +24,26 @@ public class TestLogic extends MiniGameLogic {
 
 	@Override
 	public ArrayList<GameObject> getObjects() {
+		System.out.println("given!");
 		return items;
 	}
 
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
+		wiimotes[0].addWiiMoteEventListeners(this);
+		System.out.println("ee");
 		// TODO Auto-generated method stub
-
+	}
+	
+	public TestLogic()
+	{
+		items = new ArrayList<GameObject>();
+		items.add(new GameObjectContainer(20, 20, 500, 500, GameObject.RELATIVE_FROM_TOPLEFT, new GameObject[]{
+				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_TOPLEFT),
+				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_TOPRIGHT),
+				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_BOTTOMLEFT),
+				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_BOTTOMRIGHT)
+		}));
 	}
 
 	@Override

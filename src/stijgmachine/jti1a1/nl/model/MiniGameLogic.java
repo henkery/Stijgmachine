@@ -2,6 +2,7 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.util.ArrayList;
 
+import stijgmachine.jti1a1.nl.controller.WiiMoteListener;
 import stijgmachine.jti1a1.nl.objects.*;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.utils.WiimoteListener;
