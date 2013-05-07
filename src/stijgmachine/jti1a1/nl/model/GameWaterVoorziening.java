@@ -2,6 +2,7 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.util.ArrayList;
 
+import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
@@ -21,81 +22,82 @@ public class GameWaterVoorziening extends MiniGameLogic {
 
 	private ArrayList<GameObject> GameObjects = new ArrayList<GameObject>();
 	private boolean done = false;
+	private GameObject GamePipes;
 
 	public GameWaterVoorziening() {
-
+		GameObjects.add(new GameCursor());
 	}
 
 	@Override
-	public void onButtonsEvent(WiimoteButtonsEvent arg0) {
+	public void onButtonsEvent(WiimoteButtonsEvent event) {
 		// TODO Auto-generated method stub
-
+		if(event.isButtonHomePressed())
+			System.exit(0);
 	}
 
 	@Override
 	public void onClassicControllerInsertedEvent(
-			ClassicControllerInsertedEvent arg0) {
+			ClassicControllerInsertedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onClassicControllerRemovedEvent(
-			ClassicControllerRemovedEvent arg0) {
+			ClassicControllerRemovedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDisconnectionEvent(DisconnectionEvent arg0) {
+	public void onDisconnectionEvent(DisconnectionEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onExpansionEvent(ExpansionEvent arg0) {
+	public void onExpansionEvent(ExpansionEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent arg0) {
+	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent arg0) {
+	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onIrEvent(IREvent arg0) {
+	public void onIrEvent(IREvent event) {
+		((GameCursor) GameObjects.get(0)).update(event.getAx(), event.getAy());
+	}
+
+	@Override
+	public void onMotionSensingEvent(MotionSensingEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onMotionSensingEvent(MotionSensingEvent arg0) {
+	public void onNunchukInsertedEvent(NunchukInsertedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onNunchukInsertedEvent(NunchukInsertedEvent arg0) {
+	public void onNunchukRemovedEvent(NunchukRemovedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onNunchukRemovedEvent(NunchukRemovedEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onStatusEvent(StatusEvent arg0) {
+	public void onStatusEvent(StatusEvent event) {
 		// TODO Auto-generated method stub
 
 	}
@@ -103,7 +105,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
-
+		 addPipe(0);//(int)Math.random()*5);
 	}
 
 	@Override
@@ -122,10 +124,37 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	public void giveMotes(Wiimote[] wiimotes) {
 		// TODO Auto-generated method stub
 		wiimotes[0].addWiiMoteEventListeners(this);
+		wiimotes[0].activateIRTRacking();
 	}
 
 	public void gameOver() {
 		done = true;
+	}
+
+	public double getCursorX() {
+		return 0;
+	}
+
+	public double getCursorY() {
+		return 0;
+	}
+
+	private void addPipe(int number) {
+		switch (number) {
+		case 0: /* straight horizontal pipe */
+			GameObjects.add(new stijgmachine.jti1a1.nl.objects.GamePipes(10,10,number));
+			break;
+		case 1: /* straight vertical pipe */
+			break;
+		case 2: /* bend up/right pipe */
+			break;
+		case 3: /* bend right/down pipe */
+			break;
+		case 4: /* bend down/left pipe */
+			break;
+		case 5: /* bend left/up pipe */
+			break;
+		}
 	}
 
 }

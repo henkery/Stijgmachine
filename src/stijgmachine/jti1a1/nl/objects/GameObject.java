@@ -53,4 +53,11 @@ public abstract class GameObject {
 	}
 
 	public abstract void click();
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 }
