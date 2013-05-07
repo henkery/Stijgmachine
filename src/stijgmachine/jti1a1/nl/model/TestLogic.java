@@ -2,6 +2,7 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.util.ArrayList;
 
+import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
 import wiiusej.Wiimote;
@@ -24,16 +25,17 @@ public class TestLogic extends MiniGameLogic {
 
 	@Override
 	public ArrayList<GameObject> getObjects() {
-		System.out.println("given!");
 		return items;
 	}
 
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
 		wiimotes[0].addWiiMoteEventListeners(this);
-		//wiimotes[0].set
+		wiimotes[0].activateIRTRacking();
 		System.out.println("ee");
-		// TODO Auto-generated method stub
+		wiimotes[0].setSensorBarBelowScreen();
+		wiimotes[0].setScreenAspectRatio169();
+		// TODO Auto-generated method stuff
 	}
 	
 	public TestLogic()
@@ -45,6 +47,7 @@ public class TestLogic extends MiniGameLogic {
 				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_BOTTOMLEFT),
 				new GameObjectContainer(5, 5, 246, 246, GameObject.RELATIVE_FROM_BOTTOMRIGHT)
 		}));
+		items.add(new GameCursor());
 	}
 
 	@Override
@@ -105,7 +108,8 @@ public class TestLogic extends MiniGameLogic {
 
 	@Override
 	public void onIrEvent(IREvent arg0) {
-		// TODO Auto-generated method stub
+		System.out.println("x: " + arg0.getAx() + ".y: " + arg0.getAy());
+		((GameCursor) items.get(1)).update(arg0.getAx(), arg0.getAy());
 
 	}
 
