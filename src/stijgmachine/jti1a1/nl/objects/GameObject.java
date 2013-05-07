@@ -45,8 +45,8 @@ public abstract class GameObject {
 				y3 = y+y2;
 				break;
 			case (GameObject.RELATIVE_FROM_TOPRIGHT):
-				x3 = w-x-x2;
-				y3 = h-y-y2;
+				x3 = w-x+x2;
+				y3 = y+y2;
 				break;
 		}
 		return new int[]{x3,y3};

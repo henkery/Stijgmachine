@@ -31,6 +31,7 @@ public class TestLogic extends MiniGameLogic {
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
 		wiimotes[0].addWiiMoteEventListeners(this);
+		//wiimotes[0].set
 		System.out.println("ee");
 		// TODO Auto-generated method stub
 	}
