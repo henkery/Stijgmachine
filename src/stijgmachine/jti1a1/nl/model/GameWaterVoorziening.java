@@ -1,9 +1,11 @@
 package stijgmachine.jti1a1.nl.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.GamePipes;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -21,8 +23,9 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class GameWaterVoorziening extends MiniGameLogic {
 
 	private ArrayList<GameObject> GameObjects = new ArrayList<GameObject>();
-	private boolean done = false;
-	private GameObject GamePipes;
+	private LinkedList<Boolean> routes = new LinkedList<Boolean>();
+	private boolean done,drag = false;
+	private int index = 1;
 
 	public GameWaterVoorziening() {
 		GameObjects.add(new GameCursor());
@@ -31,8 +34,17 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent event) {
 		// TODO Auto-generated method stub
+		if(event.isButtonDownPressed()){
+			GameObjects.clear();
+			GameObjects.add(new GameCursor());
+		}
 		if(event.isButtonHomePressed())
 			System.exit(0);
+		if(event.isButtonAPressed())
+			GameObjects.add(new GamePipes(10, 10, index));
+		if(event.isButtonBPressed())
+			drag = true;
+		drag = false;	
 	}
 
 	@Override
@@ -76,6 +88,8 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void onIrEvent(IREvent event) {
 		((GameCursor) GameObjects.get(0)).update(event.getAx(), event.getAy());
+		if (drag)
+			((GamePipes) GameObjects.get(index)).update(event.getAx(), event.getAy());
 	}
 
 	@Override
@@ -105,7 +119,6 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
-		 addPipe(0);//(int)Math.random()*5);
 	}
 
 	@Override

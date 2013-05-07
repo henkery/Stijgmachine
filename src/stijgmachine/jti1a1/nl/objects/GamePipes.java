@@ -42,5 +42,9 @@ public class GamePipes extends GameObject {
 		// TODO Auto-generated method stub
 		
 	}
+	public void update(int x, int y) {
+			this.x = x;
+			this.y = y;
+	}
 
 }
