@@ -1,17 +1,21 @@
 package stijgmachine.jti1a1.nl.objects;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public class GamePipes extends GameObject {
-	private int ID, xPosition,yPosition;
+	private int index;
+	
+	public static final int id = 777;
+	
 	Dimension size;
-	public GamePipes(int x, int y, int id,int xPosition,int yPosition, Dimension size) {
+	public GamePipes(int x, int y, int index, Dimension size) {
 		super(x, y, GameObject.ABSOLUTE);
-		this.ID = id;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
+		this.index = index;
+		this.x = x;
+		this.y = y;
 		this.size = size;
 		// TODO Auto-generated constructor stub
 	}
@@ -19,13 +23,14 @@ public class GamePipes extends GameObject {
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		// TODO Auto-generated method stub
-		switch(getID()){
+		switch(index){
 		case 0: //horizontal
-			Rectangle2D rect = new Rectangle2D.Double(xPosition, yPosition, size.getWidth(), size.getHeight());
-			g.draw(rect);
+			Rectangle2D rectH = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
+			g.draw(rectH);
 			break;
 		case 1: // vertical
-			g.drawLine(xPosition/2,yPosition/2,(int)size.getWidth()/2,(int)size.getHeight()/2);
+			Rectangle2D rectV = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
+			g.draw(rectV);
 			break;
 		case 2:
 			break;
@@ -36,13 +41,15 @@ public class GamePipes extends GameObject {
 		case 5:
 			break;
 		}
+		g.setColor(Color.BLACK);
+		g.drawLine(width/2, height/2, width - width/2,  height-height/2);
 	}
 
 	
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return ID;
+		return id;
 	}
 
 	@Override

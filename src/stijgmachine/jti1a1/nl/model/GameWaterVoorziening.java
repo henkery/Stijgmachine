@@ -25,14 +25,15 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 public class GameWaterVoorziening extends MiniGameLogic {
 
+	/* grote grid = 8x8 */
 	private ArrayList<GameObject> GameObjects = new ArrayList<GameObject>();
 	private LinkedList<Boolean> routes = new LinkedList<Boolean>();
-	private boolean done,drag = false;
+	private boolean done,drag,go = false;
+	private boolean add = true;
 	private int index = 0;
 	private Point2D cursorLocation;
 	private Point2D pipeLocation;
 	private Dimension size;
-	private boolean add = true;
 
 	public GameWaterVoorziening() {
 		GameObjects.add(new GameCursor());
@@ -45,26 +46,25 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		if(event.isButtonDownPressed()){
 			GameObjects.clear();
 			GameObjects.add(new GameCursor());
-			nextPipe();
 			index = 0;
+			nextPipe();
 		}
 		if(event.isButtonRightPressed())
 			nextPipe();
-		if(event.isButtonLeftPressed())
-			lastPipe();
 		if(event.isButtonHomePressed())
 			System.exit(0);
-		if(event.isButtonAPressed())
+		if(event.isButtonAPressed()){
 			if(add){
-			addPipe(0, index++);
+			int i = index;
+			addPipe(0, i+1);
 			add = false;
-			drag = true;
+			go = true;
 			}
-		if(event.isButtonBPressed())
-		{}
-//		if(!add)
-//			add = true;
-//		drag = false;	
+		}
+		if(event.isButtonBPressed()){
+			if (!add)
+				drag = true;
+			}
 	}
 	
 	public void nextPipe(){
@@ -73,18 +73,12 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		index ++;
 	}
 	
-	public void lastPipe(){
-		add = false;
-		drag = true;
-		index --;
-	}
-	
-	public Dimension getPipeBounds(){	
-		return null;
-	}
-	
 	public void movePipe(){
-		
+		if (!drag)
+			return;
+		if (drag){
+			setPipeLocation(new Point2D.Double (getCursorLocation().getX(),getCursorLocation().getY()));
+		}
 	}
 
 	@Override
@@ -128,10 +122,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void onIrEvent(IREvent event) {
 		setCursorLocation(new Point2D.Double((int)event.getAx(),(int)event.getAy()));
-		setPipeLocation(new Point2D.Double((int)event.getAx(),(int)event.getAy()));
-		((GameCursor) GameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
-		if (drag)
-			setPipeLocation(new Point2D.Double((int)event.getAx(),(int)event.getAy()));//((GamePipes) GameObjects.get(index)).update(event.getAx(), event.getAy());
+		setPipeLocation(new Point2D.Double((int)getCursorLocation().getX(),(int)getCursorLocation().getY()));
 	}
 
 	@Override
@@ -161,7 +152,22 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
+		if (go){
+			pipeUpdate();
+			((GamePipes) GameObjects.get(index)).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
+			}
+		System.out.println(drag);
+		drag = false;
 		
+	}
+	
+	public void pipeUpdate(){
+		for (GameObject gameObject : GameObjects){
+			if (gameObject.getID() == GamePipes.id){
+				if(drag)
+					((GamePipes) gameObject).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
+			}	
+		}
 	}
 
 	@Override
@@ -208,7 +214,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		int i = index;
 		switch (numbers) {
 		case 0: /* straight horizontal pipe */
-			GameObjects.add(new GamePipes((int)getCursorLocation().getX(),(int)getCursorLocation().getY(),i,(int)getPipeLocation().getX(),(int)getPipeLocation().getY(), size));
+			GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),i, size));
 			break;
 		case 1: /* straight vertical pipe */
 			break;
