@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingLogic;
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.*;
@@ -32,7 +34,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new StartMenuLogic(), new StartMenuView());
+		setGame(new GameWeldingLogic(), new GameWeldingView()/*StartMenuLogic(), new StartMenuView()*/);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
