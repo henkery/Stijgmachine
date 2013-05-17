@@ -59,7 +59,6 @@ public class Main {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -68,30 +67,10 @@ public class Main {
 			if (logicSlot.isDone())
 			{
 				logicSlot = null;
-				/*switch (viewSlot.getID()){
-					case MiniGameView.STARTMENU:
-						viewSlot = new TestView();
-						//setLogicSlot(new TestLogic());
-						logicSlot = new TestLogic();
-						break;
-					
-					case MiniGameView.TEST:
-						viewSlot = new StartMenuView();
-						setLogicSlot(new StartMenuLogic());
-						break;
-					
-				}*/
 				setGame(new TestLogic(), null);
-				//frame.getContentPane().removeAll();
-				//frame.revalidate();
-				//frame.getContentPane().add(viewSlot);
-			//	
 				logicSlot.giveMotes(wiimotes);
 			}
-			//viewSlot.repaint();
 			frame.repaint();
-			//System.out.println(((MiniGameView) frame.getContentPane().getComponents()[0]).getID());
-			//frame.getContentPane().repaint();
 		}
 		
 	}
@@ -117,8 +96,6 @@ public class Main {
 	}
 
 	public static ArrayList<GameObject> getObjects() {
-		// TODO Auto-generated method stub
-		
 		return logicSlot.getObjects();
 	}
 
@@ -131,10 +108,8 @@ public class Main {
 	public void setGame(MiniGameLogic logic, MiniGameView view) {
 		if (view != null)
 			viewSlot = view;
-		//System.out.println("view is in");
 		if (logic != null)
 			logicSlot = logic;
-		//System.out.println("logic is in");
 		logicSlot.giveMotes(wiimotes);
 	}
 	
