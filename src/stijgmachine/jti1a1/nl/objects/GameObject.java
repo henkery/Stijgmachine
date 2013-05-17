@@ -10,6 +10,7 @@ public abstract class GameObject {
 	public static final int RELATIVE_FROM_TOPLEFT = 201;
 	public static final int RELATIVE_FROM_BOTTOMRIGHT = 202;
 	public static final int RELATIVE_FROM_BOTTOMLEFT = 203;
+	public static final int RELATIVE_FROM_CENTER = 205;
 	public static final int ABSOLUTE = 204;
 	
 	public int x, y, relativeTo;
@@ -48,9 +49,12 @@ public abstract class GameObject {
 				x3 = w-x+x2;
 				y3 = y+y2;
 				break;
+			case (GameObject.RELATIVE_FROM_CENTER):
+				x3 = w/2+x2;
+				y3 = h/2+y2;
+				break;
 		}
 		return new int[]{x3,y3};
-	}
-
+	} 
 	public abstract void click();
 }
