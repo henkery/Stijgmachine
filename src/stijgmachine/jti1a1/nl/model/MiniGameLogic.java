@@ -1,10 +1,25 @@
 package stijgmachine.jti1a1.nl.model;
 
-public abstract class MiniGameLogic {
+import java.util.ArrayList;
 
-	public void tick()
-	{
-		
+import stijgmachine.jti1a1.nl.controller.WiiMoteListener;
+import stijgmachine.jti1a1.nl.objects.*;
+import wiiusej.Wiimote;
+import wiiusej.wiiusejevents.utils.WiimoteListener;
+
+public abstract class MiniGameLogic implements WiimoteListener {
+
+	public abstract void tick();
+
+	public abstract boolean isDone();
+	
+	public abstract ArrayList<GameObject> getObjects();
+
+	public WiimoteListener getActionListener() {
+		// TODO Auto-generated method stub
+		return (WiimoteListener) this;
 	}
+
+	public abstract void giveMotes(Wiimote[] wiimotes);
 
 }
