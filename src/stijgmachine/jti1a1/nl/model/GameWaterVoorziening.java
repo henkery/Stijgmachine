@@ -45,20 +45,23 @@ public class GameWaterVoorziening extends MiniGameLogic {
 			GameObjects.clear();
 			GameObjects.add(new GameCursor());
 			index = 0;
-			nextPipe();
+			add = true;
+			drag = false;
 		}
 		if(event.isButtonUpPressed())
 			go = true;
 		if(event.isButtonRightPressed())
-			nextPipe();
+			add = true;
 		if(event.isButtonHomePressed())
 			System.exit(0);
 		if(event.isButtonAPressed()){
 			if(add){
 				int i = index;
+				//number for the pipepiece, index for the list
 				addPipe(0, i+1);
 				add = false;
-				index++;
+				if (!add)
+					index++;
 			}
 		}
 		if(event.isButtonBPressed()){
@@ -68,11 +71,6 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		if(event.isButtonBJustReleased())
 			drag = false;
 		
-	}
-	
-	public void nextPipe(){
-		add = true;
-		drag = false;
 	}
 	
 
@@ -151,7 +149,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 			((GameCursor)GameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
 			pipeUpdate();
 			}
-//		System.out.println(drag);
+		System.out.println(GameObjects.size());
 	}
 	
 	public void pipeUpdate(){
@@ -205,7 +203,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 				if(mapStart){
 					target = new Point2D.Double (0,200);
 					if ( ((GamePipes) gameObject).getLocation().getY() <= target.getY() && ((GamePipes) gameObject).getLocation().getY() - size.getHeight() >= target.getY() - size.getHeight()){
-						System.out.println("attach to first part");
+						System.out.println("attached the first part");
 						((GamePipes) gameObject).setLocation(new Point2D.Double(0,200));
 						mapStart = false;
 						target = ((GamePipes)gameObject).getLocation();

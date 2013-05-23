@@ -60,6 +60,7 @@ public class GamePipes extends GameObject {
 	}
 
 	@Override
+	// if object pressed click methode
 	public void click() {
 		// TODO Auto-generated method stub
 		
