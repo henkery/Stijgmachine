@@ -1,13 +1,13 @@
 package stijgmachine.jti1a1.nl.objects;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class GamePipes extends GameObject {
 	private int index;
-	
+	private Point2D backLocation;
 	public static final int id = 777;
 	
 	Dimension size;
@@ -32,7 +32,8 @@ public class GamePipes extends GameObject {
 			Rectangle2D rectV = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
 			g.draw(rectV);
 			break;
-		case 2:
+		case 2://
+//			Rectangle2D re
 			break;
 		case 3:
 			break;
@@ -41,10 +42,16 @@ public class GamePipes extends GameObject {
 		case 5:
 			break;
 		}
-		g.setColor(Color.BLACK);
-		g.drawLine(width/2, height/2, width - width/2,  height-height/2);
 	}
 
+	public Point2D getBackLocation(){
+		if (index == 0)
+			backLocation = new Point2D.Double (getLocation().getX()- size.getWidth(),getLocation().getY());
+		if (index == 1)
+			backLocation = new Point2D.Double(getLocation().getX(), getLocation().getY() - size.getHeight());
+		return backLocation;
+	}
+	
 	
 	@Override
 	public int getID() {
@@ -57,6 +64,17 @@ public class GamePipes extends GameObject {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void setLocation(Point2D point){
+		this.x = (int)point.getX();
+		this.y = (int)point.getY();
+	}
+	
+	public Point2D getLocation(){
+		Point2D location = new Point2D.Double(x, y); 
+		return location;
+	}
+	
 	public void update(int x, int y) {
 			this.x = x;
 			this.y = y;
