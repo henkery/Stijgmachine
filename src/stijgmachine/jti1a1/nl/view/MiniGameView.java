@@ -43,7 +43,10 @@ public abstract class MiniGameView extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.clearRect(0, 0, Main.resX, Main.resY);
-		drawObjects(Main.getObjects(), g2);
+		if (Main.getObjects() != null) {
+			if (!Main.getObjects().isEmpty())
+				drawObjects(Main.getObjects(), g2);
+		}
 	}
 
 }

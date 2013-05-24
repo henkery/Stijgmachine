@@ -55,6 +55,22 @@ public class Main {
 
 	private void gameloop()
 	{
+		Thread draw = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					frame.repaint();
+				}
+				
+			}
+		});
+		draw.start();
 		while (true)
 		{
 			try {
@@ -71,7 +87,6 @@ public class Main {
 				setGame(new TestLogic(), null);
 				logicSlot.giveMotes(wiimotes);
 			}
-			frame.repaint();
 		}
 		
 	}
