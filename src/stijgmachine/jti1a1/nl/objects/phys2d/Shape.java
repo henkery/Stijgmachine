@@ -28,4 +28,6 @@ public abstract class Shape extends GameObject {
 		
 	}
 
+	public abstract net.phys2d.raw.shapes.DynamicShape getShape(); 
+
 }

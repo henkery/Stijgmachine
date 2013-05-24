@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
+import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.*;
@@ -32,7 +33,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new phys2dtestLogic(), new Phys2dtestView());
+		setGame(new GamePowerLogic(), new StartMenuView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);

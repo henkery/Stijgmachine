@@ -20,7 +20,7 @@ public class Line extends Shape {
 		// TODO Auto-generated constructor stub
 	}
 
-	public net.phys2d.raw.shapes.Shape getShape() {
+	public net.phys2d.raw.shapes.DynamicShape getShape() {
 		// TODO Auto-generated method stub
 		return line;
 	}

@@ -2,12 +2,31 @@ package stijgmachine.jti1a1.nl.objects.phys2d;
 
 import java.awt.Graphics2D;
 
+import stijgmachine.jti1a1.nl.GamePower.GamePowerObstacle;
+
+import net.phys2d.raw.shapes.DynamicShape;
+
 
 public class StaticBody extends Body {
 	
 	private net.phys2d.raw.StaticBody staticBody;
 	private Shape shape;
-
+	
+	public StaticBody(String string,DynamicShape shape)
+	{
+		super();
+		staticBody = new net.phys2d.raw.StaticBody(string, shape);
+		this.shape = (Shape)shape;
+	}
+	
+	public StaticBody(String string,Shape shape)
+	{
+		super();
+		staticBody = new net.phys2d.raw.StaticBody(string, shape.getShape());
+		this.shape = shape;
+	}
+	
+	
 	public StaticBody(String string, Box box) {
 		super();
 		staticBody = new net.phys2d.raw.StaticBody(string, box.getShape());
@@ -30,6 +49,12 @@ public class StaticBody extends Body {
 		super();
 		staticBody = new net.phys2d.raw.StaticBody(string, line.getShape());
 		shape = line;
+	}
+
+	public StaticBody(String string, GamePowerObstacle box) {
+		super();
+		staticBody = new net.phys2d.raw.StaticBody(string, box.getShape());
+		shape = box;
 	}
 
 	public void setPosition(float f, float g) {
