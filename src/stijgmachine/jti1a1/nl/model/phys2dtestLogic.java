@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 
 import net.phys2d.math.Vector2f;
-import net.phys2d.raw.Body;
-import net.phys2d.raw.StaticBody;
-import net.phys2d.raw.World;
-import net.phys2d.raw.shapes.Box;
-import net.phys2d.raw.shapes.Circle;
-import net.phys2d.raw.shapes.Line;
 import net.phys2d.raw.strategies.QuadSpaceStrategy;
 
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.phys2d.Body;
+import stijgmachine.jti1a1.nl.objects.phys2d.Box;
+import stijgmachine.jti1a1.nl.objects.phys2d.Circle;
+import stijgmachine.jti1a1.nl.objects.phys2d.Line;
+import stijgmachine.jti1a1.nl.objects.phys2d.StaticBody;
+import stijgmachine.jti1a1.nl.objects.phys2d.World;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -45,12 +45,15 @@ public class phys2dtestLogic extends MiniGameLogic {
 	private ArrayList<Line2D.Double> prevLine = new ArrayList<Line2D.Double>();
 	private boolean pressed = false;
 	private Point[] points2;
-	private Body cirkel = new Body(new Circle(20.0f),2.0f);
-	private StaticBody box = new StaticBody("Containement box",new Box(50.0f, 50.0f));
+	private Body cirkel = new Body(new Circle(20.0f, 0, 0, GameObject.RELATIVE_FROM_TOPLEFT),2.0f);
+	private StaticBody box = new StaticBody("Containement box",new Box(50.0f, 50.0f, 0, 0, GameObject.RELATIVE_FROM_TOPLEFT));
+	private ArrayList<GameObject> list;
 	@Override
 	public ArrayList<GameObject> getObjects() {
 		// TODO Auto-generated method stub
-		return new ArrayList<GameObject>(){};
+		
+		
+		return list;
 	}
 
 	@Override
@@ -60,10 +63,15 @@ public class phys2dtestLogic extends MiniGameLogic {
 		box.setPosition(100.0f,100.0f);
 		
 		wereld.add(cirkel);
-		cirkel.setPosition(100.0f,100.0f);
+		cirkel.setPosition(150.0f,100.0f);
+		
+		list = new ArrayList<GameObject>();
 		
 		drawBodies();
 		
+		
+		list.add(box);
+		list.add(cirkel);
 	}
 
 	@Override
@@ -82,22 +90,29 @@ public class phys2dtestLogic extends MiniGameLogic {
 	
 	public void drawBodies()
 	{
-		StaticBody line1 = new StaticBody(new Line(650,650,650,700));
-		StaticBody line2 = new StaticBody(new Line(650,700,700,700));		// Goal Basket
-		StaticBody line3 = new StaticBody(new Line(700,700,700,650));
+		StaticBody line1 = new StaticBody(new Line(650,650,650,700, GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody line2 = new StaticBody(new Line(650,700,700,700, GameObject.RELATIVE_FROM_TOPLEFT));		// Goal Basket
+		StaticBody line3 = new StaticBody(new Line(700,700,700,650, GameObject.RELATIVE_FROM_TOPLEFT));
 		
-		StaticBody object1 = new StaticBody(new Box(10.0f,300.0f));
+		StaticBody object1 = new StaticBody(new Box(10.0f,300.0f, 0, 0, GameObject.RELATIVE_FROM_TOPLEFT));
 		object1.setPosition(400.0f, 150.0f);								//java tekent vanaf linksboven
-		StaticBody object2 = new StaticBody(new Box(10.0f,300.0f));			// phys2d tekent vanaf het midden
+		StaticBody object2 = new StaticBody(new Box(10.0f,300.0f, 0,0, GameObject.RELATIVE_FROM_TOPLEFT));			// phys2d tekent vanaf het midden
 		object2.setPosition(200.0f, 550.0f);
-		StaticBody object3 = new StaticBody(new Box(10.0f,300.0f));
+		StaticBody object3 = new StaticBody(new Box(10.0f,300.0f,0,0, GameObject.RELATIVE_FROM_TOPLEFT));
 		object3.setPosition(500.0f,550.0f);
 		
+		
+		list.add(line1);
+		list.add(line2);
+		list.add(line3);
 		wereld.add(line1);
 		wereld.add(line2);
 		wereld.add(line3);
-		
-		
+//		
+//		
+		list.add(object1);
+		list.add(object2);
+		list.add(object3);
 		wereld.add(object1);
 		wereld.add(object2);
 		wereld.add(object3);
@@ -155,7 +170,7 @@ public class phys2dtestLogic extends MiniGameLogic {
 			Point punt1 = points.get(i);
 			Point punt2 = points.get(i+10);
 			
-			Body line = new StaticBody("Line",new Line(punt1.x,punt1.y,punt2.x,punt2.y));
+			Body line = new StaticBody("Line",new Line(punt1.x,punt1.y,punt2.x,punt2.y, GameObject.RELATIVE_FROM_TOPLEFT));
 			lijnen.add(line);
 			wereld.add(line);
 		}
