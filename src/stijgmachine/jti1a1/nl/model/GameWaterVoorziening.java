@@ -2,9 +2,7 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
@@ -35,7 +33,7 @@ public class GameWaterVoorziening extends MiniGameLogic {
 
 	public GameWaterVoorziening() {
 		GameObjects.add(new GameCursor());
-		this.size = new Dimension(20,20);
+		this.size = new Dimension(100,100);
 	}
 
 	@Override
@@ -50,26 +48,27 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		}
 		if(event.isButtonUpPressed())
 			go = true;
-		if(event.isButtonRightPressed())
+		if(event.isButtonRightJustReleased())
 			add = true;
 		if(event.isButtonHomePressed())
 			System.exit(0);
+		if(event.isButtonMinusJustPressed()){
+	
+		}
 		if(event.isButtonAPressed()){
-			if(add){
-				int i = index;
-				//number for the pipepiece, index for the list
-				addPipe(0, i+1);
-				add = false;
-				if (!add)
-					index++;
-			}
-		}
-		if(event.isButtonBPressed()){
 			if (!add)
-				drag = true;
+				drag = true;	
 		}
-		if(event.isButtonBJustReleased())
+		if(event.isButtonAJustReleased())
 			drag = false;
+		if(event.isButtonBPressed()){
+			if (!add){
+	//			if (GameObjects.size()-1 > 1)
+					GameObjects.remove(GameObjects.size()-1);
+			}
+			add = true;
+		}
+			
 		
 	}
 	
@@ -115,7 +114,8 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void onIrEvent(IREvent event) {
 		setCursorLocation(new Point2D.Double((int)event.getAx(),(int)event.getAy()));
-		setPipeLocation(new Point2D.Double((int)getCursorLocation().getX(),(int)getCursorLocation().getY()));
+		// add (cursorLocation - number) * 1.5 for the screensize
+		setPipeLocation(new Point2D.Double(((int)getCursorLocation().getX()),(int)getCursorLocation().getY()));
 	}
 
 	@Override
@@ -145,18 +145,36 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
+		if (add){
+			int i = index;
+			addPipe((int)Math.random()*0, i+1);
+			index ++;
+			add = false;
+		}
 		if (go){
 			((GameCursor)GameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
 			pipeUpdate();
 			}
+		System.out.println(add);
 		System.out.println(GameObjects.size());
 	}
 	
 	public void pipeUpdate(){
 		for (GameObject gameObject : GameObjects){
 			if (gameObject.getID() == GamePipes.id){
-				if(drag)
-					((GamePipes) gameObject).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
+				System.out.println(((GamePipes)gameObject).getLocation());
+//				if(drag){
+					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 100
+						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 100
+						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 100
+						&& getCursorLocation().getY() < ((GamePipes) gameObject).getLocation().getY() + 100) {
+						System.out.println("Banaan locatie");
+						if (drag)
+							((GamePipes) gameObject).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
+
+//					}
+				}
+
 			}	
 		}
 	}
