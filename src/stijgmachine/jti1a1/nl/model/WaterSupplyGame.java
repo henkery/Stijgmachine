@@ -21,7 +21,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.NunchukInsertedEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.NunchukRemovedEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
-public class GameWaterVoorziening extends MiniGameLogic {
+public class WaterSupplyGame extends MiniGameLogic {
 
 	/* grote grid = 8x8 */
 	private ArrayList<GameObject> GameObjects = new ArrayList<GameObject>();
@@ -31,9 +31,10 @@ public class GameWaterVoorziening extends MiniGameLogic {
 	private Point2D cursorLocation, pipeLocation, targetLocation;
 	private Dimension size;
 
-	public GameWaterVoorziening() {
+	public WaterSupplyGame() {
 		GameObjects.add(new GameCursor());
 		this.size = new Dimension(100,100);
+		go = true;
 	}
 
 	@Override
@@ -46,14 +47,12 @@ public class GameWaterVoorziening extends MiniGameLogic {
 			add = true;
 			drag = false;
 		}
-		if(event.isButtonUpPressed())
-			go = true;
 		if(event.isButtonRightJustReleased())
 			add = true;
 		if(event.isButtonHomePressed())
 			System.exit(0);
 		if(event.isButtonMinusJustPressed()){
-	
+			
 		}
 		if(event.isButtonAPressed()){
 			if (!add)
@@ -148,7 +147,6 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		if (add){
 			int i = index;
 			addPipe((int)Math.random()*0, i+1);
-			index ++;
 			add = false;
 		}
 		if (go){
@@ -159,15 +157,36 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		System.out.println(GameObjects.size());
 	}
 	
+	public void removeSelectedPipe(){
+		for (GameObject gameObject : GameObjects){
+			if (gameObject.getID() == GamePipes.id){
+				System.out.println("Chocolate Milkshake");
+				if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 50
+						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 50
+						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 50
+						&& getCursorLocation().getY() < ((GamePipes) gameObject).getLocation().getY() + 50){
+					System.out.println("Blue Slush");
+					int ind = ((GamePipes)gameObject).getIndex();
+					GameObjects.remove(ind);
+				}
+			}
+		}
+	}
+	
+	public void removeCurrentPipe(){
+		if (GameObjects.size()-1 > 1)
+			GameObjects.remove(GameObjects.size()-1);
+	}
+	
 	public void pipeUpdate(){
 		for (GameObject gameObject : GameObjects){
 			if (gameObject.getID() == GamePipes.id){
 				System.out.println(((GamePipes)gameObject).getLocation());
 //				if(drag){
-					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 100
-						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 100
-						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 100
-						&& getCursorLocation().getY() < ((GamePipes) gameObject).getLocation().getY() + 100) {
+					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 50
+						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 50
+						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 50
+						&& getCursorLocation().getY() < ((GamePipes) gameObject).getLocation().getY() + 50) {
 						System.out.println("Banaan locatie");
 						if (drag)
 							((GamePipes) gameObject).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
@@ -241,23 +260,28 @@ public class GameWaterVoorziening extends MiniGameLogic {
 		done = true;
 	}
 
-	private void addPipe(int number, int index) {
+	private void addPipe(int number, int indexNr) {
 		int numbers = number;
-		int i = index;
 		switch (numbers) {
-		case 0: /* straight horizontal pipe */
-			GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),i, size));
-			break;
-		case 1: /* straight vertical pipe */
-			break;
-		case 2: /* bend up/right pipe */
-			break;
-		case 3: /* bend right/down pipe */
-			break;
-		case 4: /* bend down/left pipe */
-			break;
-		case 5: /* bend left/up pipe */
-			break;
-		}
+			case 0: /* straight horizontal pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			case 1: /* straight vertical pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			case 2: /* bend up/right pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			case 3: /* bend right/down pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			case 4: /* bend down/left pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			case 5: /* bend left/up pipe */
+				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				break;
+			}
+		index++;
 	}
 }

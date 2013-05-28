@@ -66,6 +66,10 @@ public class GamePipes extends GameObject {
 		
 	}
 	
+	public int getIndex(){
+		return index;
+	}
+	
 	public void setLocation(Point2D point){
 		this.x = (int)point.getX();
 		this.y = (int)point.getY();

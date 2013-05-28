@@ -32,7 +32,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new GameWaterVoorziening(), new StartMenuView());
+		setGame(new WaterSupplyGame(), new StartMenuView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
