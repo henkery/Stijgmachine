@@ -34,7 +34,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new GameWeldingLogic(), new GameWeldingView()/*StartMenuLogic(), new StartMenuView()*/);
+		setGame(new StartMenuLogic(), new StartMenuView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -61,7 +61,6 @@ public class Main {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -119,8 +118,6 @@ public class Main {
 	}
 
 	public static ArrayList<GameObject> getObjects() {
-		// TODO Auto-generated method stub
-		
 		return logicSlot.getObjects();
 	}
 
@@ -133,10 +130,8 @@ public class Main {
 	public void setGame(MiniGameLogic logic, MiniGameView view) {
 		if (view != null)
 			viewSlot = view;
-		//System.out.println("view is in");
 		if (logic != null)
 			logicSlot = logic;
-		//System.out.println("logic is in");
 		logicSlot.giveMotes(wiimotes);
 	}
 	
