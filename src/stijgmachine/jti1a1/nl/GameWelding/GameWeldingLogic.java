@@ -189,6 +189,9 @@ public class GameWeldingLogic extends MiniGameLogic
 				zPressed = true;
 			}
 			else zPressed = false;
+			
+			System.err.println(cursorLeft.getX());
+			System.err.println(cursorLeft.getY());
 		}
 
 	}
@@ -229,8 +232,8 @@ public class GameWeldingLogic extends MiniGameLogic
 			y = y2;
 		}
 		
-		System.out.println(arg0.getXVRes());
-		System.out.println(arg0.getYVRes());
+//		System.out.println(arg0.getXVRes());
+//		System.out.println(arg0.getYVRes());
 				
 		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
 	}
