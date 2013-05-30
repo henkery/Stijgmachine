@@ -3,6 +3,7 @@ package stijgmachine.jti1a1.nl.GamePower;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.phys2d.math.Vector2f;
 import net.phys2d.raw.strategies.QuadSpaceStrategy;
@@ -35,13 +36,15 @@ public class GamePowerLogic extends MiniGameLogic
 {
 	private World wereld = new World(new Vector2f(0.0f, 600.0f),10,new QuadSpaceStrategy(20, 5));
 	private GamePowerBall ball = new GamePowerBall(25,100,300,GameObject.RELATIVE_FROM_TOPLEFT);
-	private Body bal = new Body(ball,25);
+	private Body bal = new Body(ball,10);
 	private ArrayList<Body> obstacles = new ArrayList<Body>();
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	private GameCursor cursor = new GameCursor();
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private StaticBody box = new StaticBody("Containement box",new Box(50,50,100,300,GameObject.RELATIVE_FROM_TOPLEFT));
 	private boolean pressed = false;
+	private int tickCounter = 0;
+	private boolean countTicks = false;
 	
 	public GamePowerLogic()
 	{
@@ -55,25 +58,36 @@ public class GamePowerLogic extends MiniGameLogic
 	
 	public void addObstacles()
 	{
-		StaticBody obstacle1 = new StaticBody("Obstacle1", new Box(10f,300f,400,0,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle1 = new StaticBody("Obstacle1", new Box(10,300,400,0,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody obstacle2 = new StaticBody("Obstacle2", new Box(300,10,0,400,GameObject.RELATIVE_FROM_TOPLEFT));
+		obstacle1.setPosition(400, 0);
+		obstacle2.setPosition(0, 400);
 		
-		StaticBody obstacle3 = new StaticBody("Line", new Line(0, 200, 100, 200, GameObject.RELATIVE_FROM_TOPLEFT));
+//		StaticBody obstacle3 = new StaticBody("Line", new Line(0, 200, 100, 200, GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine1 = new StaticBody("g1", new Line(550,450,550,500,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine2 = new StaticBody("g2", new Line(550,500,600,500,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine3 = new StaticBody("g3", new Line(600,500,600,450,GameObject.RELATIVE_FROM_TOPLEFT));
+		
+		wereld.add(basketLine1);
+		wereld.add(basketLine2);
+		wereld.add(basketLine3);
 		
 		wereld.add(obstacle1);
 		wereld.add(obstacle2);
-		wereld.add(obstacle3);
+//		wereld.add(obstacle3);
 		
-		
+		objects.add(basketLine1);
+		objects.add(basketLine2);
+		objects.add(basketLine3);
 		
 		objects.add(obstacle1);
 		objects.add(obstacle2);
-		objects.add(obstacle3);
+//		objects.add(obstacle3);
 	}
 	
 	public void makeLine()
 	{
-		if(points.size() > 0 )
+		if(points.size() > 0 && pressed == false)
 		{
 			for(int i = 0; i < points.size()-10;i+=10)
 			{
@@ -87,7 +101,6 @@ public class GamePowerLogic extends MiniGameLogic
 				objects.add(obstacle);
 				obstacles.add(obstacle);
 			}
-			if(pressed == false)
 			points.clear();
 		}
 	}
@@ -120,9 +133,10 @@ public class GamePowerLogic extends MiniGameLogic
 	
 	public void resetBall()
 	{
-		wereld.add(box);
+		//wereld.add(box);
 		bal.setPosition(50,50);
-		wereld.remove(box);
+		box.setPosition(50, 50);
+		//countTicks = true;
 		
 	}
 	
@@ -227,6 +241,20 @@ public class GamePowerLogic extends MiniGameLogic
 		// TODO Auto-generated method stub
 		wereld.step();
 		makeLine();
+		
+		if(countTicks)
+		{
+			tickCounter +=1;
+		}
+		if(!countTicks)
+		{
+			tickCounter = 0;
+		}
+		if(tickCounter == 100)
+		{
+			wereld.remove(box);
+			countTicks = false;
+		}
 //		cursor.update(cursorPos.x, cursorPos.y);
 	}
 

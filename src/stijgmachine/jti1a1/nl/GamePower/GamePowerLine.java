@@ -22,7 +22,6 @@ public class GamePowerLine extends Line
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		g.draw(new Line2D.Double(new Point2D.Double(p1.x,p1.y), new Point2D.Double(p2.x,p2.y)));
-		System.out.println("line drawn");
 		// TODO Auto-generated method stub
 		
 	}

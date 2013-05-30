@@ -21,9 +21,8 @@ public class GamePowerBall extends Circle
 	
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
-		java.awt.Shape cirk = new Ellipse2D.Double(x2,y2,radius*2,radius*2);
+		java.awt.Shape cirk = new Ellipse2D.Double(x2-radius,y2-radius,radius*2,radius*2);
 		g.fill(cirk);
-		System.out.println("cirkel drawn");
 		
 	}
 
