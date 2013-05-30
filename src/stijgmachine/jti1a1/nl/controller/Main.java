@@ -33,7 +33,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new TestLogic(), new TestView());
+		setGame(new GamePowerLogic(), new StartMenuView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
