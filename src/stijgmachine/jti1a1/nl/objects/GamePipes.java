@@ -4,20 +4,35 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 
 public class GamePipes extends GameObject {
-	private int index;
-	private Point2D backLocation;
+	private final int index;
+	private Point2D frontLocation, backLocation;
 	public static final int id = 777;
+	int frontDirection, backDirection;
+
+	private	Dimension size;
 	
-	Dimension size;
+
+	/** 
+	 * directions
+	 * 0 = left
+	 * 1 = up
+	 * 2 = right
+	 * 3 = down
+	 * **/
+	
 	public GamePipes(int x, int y, int index, Dimension size) {
 		super(x, y, GameObject.ABSOLUTE);
 		this.index = index;
 		this.x = x;
 		this.y = y;
 		this.size = size;
+		setDirections(index);
 		// TODO Auto-generated constructor stub
+		
+		
 	}
 
 	@Override
@@ -32,23 +47,80 @@ public class GamePipes extends GameObject {
 			Rectangle2D rectV = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
 			g.draw(rectV);
 			break;
-		case 2://
-//			Rectangle2D re
+		case 2://up, right
+			
 			break;
-		case 3:
+		case 3://right, down
+			
 			break;
-		case 4:
+		case 4://down, left
+			
 			break;
-		case 5:
+		case 5://left, up
+			
 			break;
 		}
 	}
+	
+	public void setDirections(int index){
+		switch(index){
+		case 0: this.frontDirection = 0;
+				this.backDirection = 2;
+			break;
+		case 1: this.frontDirection = 1;
+				this.backDirection = 3;
+			break;
+		case 2: this.frontDirection = 1;
+				this.backDirection = 2;
+			break;
+		case 3: this.frontDirection = 2;
+				this.backDirection = 3;
+			break;
+		case 4: this.frontDirection = 3;
+				this.backDirection = 0;
+			break;
+		case 5: this.frontDirection = 0;
+				this.backDirection = 1;
+			break;
+		}
+	}
+	public int getFrontDirection(){
+		return frontDirection;
+	}
+	public int getBackDirection(){
+		return backDirection;
+	}
 
+	public Point2D getFrontLocation(){
+		if (index == 0)
+			frontLocation = new Point2D.Double (getLocation().getX(),getLocation().getY() + (size.getHeight()/2));
+		if (index == 1)
+			frontLocation = new Point2D.Double(getLocation().getX()+(size.getWidth()/2), getLocation().getY());
+		if (index == 2)
+			frontLocation = new Point2D.Double(getLocation().getX() + size.getWidth() + (size.getWidth()/2), getLocation().getY()+ (size.getHeight()/2));
+		if (index == 3)
+			frontLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()),getLocation().getY() + (size.getHeight()/2));
+		if (index == 4)
+			frontLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()/2),getLocation().getY() + size.getHeight());
+		if (index == 5)
+			frontLocation = new Point2D.Double(getLocation().getX(),getLocation().getY() + (size.getHeight()/2));
+		return frontLocation;
+	
+	}
+	
 	public Point2D getBackLocation(){
 		if (index == 0)
-			backLocation = new Point2D.Double (getLocation().getX()- size.getWidth(),getLocation().getY());
+			backLocation = new Point2D.Double (getLocation().getX() + size.getWidth(),getLocation().getY() + (size.getHeight()/2));
 		if (index == 1)
-			backLocation = new Point2D.Double(getLocation().getX(), getLocation().getY() - size.getHeight());
+			backLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()/2), getLocation().getY() + size.getHeight());
+		if (index == 2)
+			backLocation = new Point2D.Double(getLocation().getX() + size.getWidth(), getLocation().getY() + (size.getHeight()/2));
+		if (index == 3)
+			backLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()/2),getLocation().getY() + size.getHeight());
+		if (index == 4)
+			backLocation = new Point2D.Double(getLocation().getX(),getLocation().getY() + (size.getHeight()/2));
+		if (index == 5)
+			backLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()/2) ,getLocation().getY());
 		return backLocation;
 	}
 	
