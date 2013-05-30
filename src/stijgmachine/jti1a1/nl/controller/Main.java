@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
-import stijgmachine.jti1a1.nl.GameWelding.GameWeldingLogic;
-import stijgmachine.jti1a1.nl.GameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.*;
@@ -23,8 +21,8 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 1920; 
-	public static int resY = 1080; 
+	public static int resX = 800; 
+	public static int resY = 600; 
 	
 	public static void main(String[] args)
 	{
@@ -34,7 +32,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new GameWeldingLogic(), new GameWeldingView());
+		setGame(new phys2dtestLogic(), new Phys2dtestView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -56,6 +54,22 @@ public class Main {
 
 	private void gameloop()
 	{
+		Thread draw = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+				try {
+				Thread.sleep(10);
+				} catch (InterruptedException e) {
+				e.printStackTrace();
+				}
+				frame.repaint();
+				}
+
+			}
+		});
+		draw.start();
 		while (true)
 		{
 			try {
@@ -63,38 +77,16 @@ public class Main {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			logicSlot.tick();
-			
+
 			if (logicSlot.isDone())
 			{
 				logicSlot = null;
-				/*switch (viewSlot.getID()){
-					case MiniGameView.STARTMENU:
-						viewSlot = new TestView();
-						//setLogicSlot(new TestLogic());
-						logicSlot = new TestLogic();
-						break;
-					
-					case MiniGameView.TEST:
-						viewSlot = new StartMenuView();
-						setLogicSlot(new StartMenuLogic());
-						break;
-					
-				}*/
 				setGame(new TestLogic(), null);
-				//frame.getContentPane().removeAll();
-				//frame.revalidate();
-				//frame.getContentPane().add(viewSlot);
-			//	
 				logicSlot.giveMotes(wiimotes);
 			}
-			//viewSlot.repaint();
-			frame.repaint();
-			//System.out.println(((MiniGameView) frame.getContentPane().getComponents()[0]).getID());
-			//frame.getContentPane().repaint();
 		}
-		
 	}
 
 	public MiniGameLogic getLogicSlot()

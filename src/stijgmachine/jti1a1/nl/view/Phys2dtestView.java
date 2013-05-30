@@ -58,12 +58,12 @@ public class Phys2dtestView extends MiniGameView implements MouseListener,MouseM
 		Graphics2D g2 = (Graphics2D)g;
 		
 		g2.setStroke(new BasicStroke(2.0f));
-		
-		makeLinePreview();
-		drawLinePreview(g2);
-		makeLine2();
-		drawLines(g2);
-		/drawCircle(g2, cirkel);
+//		
+//		makeLinePreview();
+//		drawLinePreview(g2);
+//		makeLine2();
+		//drawLines(g2);
+		//drawCircle(g2, cirkel);
 		drawObjects(g2);
 	}
 	
@@ -83,7 +83,7 @@ public class Phys2dtestView extends MiniGameView implements MouseListener,MouseM
 	
 	
 	
-	public void drawLines(Graphics2D g2)
+	/*public void drawLines(Graphics2D g2)
 	{
 		for(int i = 0; i < lines.size();i++)
 		{
@@ -107,9 +107,9 @@ public class Phys2dtestView extends MiniGameView implements MouseListener,MouseM
         path.closePath();
         
         AffineTransform tx = new AffineTransform();
-        g2.fill(tx.createTransformedShape(path));
+//        g2.fill(tx.createTransformedShape(path));
 	}
-	
+	*/
 	@Override
 	public void mouseDragged(MouseEvent event) 
 	{
