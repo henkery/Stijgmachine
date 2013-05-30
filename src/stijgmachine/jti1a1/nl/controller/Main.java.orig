@@ -23,8 +23,8 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	public static int resX = 1920; 
+	public static int resY = 1080; 
 	
 	public static void main(String[] args)
 	{
@@ -34,7 +34,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new StartMenuLogic(), new StartMenuView());
+		setGame(new GameWeldingLogic(), new GameWeldingView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -56,6 +56,22 @@ public class Main {
 
 	private void gameloop()
 	{
+		Thread draw = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+				try {
+				Thread.sleep(10);
+				} catch (InterruptedException e) {
+				e.printStackTrace();
+				}
+				frame.repaint();
+				}
+
+			}
+		});
+		draw.start();
 		while (true)
 		{
 			try {
@@ -63,9 +79,9 @@ public class Main {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			logicSlot.tick();
-			
+
 			if (logicSlot.isDone())
 			{
 				logicSlot = null;
@@ -90,11 +106,9 @@ public class Main {
 				logicSlot.giveMotes(wiimotes);
 			}
 			//viewSlot.repaint();
-			frame.repaint();
 			//System.out.println(((MiniGameView) frame.getContentPane().getComponents()[0]).getID());
 			//frame.getContentPane().repaint();
 		}
-		
 	}
 
 	public MiniGameLogic getLogicSlot()
