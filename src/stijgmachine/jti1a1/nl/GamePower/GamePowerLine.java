@@ -1,5 +1,6 @@
 package stijgmachine.jti1a1.nl.GamePower;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Line2D;
@@ -21,7 +22,9 @@ public class GamePowerLine extends Line
 	
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
+		g.setColor(new Color(182,126,44));
 		g.draw(new Line2D.Double(new Point2D.Double(p1.x,p1.y), new Point2D.Double(p2.x,p2.y)));
+		g.setColor(Color.BLACK);
 		// TODO Auto-generated method stub
 		
 	}

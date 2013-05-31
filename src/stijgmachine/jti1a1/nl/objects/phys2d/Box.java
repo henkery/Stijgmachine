@@ -35,7 +35,7 @@ public class Box extends stijgmachine.jti1a1.nl.objects.phys2d.Shape {
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		// TODO Auto-generated method stub
-		g.fill(new Rectangle2D.Double(x,y,h,w));
+		g.fill(new Rectangle2D.Double(x-(h/2),y-(w/2),h,w));
 		
 		
 	}

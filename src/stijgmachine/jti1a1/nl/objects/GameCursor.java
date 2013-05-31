@@ -3,6 +3,8 @@ package stijgmachine.jti1a1.nl.objects;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import stijgmachine.jti1a1.nl.controller.Main;
+
 public class GameCursor extends GameObject {
 
 	public GameCursor() {
@@ -29,8 +31,8 @@ public class GameCursor extends GameObject {
 	}
 	
 	public void update(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.x = (int) ((Main.resX/1024.0f)*x);
+		this.y = (int) ((Main.resY/768.0f)*y);
 	}
 
 }

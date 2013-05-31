@@ -38,6 +38,7 @@ public class GamePowerLogic extends MiniGameLogic
 	private GamePowerBall ball = new GamePowerBall(25,100,300,GameObject.RELATIVE_FROM_TOPLEFT);
 	private Body bal = new Body(ball,10);
 	private ArrayList<Body> obstacles = new ArrayList<Body>();
+	private ArrayList<Body> prevLines = new ArrayList<Body>();
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	private GameCursor cursor = new GameCursor();
 	private ArrayList<Point> points = new ArrayList<Point>();
@@ -60,13 +61,20 @@ public class GamePowerLogic extends MiniGameLogic
 	{
 		StaticBody obstacle1 = new StaticBody("Obstacle1", new Box(10,300,400,0,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody obstacle2 = new StaticBody("Obstacle2", new Box(300,10,0,400,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle3 = new StaticBody("Obstacle3", new Box(10,100,400,300,GameObject.RELATIVE_FROM_TOPLEFT));
 		obstacle1.setPosition(400, 0);
 		obstacle2.setPosition(0, 400);
+		obstacle3.setPosition(400, 300);
 		
 //		StaticBody obstacle3 = new StaticBody("Line", new Line(0, 200, 100, 200, GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody basketLine1 = new StaticBody("g1", new Line(550,450,550,500,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody basketLine2 = new StaticBody("g2", new Line(550,500,600,500,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody basketLine3 = new StaticBody("g3", new Line(600,500,600,450,GameObject.RELATIVE_FROM_TOPLEFT));
+		
+		StaticBody gameContainer = new StaticBody("GameContainer", new Box(2000,2000,0,0,GameObject.RELATIVE_FROM_TOPLEFT));
+		gameContainer.setPosition(0, 0);
+		
+		wereld.add(gameContainer);
 		
 		wereld.add(basketLine1);
 		wereld.add(basketLine2);
@@ -74,7 +82,10 @@ public class GamePowerLogic extends MiniGameLogic
 		
 		wereld.add(obstacle1);
 		wereld.add(obstacle2);
-//		wereld.add(obstacle3);
+		wereld.add(obstacle3);
+		
+		
+		
 		
 		objects.add(basketLine1);
 		objects.add(basketLine2);
@@ -82,12 +93,53 @@ public class GamePowerLogic extends MiniGameLogic
 		
 		objects.add(obstacle1);
 		objects.add(obstacle2);
-//		objects.add(obstacle3);
+		objects.add(obstacle3);
+	}
+	
+	public void goal()
+	{
+		if(bal.getPosition().getX() > 550 && bal.getPosition().getX() < 600)
+		{
+			if(bal.getPosition().getY() > 450 && bal.getPosition().getY() < 500)
+			{
+				System.out.println("Goal");
+			}
+		}
+	}
+	
+	public void makePrevLine()
+	{
+		if(points.size() > 10)
+		{
+			for(int i = 0; i < points.size()-10;i+=10)
+			{
+				Point p1 = points.get(i);
+				Point p2 = points.get(i+10);
+				
+				StaticBody obstacle = new StaticBody(new GamePowerLine(p1.x,p1.y,p2.x,p2.y, GameObject.RELATIVE_FROM_TOPLEFT));
+				
+				prevLines.add(obstacle);
+				objects.add(obstacle);
+			}
+		}
+	}
+	
+	public void removePrevLine()
+	{
+		if(pressed == false)
+		{		
+			for(int i = 0; i < prevLines.size();i++)
+			{
+			objects.remove(prevLines.get(i));
+			}
+			prevLines.clear();
+			
+		}
 	}
 	
 	public void makeLine()
 	{
-		if(points.size() > 0 && pressed == false)
+		if(points.size() > 10 && pressed == false)
 		{
 			for(int i = 0; i < points.size()-10;i+=10)
 			{
@@ -102,6 +154,7 @@ public class GamePowerLogic extends MiniGameLogic
 				obstacles.add(obstacle);
 			}
 			points.clear();
+			removePrevLine();
 		}
 	}
 	
@@ -133,10 +186,12 @@ public class GamePowerLogic extends MiniGameLogic
 	
 	public void resetBall()
 	{
-		//wereld.add(box);
+		if(countTicks != true)
+		wereld.add(box);
+		
 		bal.setPosition(50,50);
 		box.setPosition(50, 50);
-		//countTicks = true;
+		countTicks = true;
 		
 	}
 	
@@ -159,6 +214,10 @@ public class GamePowerLogic extends MiniGameLogic
 		if(event.isButtonBJustPressed())
 		{
 			resetBall();
+		}
+		if(event.isButtonHomeJustPressed())
+		{
+			System.exit(0);
 		}
 	}
 
@@ -207,7 +266,7 @@ public class GamePowerLogic extends MiniGameLogic
 		cursor.update(event.getAx(), event.getAy());
 		if(pressed == true)
 		{
-			points.add(new Point(event.getAx(),event.getAy()));
+			points.add(new Point(cursor.x,cursor.y));
 		}
 		
 	}
@@ -239,8 +298,12 @@ public class GamePowerLogic extends MiniGameLogic
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
+		
+		
 		wereld.step();
+		makePrevLine();
 		makeLine();
+		goal();
 		
 		if(countTicks)
 		{
