@@ -25,7 +25,17 @@ public class GameWeldingDoor extends GameObject
 		{
 		}
 		list = new ArrayList<Point>();
-		list.add(new Point(1015, 462));
+		list.add(new Point(1038, 528));
+		list.add(new Point(1031, 613));
+		list.add(new Point(1056, 595));
+		list.add(new Point(1108, 584));
+		list.add(new Point(1147, 592));
+		list.add(new Point(1175, 623));
+		list.add(new Point(1137, 704));
+		list.add(new Point(1082, 772));
+		list.add(new Point(1091, 798));
+		list.add(new Point(1161, 816));
+		list.add(new Point(1212, 805));
 	}
 
 	@Override
@@ -36,6 +46,11 @@ public class GameWeldingDoor extends GameObject
 		{
 			g.drawOval((int)p.getX(), (int)p.getY(), 10, 10);
 		}
+	}
+	
+	public ArrayList<Point> getList()
+	{
+		return list;
 	}
 
 	@Override

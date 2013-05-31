@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingDoor.Point;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameButton;
 import stijgmachine.jti1a1.nl.objects.GameObject;
@@ -39,6 +40,7 @@ public class GameWeldingLogic extends MiniGameLogic
 	private int x2;
 	private int y;
 	private int y2;
+	private Point p;
 
 	private boolean collisionDetected;
 	private boolean controlsActivated =  false;
@@ -79,7 +81,7 @@ public class GameWeldingLogic extends MiniGameLogic
 
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0)
-	{
+	{		
 		weld = ((GameWeldingWeld) items.get(items.size() - 3));
 		
 		if(arg0.isButtonHomePressed()) controlsActivated = true;		
@@ -92,15 +94,22 @@ public class GameWeldingLogic extends MiniGameLogic
 			}
 			if(arg0.isButtonAHeld())
 			{
+				p = door.getList().get(0);
 				if (weld.isStarted())
 				{
-				weld.startWeld(x, y);
+					weld.startWeld(x, y);
+					if(weld.getPath().contains(p))
+					{
+						p = door.getList().get((door.getList().indexOf(p)+1));
+					}
+					System.out.println(door.getList().indexOf(p));
 				}
 			}
 			if (arg0.isButtonAJustReleased())
 			{
 				weld.stopWeld();
-			}
+			}			
+
 		}
 		
 		else if(!collisionDetected) weld.stopWeld();		
@@ -190,8 +199,8 @@ public class GameWeldingLogic extends MiniGameLogic
 			}
 			else zPressed = false;
 			
-			System.err.println(cursorLeft.getX());
-			System.err.println(cursorLeft.getY());
+//			System.err.println(cursorLeft.getX());
+//			System.err.println(cursorLeft.getY());
 		}
 
 	}
@@ -213,29 +222,28 @@ public class GameWeldingLogic extends MiniGameLogic
 		
 		if(controlsActivated)
 		{	
-			if(arg0.getAx() < (x+4) || arg0.getAx() < (x-4) || arg0.getAy() < (y+4) || arg0.getAy() < (y-4))
-			{
-				if(x < arg0.getAx()) x2 = (arg0.getAx()-2);
-				if(x > arg0.getAx()) x2 = (arg0.getAx()+2);
-				if(y < arg0.getAy()) y2 = (arg0.getAy()-2);
-				if(y > arg0.getAy()) y2 = (arg0.getAy()+2);	
-			}
-			else
-			{
-				x2 = x; 
-				y2 = y;
-			}
+//			cursorRight.update(arg0.getAx(), arg0.getAy());	
+//			
+//			if(arg0.getAx() < (x+4) || arg0.getAx() < (x-4) || arg0.getAy() < (y+4) || arg0.getAy() < (y-4))
+//			{
+//				if(x < arg0.getAx()) x2 = (arg0.getAx()-2);
+//				if(x > arg0.getAx()) x2 = (arg0.getAx()+2);
+//				if(y < arg0.getAy()) y2 = (arg0.getAy()-2);
+//				if(y > arg0.getAy()) y2 = (arg0.getAy()+2);	
+//			}
+//			else
+//			{
+//				x2 = x; 
+//				y2 = y;
+//			}
 			
-			cursorRight.update(x2, y2);	
+			cursorRight.update(arg0.getAx(), arg0.getAy());	
 			
-			x = x2;
-			y = y2;
+			x = arg0.getAx();
+			y = arg0.getAy();
 		}
-		
-//		System.out.println(arg0.getXVRes());
-//		System.out.println(arg0.getYVRes());
-				
 		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
+//		System.out.println(collisionDetected);
 	}
 
 	@Override

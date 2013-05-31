@@ -21,7 +21,7 @@ public class GameWeldingView extends MiniGameView
 		super();
 		try
 		{
-			background = ImageIO.read(getClass().getResource("/res/machine_inside.png"));
+			background = ImageIO.read(getClass().getResource("/res/machine_inside_empty.png"));
 		} catch (IOException e)
 		{
 		}
@@ -44,7 +44,7 @@ public class GameWeldingView extends MiniGameView
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;	
-		g2.drawImage(background, null, 191, 0);
+		g2.drawImage(background, null, 183, 0);
 		g2.drawImage(backgroundLeft, null, 0, 0);
 		drawObjects(Main.getObjects(), g2);
 	}

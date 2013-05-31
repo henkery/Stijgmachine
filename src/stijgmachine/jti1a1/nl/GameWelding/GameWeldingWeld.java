@@ -83,6 +83,11 @@ public class GameWeldingWeld extends GameObject
 		return false;
 	}
 	
+	public GeneralPath getPath()
+	{
+		return path;
+	}
+	
 	public int getX()
 	{
 		return x2;

@@ -1,15 +1,18 @@
 package stijgmachine.jti1a1.nl.controller;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-
-import stijgmachine.jti1a1.nl.model.*;
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingLogic;
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingView;
+import stijgmachine.jti1a1.nl.model.MiniGameLogic;
+import stijgmachine.jti1a1.nl.model.TestLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
-import stijgmachine.jti1a1.nl.view.*;
-import wiiusej.*;
+import stijgmachine.jti1a1.nl.view.MiniGameView;
+import wiiusej.WiiUseApiManager;
+import wiiusej.Wiimote;
 
 public class Main {
 
@@ -21,8 +24,8 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	public static int resX = 1920; 
+	public static int resY = 1080; 
 	
 	public static void main(String[] args)
 	{
@@ -32,7 +35,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new phys2dtestLogic(), new Phys2dtestView());
+		setGame(new GameWeldingLogic(), new GameWeldingView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
