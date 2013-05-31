@@ -17,7 +17,7 @@ public class GamePipes extends GameObject {
 
 	/** 
 	 * directions
-	 * 0 = left
+	 * 0 = left 
 	 * 1 = up
 	 * 2 = right
 	 * 3 = down
@@ -30,9 +30,13 @@ public class GamePipes extends GameObject {
 		this.y = y;
 		this.size = size;
 		setDirections(index);
-		// TODO Auto-generated constructor stub
-		
-		
+	}
+	
+	public GamePipes(Point2D point,int index){
+		super((int)point.getX(),(int)point.getY(),GameObject.ABSOLUTE);
+		setLocation(point);
+		this.index = index;
+		setDirections(index);
 	}
 
 	@Override
@@ -84,6 +88,14 @@ public class GamePipes extends GameObject {
 			break;
 		}
 	}
+	
+	public boolean getConnetion(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
+		if (frontDirOb1 == frontDirOb2 || frontDirOb1 == backDirOb2 || backDirOb1 == frontDirOb2 || backDirOb1 == backDirOb2)
+			return true;
+		else
+			return false;
+	}
+	
 	public int getFrontDirection(){
 		return frontDirection;
 	}

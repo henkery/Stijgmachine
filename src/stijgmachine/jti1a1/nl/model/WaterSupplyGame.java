@@ -2,8 +2,10 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
+import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
@@ -25,15 +27,17 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	/* grote grid = 8x8 */
 	private ArrayList<GameObject> GameObjects = new ArrayList<GameObject>();
+	private GamePipes pipe;
 	private boolean done, drag, go = false;
 	private boolean add, mapStart = true;
 	private int index = 0;
-	private Point2D cursorLocation, pipeLocation, targetLocation;
+	private Point2D cursorLocation, pipeLocation, startLocation, attachLocation;
 	private Dimension size;
 
 	public WaterSupplyGame() {
 		GameObjects.add(new GameCursor());
-		this.size = new Dimension(100,100);
+		startLocation = new Point2D.Double (0,200);
+		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
 		go = true;
 	}
 
@@ -152,7 +156,8 @@ public class WaterSupplyGame extends MiniGameLogic {
 		if (go){
 			((GameCursor)GameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
 			pipeUpdate();
-			}
+			map();
+		}
 		System.out.println(add);
 		System.out.println(GameObjects.size());
 	}
@@ -182,7 +187,6 @@ public class WaterSupplyGame extends MiniGameLogic {
 		for (GameObject gameObject : GameObjects){
 			if (gameObject.getID() == GamePipes.id){
 				System.out.println(((GamePipes)gameObject).getLocation());
-//				if(drag){
 					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 50
 						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 50
 						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 50
@@ -190,10 +194,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 						System.out.println("Banaan locatie");
 						if (drag)
 							((GamePipes) gameObject).update((int)getPipeLocation().getX(),(int)getPipeLocation().getY());
-
-//					}
 				}
-
 			}	
 		}
 	}
@@ -234,24 +235,29 @@ public class WaterSupplyGame extends MiniGameLogic {
 	}
 
 	private void map(){
-		Point2D target;
 		for(GameObject gameObject : GameObjects){
 			if (gameObject.getID() == GamePipes.id){
 				if(mapStart){
-					target = new Point2D.Double (0,200);
-					if ( ((GamePipes) gameObject).getLocation().getY() <= target.getY() && ((GamePipes) gameObject).getLocation().getY() - size.getHeight() >= target.getY() - size.getHeight()){
+					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() && ((GamePipes) gameObject).getLocation().getY() - size.getHeight() > startLocation.getY() - size.getHeight() 
+						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() > startLocation.getX() - size.getWidth() ){
 						System.out.println("attached the first part");
 						((GamePipes) gameObject).setLocation(new Point2D.Double(0,200));
 						mapStart = false;
-						target = ((GamePipes)gameObject).getLocation();
+						pipe = new GamePipes(((GamePipes)gameObject).getLocation(), 666);
 					}
 				}
-	//			if (!mapStart){
-	//				if ( ((GamePipes) gameObject).getLocation().getX())
-	//				
-	//			}
-				
-				
+				if (!mapStart){
+					if (((GamePipes)gameObject).getLocation().getX() > attachLocation.getX()
+							&& ((GamePipes)gameObject).getLocation().getX() < attachLocation.getX() + size.getWidth()
+							&& ((GamePipes)gameObject).getLocation().getY() > attachLocation.getY()
+							&& ((GamePipes)gameObject).getLocation().getY() < attachLocation.getY() + size.getHeight()) {
+						if(((GamePipes)gameObject).getConnetion(((GamePipes)gameObject).getFrontDirection(),((GamePipes)gameObject).getBackDirection() , pipe.getFrontDirection(), pipe.getBackDirection())){
+							((GamePipes)gameObject).setLocation(pipe.getLocation());
+							pipe = ((GamePipes)gameObject);
+							System.out.println("The eagle has left the building!");
+						}
+					}
+				}
 			}
 		}
 	}
@@ -261,8 +267,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 	}
 
 	private void addPipe(int number, int indexNr) {
-		int numbers = number;
-		switch (numbers) {
+		switch (number) {
 			case 0: /* straight horizontal pipe */
 				GameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
 				break;
