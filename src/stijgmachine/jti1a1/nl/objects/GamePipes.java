@@ -90,10 +90,21 @@ public class GamePipes extends GameObject {
 	}
 	
 	public boolean getConnetion(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
-		if (frontDirOb1 == frontDirOb2 || frontDirOb1 == backDirOb2 || backDirOb1 == frontDirOb2 || backDirOb1 == backDirOb2)
+		int ftDirOb1 = frontDirOb1;
+		int bkDirOb1 = backDirOb1 + 2;
+		
+		int ftDirOb2 = frontDirOb2;
+		int bkDirOb2 = backDirOb2 + 2;
+		
+		if (bkDirOb1 > 3 || bkDirOb2 > 3)
+		{
+			bkDirOb1 =- 4;
+			bkDirOb2 =- 4;
+		}
+		if (ftDirOb1 == ftDirOb2 || ftDirOb1 == bkDirOb2 || bkDirOb1 == ftDirOb2 || bkDirOb1 == bkDirOb2)
 			return true;
-		else
-			return false;
+		
+		return false;
 	}
 	
 	public int getFrontDirection(){

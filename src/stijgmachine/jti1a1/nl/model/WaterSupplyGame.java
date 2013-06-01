@@ -238,6 +238,8 @@ public class WaterSupplyGame extends MiniGameLogic {
 		for(GameObject gameObject : GameObjects){
 			if (gameObject.getID() == GamePipes.id){
 				if(mapStart){
+					// need to test this?
+					// not sure if it works.
 					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() && ((GamePipes) gameObject).getLocation().getY() - size.getHeight() > startLocation.getY() - size.getHeight() 
 						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() > startLocation.getX() - size.getWidth() ){
 						System.out.println("attached the first part");
@@ -260,6 +262,10 @@ public class WaterSupplyGame extends MiniGameLogic {
 				}
 			}
 		}
+	}
+	
+	private void connect(Point2D startPoint, Point2D pipePoint){
+		
 	}
 	
 	public void gameOver() {
