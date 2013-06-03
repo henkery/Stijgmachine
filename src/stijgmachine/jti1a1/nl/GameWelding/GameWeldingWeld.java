@@ -4,12 +4,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
 
 import stijgmachine.jti1a1.nl.objects.GameObject;
 
 public class GameWeldingWeld extends GameObject
 {
 	private GeneralPath path = null;
+	private ArrayList<GeneralPath> pathList;
 	private int x1;
 	private int y1;
 	private int x2;
@@ -18,33 +20,38 @@ public class GameWeldingWeld extends GameObject
 	public GameWeldingWeld()
 	{
 		super(0, 0, GameObject.ABSOLUTE);
+		pathList = new ArrayList<GeneralPath>();
 	}
 	
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x3, int y3)
 	{
-		//g.setColor(Color.orange);
-		//g.drawLine(x1, y1, x2, y2);
 		if(path != null)
 		{
 			g.setColor(Color.orange);
 			g.setStroke(new BasicStroke(20.0f, 1, 1));
 			g.draw(path);
 		}
+		if(!pathList.isEmpty())
+		{
+			for(GeneralPath p : pathList)
+			{
+				g.setColor(Color.orange);
+				g.setStroke(new BasicStroke(20.0f, 1, 1));
+				g.draw(p);
+			}
+		}
 	}
 
 	@Override
 	public int getID()
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void click()
-	{
-		// TODO Auto-generated method stub
-		
+	{		
 	}
 	
 	public void update(int x, int y)
@@ -56,22 +63,35 @@ public class GameWeldingWeld extends GameObject
 	}
 	
 	public void startWeld(int x, int y)
-	{
+	{	
 		if(path == null)
 		{
 			path = new GeneralPath();
 			path.moveTo(x, y);
 		}
-		else path.lineTo(x, y);
-		
+		else continueWeld(x, y);	
+	}
+	
+	public void continueWeld(int x, int y)
+	{
+		if(isStarted())
+		{
+			path.lineTo(x, y);
+		}
+	}
+	
+	public void saveWeld()
+	{
+		if(path != null)
+		{
+			pathList.add(path);
+			stopWeld();
+		}
 	}
 	
 	public void stopWeld()
 	{
-		//path.closePath();
 		path = null;
-		
-//		path.
 	}
 	
 	public boolean isStarted()

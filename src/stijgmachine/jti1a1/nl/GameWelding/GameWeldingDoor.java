@@ -1,7 +1,7 @@
 package stijgmachine.jti1a1.nl.GameWelding;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import stijgmachine.jti1a1.nl.objects.GameObject;
 public class GameWeldingDoor extends GameObject
 {
 	private BufferedImage img;
-	private ArrayList<Point> list;
+	private ArrayList<Rectangle2D> pointList;
+	private Rectangle2D weldingArea;
 
 	public GameWeldingDoor()
 	{
@@ -24,33 +25,19 @@ public class GameWeldingDoor extends GameObject
 		} catch (IOException e)
 		{
 		}
-		list = new ArrayList<Point>();
-		list.add(new Point(1038, 528));
-		list.add(new Point(1031, 613));
-		list.add(new Point(1056, 595));
-		list.add(new Point(1108, 584));
-		list.add(new Point(1147, 592));
-		list.add(new Point(1175, 623));
-		list.add(new Point(1137, 704));
-		list.add(new Point(1082, 772));
-		list.add(new Point(1091, 798));
-		list.add(new Point(1161, 816));
-		list.add(new Point(1212, 805));
+		setPoints();
+		weldingArea = new Rectangle2D.Double(1000, 260, 245, 615);
 	}
 
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2)
 	{
-		g.drawImage(img, null, 850, 65);
-		for(Point p  : list)
-		{
-			g.drawOval((int)p.getX(), (int)p.getY(), 10, 10);
-		}
+		g.drawImage(img, null, 850, 65);		
 	}
 	
-	public ArrayList<Point> getList()
+	public Rectangle2D getWeldingArea()
 	{
-		return list;
+		return weldingArea;
 	}
 
 	@Override
@@ -67,36 +54,26 @@ public class GameWeldingDoor extends GameObject
 
 	}
 	
-	public class Point extends Point2D
+	public void setPoints()
 	{
-		double x;
-		double y;
-		
-		public Point(double x, double y)
-		{
-			setLocation(x, y);
-		}
-		
-		@Override
-		public double getX()
-		{
-			// TODO Auto-generated method stub
-			return x;
-		}
-
-		@Override
-		public double getY()
-		{
-			// TODO Auto-generated method stub
-			return y;
-		}
-
-		@Override
-		public void setLocation(double x, double y)
-		{
-			this.x = x;
-			this.y = y;
-		}
+		pointList = null;
+		pointList = new ArrayList<Rectangle2D>();
+		pointList.add(new Rectangle2D.Double(1030, 520, 20, 20));
+		pointList.add(new Rectangle2D.Double(1020, 610, 20, 20));
+		pointList.add(new Rectangle2D.Double(1056, 585, 20, 20));
+		pointList.add(new Rectangle2D.Double(1105, 580, 20, 20));
+		pointList.add(new Rectangle2D.Double(1147, 592, 20, 20));
+		pointList.add(new Rectangle2D.Double(1160, 623, 20, 20));
+		pointList.add(new Rectangle2D.Double(1125, 704, 20, 20));
+		pointList.add(new Rectangle2D.Double(1070, 760, 20, 20));
+		pointList.add(new Rectangle2D.Double(1091, 798, 20, 20));
+		pointList.add(new Rectangle2D.Double(1155, 805, 20, 20));
+		pointList.add(new Rectangle2D.Double(1185, 790, 20, 20));
 	}
-
+	
+	public ArrayList<Rectangle2D> getPoints()
+	{
+		return pointList;
+	}
+	
 }

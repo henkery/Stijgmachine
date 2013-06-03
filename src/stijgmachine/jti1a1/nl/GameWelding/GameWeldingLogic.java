@@ -1,13 +1,12 @@
 package stijgmachine.jti1a1.nl.GameWelding;
 
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import stijgmachine.jti1a1.nl.GameWelding.GameWeldingDoor.Point;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
-import stijgmachine.jti1a1.nl.objects.GameButton;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
 import wiiusej.Wiimote;
@@ -30,6 +29,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class GameWeldingLogic extends MiniGameLogic
 {
 	private ArrayList<GameObject> items;
+	private ArrayList<Rectangle2D> pointsHit;
 	private GameObjectContainer containerLeft;
 	private GameWeldingDoor door;
 	private GameWeldingWeld weld;
@@ -37,33 +37,33 @@ public class GameWeldingLogic extends MiniGameLogic
 	private GameWeldingCursor cursorRight;
 
 	private int x;
-	private int x2;
 	private int y;
-	private int y2;
-	private Point p;
-
+	
+	private boolean inWeldingArea = false;
 	private boolean collisionDetected;
 	private boolean controlsActivated =  false;
 	private boolean isDone = false;
-	private boolean zPressed;
-
+	
+	
 	public GameWeldingLogic()
 	{
 		items = new ArrayList<GameObject>();
+		pointsHit = new ArrayList<Rectangle2D>();
 		containerLeft = new GameWeldingLeftContainer(0, 0, 191, 1080, 201);
 		door = new GameWeldingDoor();
 		weld = new GameWeldingWeld();
+		pointsHit.addAll(door.getPoints());
 		
 		try
 		{
-			cursorLeft = new GameWeldingCursor("left", 22, 588, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
+			cursorLeft = new GameWeldingCursor("left", 4, 654, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
 		} catch (IOException e1)
 		{
 			e1.printStackTrace();
 		}
 		try
 		{
-			cursorRight = new GameWeldingCursor("right", -21, 234, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
+			cursorRight = new GameWeldingCursor("right", -30, 160, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -82,37 +82,43 @@ public class GameWeldingLogic extends MiniGameLogic
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0)
 	{		
-		weld = ((GameWeldingWeld) items.get(items.size() - 3));
+		weld = (GameWeldingWeld) items.get(items.size()-3);
+		door = (GameWeldingDoor) items.get(items.size()-4);
 		
-		if(arg0.isButtonHomePressed()) controlsActivated = true;		
-
-		if(controlsActivated && collisionDetected)
+		if(arg0.isButtonHomePressed()) controlsActivated = true;
+		
+		if(controlsActivated && collisionDetected && inWeldingArea)
 		{
 			if(arg0.isButtonAPressed())
 			{
 				weld.startWeld(x, y);
-			}
-			if(arg0.isButtonAHeld())
-			{
-				p = door.getList().get(0);
-				if (weld.isStarted())
+			
+				if(arg0.isButtonAHeld())
 				{
-					weld.startWeld(x, y);
-					if(weld.getPath().contains(p))
+					if(weld.isStarted())
 					{
-						p = door.getList().get((door.getList().indexOf(p)+1));
+						weld.continueWeld(x, y);
+					}									
+					for(Rectangle2D p : door.getPoints())
+					{
+						if(weld.getPath().intersects(p))
+						{
+							pointsHit.remove(p);		
+						}					
 					}
-					System.out.println(door.getList().indexOf(p));
 				}
 			}
-			if (arg0.isButtonAJustReleased())
-			{
-				weld.stopWeld();
-			}			
-
 		}
 		
-		else if(!collisionDetected) weld.stopWeld();		
+		if (arg0.isButtonAJustReleased())
+		{
+			weld.saveWeld();
+		}
+		
+		isDone = pointsHit.isEmpty();
+		
+		System.err.println("Points Hit: "+pointsHit.size());
+		System.out.println("Is Done: "+isDone);
 	}
 
 	@Override
@@ -193,15 +199,8 @@ public class GameWeldingLogic extends MiniGameLogic
 						* m);
 			}
 	
-			if(buttons.isButtonZPressed())
-			{
-				zPressed = true;
-			}
-			else zPressed = false;
-			
-//			System.err.println(cursorLeft.getX());
-//			System.err.println(cursorLeft.getY());
 		}
+		System.err.println("Links x: "+cursorLeft.getX()+" y: "+cursorLeft.getY());
 
 	}
 
@@ -219,31 +218,19 @@ public class GameWeldingLogic extends MiniGameLogic
 	public void onIrEvent(IREvent arg0)
 	{
 		cursorRight = ((GameWeldingCursor) items.get(items.size() - 1));
+		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
+		inWeldingArea = door.getWeldingArea().intersects(cursorRight.getDetector().getRectangle());
+
 		
 		if(controlsActivated)
 		{	
-//			cursorRight.update(arg0.getAx(), arg0.getAy());	
-//			
-//			if(arg0.getAx() < (x+4) || arg0.getAx() < (x-4) || arg0.getAy() < (y+4) || arg0.getAy() < (y-4))
-//			{
-//				if(x < arg0.getAx()) x2 = (arg0.getAx()-2);
-//				if(x > arg0.getAx()) x2 = (arg0.getAx()+2);
-//				if(y < arg0.getAy()) y2 = (arg0.getAy()-2);
-//				if(y > arg0.getAy()) y2 = (arg0.getAy()+2);	
-//			}
-//			else
-//			{
-//				x2 = x; 
-//				y2 = y;
-//			}
-			
-			cursorRight.update(arg0.getAx(), arg0.getAy());	
-			
-			x = arg0.getAx();
-			y = arg0.getAy();
+			cursorRight.update((int)(arg0.getAx()*1.65), (int)(arg0.getAy()*1.65));			
+			x = (int)(arg0.getAx()*1.65);
+			y = (int)(arg0.getAy()*1.65);
 		}
-		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
-//		System.out.println(collisionDetected);
+		
+//		System.out.println("Rechts x: "+arg0.getAx()+" y: "+arg0.getAy());
+		System.out.println(inWeldingArea);
 	}
 
 	@Override
@@ -277,8 +264,7 @@ public class GameWeldingLogic extends MiniGameLogic
 	@Override
 	public boolean isDone()
 	{
-		//return isDone;
-		return false;
+		return isDone;
 	}
 
 	@Override
@@ -294,7 +280,6 @@ public class GameWeldingLogic extends MiniGameLogic
 		wiimotes[0].activateContinuous();
 		wiimotes[0].activateIRTRacking();		
 		wiimotes[0].activateSmoothing();
-		//wiimotes[0].activateMotionSensing();
 		wiimotes[0].setSensorBarBelowScreen();
 		wiimotes[0].setScreenAspectRatio169();
 		wiimotes[0].setVirtualResolution(1920, 1080);

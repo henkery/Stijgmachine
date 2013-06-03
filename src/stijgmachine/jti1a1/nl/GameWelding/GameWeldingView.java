@@ -30,7 +30,6 @@ public class GameWeldingView extends MiniGameView
 			backgroundLeft = ImageIO.read(getClass().getResource("/res/machine_inside_left.png"));
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

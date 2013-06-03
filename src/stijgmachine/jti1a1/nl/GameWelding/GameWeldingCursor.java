@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 
 public class GameWeldingCursor extends GameObject
@@ -17,7 +18,7 @@ public class GameWeldingCursor extends GameObject
 	
 	public GameWeldingCursor(String d, int x, int y, BufferedImage img)
 	{
-		super(0, 0, 204);
+		super(0, 0, GameObject.ABSOLUTE);
 		this.x = x;
 		this.y = y;
 		this.img = img;
@@ -43,8 +44,8 @@ public class GameWeldingCursor extends GameObject
 
 	public void update(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		this.x = Main.resX/1024*x;
+		this.y = Main.resY/768*y;
 		detector.update(x, y);
 	}
 	
