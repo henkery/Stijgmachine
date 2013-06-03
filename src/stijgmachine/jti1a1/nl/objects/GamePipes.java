@@ -1,18 +1,22 @@
 package stijgmachine.jti1a1.nl.objects;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Double;
 
+import stijgmachine.jti1a1.nl.controller.Main;
+
 public class GamePipes extends GameObject {
-	private final int index;
-	private Point2D frontLocation, backLocation;
-	public static final int id = 777;
-	int frontDirection, backDirection;
+	private final int index; // haat aan dit attribuut
+	private Point2D frontLocation, backLocation; // haat aan dit attribuut
+	public static final int id = 777; 
+	private int frontDirection, backDirection;  // haat aan dit attribuut
 
 	private	Dimension size;
+	private boolean moveable = true;
 	
 
 	/** 
@@ -30,13 +34,16 @@ public class GamePipes extends GameObject {
 		this.y = y;
 		this.size = size;
 		setDirections(index);
+		
 	}
 	
-	public GamePipes(Point2D point,int index){
+	public GamePipes(Point2D point,int index, Dimension size){
 		super((int)point.getX(),(int)point.getY(),GameObject.ABSOLUTE);
 		setLocation(point);
 		this.index = index;
+		this.size = size;
 		setDirections(index);
+		System.out.println("index: " + index);
 	}
 
 	@Override
@@ -44,24 +51,14 @@ public class GamePipes extends GameObject {
 		// TODO Auto-generated method stub
 		switch(index){
 		case 0: //horizontal
+			g.setColor(new Color((int)Math.random()*255, (int)Math.random()*255, (int)Math.random()*255));
 			Rectangle2D rectH = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
-			g.draw(rectH);
+			g.fill(rectH);
 			break;
-		case 1: // vertical
+		default:
+		//case 1: // vertical
 			Rectangle2D rectV = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
-			g.draw(rectV);
-			break;
-		case 2://up, right
-			
-			break;
-		case 3://right, down
-			
-			break;
-		case 4://down, left
-			
-			break;
-		case 5://left, up
-			
+			g.fill(rectV);
 			break;
 		}
 	}
@@ -89,7 +86,7 @@ public class GamePipes extends GameObject {
 		}
 	}
 	
-	public boolean getConnetion(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
+	public boolean getConnection(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
 		int ftDirOb1 = frontDirOb1;
 		int bkDirOb1 = backDirOb1 + 2;
 		
@@ -105,6 +102,10 @@ public class GamePipes extends GameObject {
 			return true;
 		
 		return false;
+	}
+	
+	public void getConnectLocation(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
+		
 	}
 	
 	public int getFrontDirection(){
@@ -175,9 +176,22 @@ public class GamePipes extends GameObject {
 		return location;
 	}
 	
+	public void setMoveable(boolean move){
+		this.moveable = move;
+	}
+	
+	public boolean getMoveAble(){
+		return moveable;
+	}
+	
 	public void update(int x, int y) {
-			this.x = x;
-			this.y = y;
+		if (!moveable)
+			return;
+		this.x = x;
+		this.y = y;
+//		this.x = (int) ((Main.resX/1024.0f * x));
+//		this.y = (int) ((Main.resY/768.0f * y));
+		
 	}
 
 }
