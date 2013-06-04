@@ -57,4 +57,12 @@ public abstract class GameObject {
 		return new int[]{x3,y3};
 	} 
 	public abstract void click();
+
+	public void predraw(Graphics2D g, int height, int width, int i, int j) {
+		// TODO Auto-generated method stub
+		int[] loc = getPosition(x, y, i, j, height, width, relativeTo);
+		x = loc[0];
+		y = loc[1];
+		draw(g, height, width, i, j);
+	}
 }
