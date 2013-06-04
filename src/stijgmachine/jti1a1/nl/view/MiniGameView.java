@@ -27,7 +27,7 @@ public abstract class MiniGameView extends JPanel {
 	public void drawObjects(ArrayList<GameObject> objects, Graphics2D g) {
 		for (GameObject item : objects)
 		{
-			item.draw(g, this.getSize().height, this.getSize().width, 0, 0);
+			item.predraw(g, this.getSize().height, this.getSize().width, 0, 0);
 		}
 	}
 	
