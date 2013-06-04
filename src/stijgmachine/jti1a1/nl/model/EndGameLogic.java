@@ -27,7 +27,9 @@ public class EndGameLogic extends MiniGameLogic {
 	
 	public EndGameLogic () {
 		objects = new ArrayList<GameObject>();
-		objects.add(new ObjectHolder(0, 0, GameObject.RELATIVE_FROM_CENTER));
+		objects.add(new ObjectHolder(0, 0, 30, 30, GameObject.RELATIVE_FROM_CENTER));
+		objects.add(new ObjectHolder(-10, -20, 30, 30, GameObject.RELATIVE_FROM_CENTER));
+		objects.add(new ObjectHolder(-10, 30, 30, 30, GameObject.RELATIVE_FROM_CENTER));
 		cursor = new GameCursor();
 		objects.add(cursor);
 	}

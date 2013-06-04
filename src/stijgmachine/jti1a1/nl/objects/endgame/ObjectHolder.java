@@ -7,9 +7,13 @@ import java.awt.geom.Rectangle2D;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 
 public class ObjectHolder extends GameObject {
+	
+	private int h,w;
 
-	public ObjectHolder(int x, int y, int relativeTo) {
+	public ObjectHolder(int x, int y, int h, int w, int relativeTo) {
 		super(x, y, relativeTo);
+		this.h = h;
+		this.w = w;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -17,7 +21,7 @@ public class ObjectHolder extends GameObject {
 	public void draw(Graphics2D g, int h, int wM, int x2, int y2) {
 		Graphics2D g2 = g;
 		g2.setColor(Color.black);
-		g2.fill(new Rectangle2D.Double(x-10, y-10, x+10, y+10));
+		g2.fill(new Rectangle2D.Double(x, y, this.h, w));
 	}
 
 	@Override
