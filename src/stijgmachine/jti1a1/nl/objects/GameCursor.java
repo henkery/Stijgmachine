@@ -31,8 +31,8 @@ public class GameCursor extends GameObject {
 	}
 	
 	public void update(int x, int y) {
-		this.x = Main.resX/1024*x;
-		this.y = Main.resY/768*y;
+		this.x = (int) (Main.resX/1024f*x);
+		this.y = (int) (Main.resY/768f*y);
 	}
 
 }

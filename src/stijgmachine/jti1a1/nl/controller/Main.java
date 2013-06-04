@@ -32,7 +32,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new phys2dtestLogic(), new Phys2dtestView());
+		setGame(new EndGameLogic(), new EndGameView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
