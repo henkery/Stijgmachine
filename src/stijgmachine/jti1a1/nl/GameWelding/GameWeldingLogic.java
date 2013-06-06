@@ -1,8 +1,11 @@
-package stijgmachine.jti1a1.nl.GameWelding;
+package stijgmachine.jti1a1.nl.gameWelding;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -26,7 +29,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.NunchukInsertedEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.NunchukRemovedEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
-public class GameWeldingLogic extends MiniGameLogic
+public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 {
 	private ArrayList<GameObject> items;
 	private ArrayList<Rectangle2D> pointsHit;
@@ -35,6 +38,7 @@ public class GameWeldingLogic extends MiniGameLogic
 	private GameWeldingWeld weld;
 	private GameWeldingCursor cursorLeft;
 	private GameWeldingCursor cursorRight;
+	private GameWeldingSteamParticles steamParticles;
 
 	private int x;
 	private int y;
@@ -49,10 +53,11 @@ public class GameWeldingLogic extends MiniGameLogic
 	{
 		items = new ArrayList<GameObject>();
 		pointsHit = new ArrayList<Rectangle2D>();
-		containerLeft = new GameWeldingLeftContainer(0, 0, 191, 1080, 201);
+		containerLeft = new GameWeldingLeftContainer(0, 0, 191, 1080, 204);
 		door = new GameWeldingDoor();
 		weld = new GameWeldingWeld();
 		pointsHit.addAll(door.getPoints());
+//		steamParticles = new GameWeldingSteamParticles();
 		
 		try
 		{
@@ -73,6 +78,7 @@ public class GameWeldingLogic extends MiniGameLogic
 		y = cursorRight.getY();
 
 		items.add(containerLeft);
+//		items.add(steamParticles);
 		items.add(door);
 		items.add(weld);
 		items.add(cursorLeft);
@@ -224,9 +230,14 @@ public class GameWeldingLogic extends MiniGameLogic
 		
 		if(controlsActivated)
 		{	
-			cursorRight.update((int)(arg0.getAx()*1.65), (int)(arg0.getAy()*1.65));			
 			x = (int)(arg0.getAx()*1.65);
 			y = (int)(arg0.getAy()*1.65);
+//			if(x < cursorRight.getX())
+//			{
+//				
+//			}
+			cursorRight.update(x, y);			
+
 		}
 		
 //		System.out.println("Rechts x: "+arg0.getAx()+" y: "+arg0.getAy());
@@ -283,5 +294,34 @@ public class GameWeldingLogic extends MiniGameLogic
 		wiimotes[0].setSensorBarBelowScreen();
 		wiimotes[0].setScreenAspectRatio169();
 		wiimotes[0].setVirtualResolution(1920, 1080);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+//		for(GameObject o : items)
+//		{
+//			if(o.getClass() == GameWeldingSteamParticles.class)
+//			{
+//				steamParticles = (GameWeldingSteamParticles) o;
+//				for (Iterator<GameWeldingParticle> itr = steamParticles.steamList.iterator(); itr.hasNext();)
+//				{
+//					GameWeldingParticle p = itr.next();
+//		
+//					if (p.y < -50.0)
+//					{
+//						itr.remove();
+//					} else
+//					{
+//						p.update();
+//					}
+//				}
+//		
+//				if (steamParticles.steamList.size() < 20)
+//				{
+//					steamParticles.steamList.add(new GameWeldingParticle());
+//				}
+//			}
+//		}
 	}
 }

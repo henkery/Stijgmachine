@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import stijgmachine.jti1a1.nl.GameWelding.GameWeldingLogic;
-import stijgmachine.jti1a1.nl.GameWelding.GameWeldingView;
+import stijgmachine.jti1a1.nl.gameWelding.GameWeldingLogic;
+import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.model.TestLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
@@ -85,9 +85,10 @@ public class Main {
 
 			if (logicSlot.isDone())
 			{
-				logicSlot = null;
-				setGame(new TestLogic(), null);
-				logicSlot.giveMotes(wiimotes);
+//				logicSlot = null;
+//				setGame(new TestLogic(), null);
+//				logicSlot.giveMotes(wiimotes);
+				System.exit(0);
 			}
 		}
 	}
