@@ -1,30 +1,32 @@
 package stijgmachine.jti1a1.nl.gameWelding;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.plaf.ColorUIResource;
 
 import stijgmachine.jti1a1.nl.objects.GameObject;
 
-public class GameWeldingSteamParticles extends GameObject
+public class GameWeldingSteam extends GameObject
 {
-	public ArrayList<GameWeldingParticle> steamList = new ArrayList<GameWeldingParticle>();
+	public ArrayList<Particle> list = new ArrayList<Particle>();
 
-	public GameWeldingSteamParticles()
+	public GameWeldingSteam()
 	{
-		super(0, 0, 204);
-		for (int i = 0; i < 2; i++)
-		{
-			steamList.add(new GameWeldingParticle());
-		}
+		super(1420, 250, 204);
 	}
 	
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2)
 	{
-		for (GameWeldingParticle p : steamList)
+		for (Particle p : list)
 		{
 			p.draw(g);
-		}		
+		}
 	}
 
 	@Override
@@ -36,8 +38,8 @@ public class GameWeldingSteamParticles extends GameObject
 
 	@Override
 	public void click()
-	{
-		// TODO Auto-generated method stub
-		
+	{	
 	}
+	
+	
 }
