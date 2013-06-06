@@ -45,5 +45,6 @@ public abstract class MiniGameView extends JPanel {
 		g2.clearRect(0, 0, Main.resX, Main.resY);
 		drawObjects(Main.getObjects(), g2);
 	}
+	
 
 }

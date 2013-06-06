@@ -21,8 +21,8 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	public static int resX = 1366; 
+	public static int resY = 768; 
 	
 	public static void main(String[] args)
 	{

@@ -1,9 +1,13 @@
 package stijgmachine.jti1a1.nl.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import stijgmachine.jti1a1.nl.objects.GameButton;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
+import stijgmachine.jti1a1.nl.objects.GameImage;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.endgame.ObjectHolder;
 import wiiusej.Wiimote;
@@ -27,9 +31,16 @@ public class EndGameLogic extends MiniGameLogic {
 	
 	public EndGameLogic () {
 		objects = new ArrayList<GameObject>();
-		objects.add(new ObjectHolder(0, 0, 30, 30, GameObject.RELATIVE_FROM_CENTER));
-		objects.add(new ObjectHolder(-10, -20, 30, 30, GameObject.RELATIVE_FROM_CENTER));
-		objects.add(new ObjectHolder(-10, 30, 30, 30, GameObject.RELATIVE_FROM_CENTER));
+		try {
+			objects.add(new GameImage(-244, -348, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/Rocket-without-door.png"))));
+			objects.add(new ObjectHolder(0, 0, 30, 30, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/door-holder.png"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		objects.add(new ObjectHolder(-100, -200, 30, 30, GameObject.RELATIVE_FROM_CENTER, null));
+		objects.add(new ObjectHolder(-100, 300, 30, 30, GameObject.RELATIVE_FROM_CENTER, null));
 		cursor = new GameCursor();
 		objects.add(cursor);
 	}

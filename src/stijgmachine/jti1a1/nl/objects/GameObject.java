@@ -50,8 +50,8 @@ public abstract class GameObject {
 				y3 = y+y2;
 				break;
 			case (GameObject.RELATIVE_FROM_CENTER):
-				x3 = w/2+x2;
-				y3 = h/2+y2;
+				x3 = w/2+x2+x;
+				y3 = h/2+y2+y;
 				break;
 		}
 		return new int[]{x3,y3};
@@ -61,8 +61,12 @@ public abstract class GameObject {
 	public void predraw(Graphics2D g, int height, int width, int i, int j) {
 		// TODO Auto-generated method stub
 		int[] loc = getPosition(x, y, i, j, height, width, relativeTo);
+		int oldx = x;
+		int oldy = y;
 		x = loc[0];
 		y = loc[1];
 		draw(g, height, width, i, j);
+		x = oldx;
+		y = oldy;
 	}
 }
