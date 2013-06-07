@@ -51,6 +51,7 @@ public class GamePowerLogic extends MiniGameLogic
 	private GamePowerEndText endText = new GamePowerEndText(50,50,GameObject.RELATIVE_FROM_TOPLEFT,"Game Completed",36,"Old English Text MT");
 	private boolean addOnce = false;
 	private GamePowerBackGround back = new GamePowerBackGround(0,0,GameObject.RELATIVE_FROM_TOPLEFT,"",1);
+	private Wiimote mote;
 	
 	public GamePowerLogic()
 	{
@@ -61,6 +62,7 @@ public class GamePowerLogic extends MiniGameLogic
 		addObstacles();
 		objects.add(cursor);
 		objects.add(bal);
+		
 	}
 	
 	public void addObstacles()
@@ -239,6 +241,7 @@ public class GamePowerLogic extends MiniGameLogic
 	}
 	
 	
+	
 	public void resetBall()
 	{
 		if(countTicks != true)
@@ -275,6 +278,7 @@ public class GamePowerLogic extends MiniGameLogic
 		{
 			System.exit(0);
 		}
+
 	}
 
 	@Override
@@ -320,6 +324,7 @@ public class GamePowerLogic extends MiniGameLogic
 	{
 //		cursorPos = new Point(event.getAx(),event.getAy());
 		cursor.update(event.getAx(), event.getAy());
+		back.updateCursorPos(new Point(cursor.x,cursor.y));
 		if(pressed == true)
 		{
 			points.add(new Point(cursor.x,cursor.y));
@@ -361,7 +366,7 @@ public class GamePowerLogic extends MiniGameLogic
 		makeLine();
 		goal();
 		drawFinishWords();
-		refreshBall();
+//		refreshBall();
 		if(countTicks)
 		{
 			tickCounter +=1;
@@ -381,7 +386,7 @@ public class GamePowerLogic extends MiniGameLogic
 	@Override
 	public boolean isDone() {
 		// TODO Auto-generated method stub
-		return finish;
+		return false;
 	}
 
 	@Override
@@ -395,6 +400,7 @@ public class GamePowerLogic extends MiniGameLogic
 		
 		wiimotes[0].addWiiMoteEventListeners(this);
 		wiimotes[0].activateIRTRacking();
+		mote = wiimotes[0];
 	}
 
 }
