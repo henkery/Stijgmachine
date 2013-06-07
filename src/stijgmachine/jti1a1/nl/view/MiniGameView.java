@@ -16,6 +16,7 @@ public abstract class MiniGameView extends JPanel {
 	
 	public static final int STARTMENU = 0;
 	public static final int TEST = 1;
+	public static final int GAMEWELDING = 4;
 	
 	public MiniGameView()
 	{

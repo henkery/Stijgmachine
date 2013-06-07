@@ -1,23 +1,17 @@
 package stijgmachine.jti1a1.nl.controller;
 
 import java.awt.Frame;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import stijgmachine.jti1a1.nl.gameWelding.GameWeldingLogic;
-import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
-import stijgmachine.jti1a1.nl.model.EndGameLogic;
-import stijgmachine.jti1a1.nl.model.MiniGameLogic;
-import stijgmachine.jti1a1.nl.model.TestLogic;
+
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingLogic;
+import stijgmachine.jti1a1.nl.GameWelding.GameWeldingView;
+import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
-import stijgmachine.jti1a1.nl.view.EndGameView;
-import stijgmachine.jti1a1.nl.view.MiniGameView;
-import wiiusej.WiiUseApiManager;
-import wiiusej.Wiimote;
+import stijgmachine.jti1a1.nl.view.*;
+import wiiusej.*;
 
 public class Main {
 
@@ -29,9 +23,8 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	private static boolean fullscreen;
-	public static int resX = 1366; 
-	public static int resY = 768; 
+	public static int resX = 1920; 
+	public static int resY = 1080; 
 	
 	public static void main(String[] args)
 	{
@@ -40,16 +33,14 @@ public class Main {
 	
 	public Main()
 	{
-		fullscreen = false;
 		gameinit();
-		setGame(new EndGameLogic(), new EndGameView());
+		setGame(new GameWeldingLogic(), new GameWeldingView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
 		frame.setVisible(true);
 		callResize();
 		gameloop();
-		
 	}
 
 	private void gameinit() {
@@ -75,11 +66,6 @@ public class Main {
 				} catch (InterruptedException e) {
 				e.printStackTrace();
 				}
-				if (Main.fullscreen) {
-					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-					gd.setFullScreenWindow(frame);
-					frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-				}
 				frame.repaint();
 				}
 
@@ -98,20 +84,31 @@ public class Main {
 
 			if (logicSlot.isDone())
 			{
-//				logicSlot = null;
-//				setGame(new TestLogic(), null);
-//				logicSlot.giveMotes(wiimotes);
-				System.exit(0);
+				logicSlot = null;
+				/*switch (viewSlot.getID()){
+					case MiniGameView.STARTMENU:
+						viewSlot = new TestView();
+						//setLogicSlot(new TestLogic());
+						logicSlot = new TestLogic();
+						break;
+					
+					case MiniGameView.TEST:
+						viewSlot = new StartMenuView();
+						setLogicSlot(new StartMenuLogic());
+						break;
+					
+				}*/
+				setGame(new TestLogic(), null);
+				//frame.getContentPane().removeAll();
+				//frame.revalidate();
+				//frame.getContentPane().add(viewSlot);
+			//	
+				logicSlot.giveMotes(wiimotes);
 			}
+			//viewSlot.repaint();
+			//System.out.println(((MiniGameView) frame.getContentPane().getComponents()[0]).getID());
+			//frame.getContentPane().repaint();
 		}
-	}
-
-	public static boolean isFullscreen() {
-		return fullscreen;
-	}
-
-	public static void setFullscreen(boolean fullscreen) {
-		Main.fullscreen = fullscreen;
 	}
 
 	public MiniGameLogic getLogicSlot()
