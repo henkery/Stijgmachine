@@ -386,7 +386,7 @@ public class GamePowerLogic extends MiniGameLogic
 	@Override
 	public boolean isDone() {
 		// TODO Auto-generated method stub
-		return false;
+		return finish;
 	}
 
 	@Override

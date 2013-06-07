@@ -37,6 +37,7 @@ public class Main {
 	public static int resX = 1366; 
 	public static int resY = 768; 
 	public Object[][] list;
+	private int i;
 	
 	public static void main(String[] args)
 	{
@@ -47,11 +48,12 @@ public class Main {
 	{
 		list = new Object[][]{
 				new Object[]{new GamePowerLogic(), new TestView()},
-				new Object[]{new EndGameLogic(), new EndGameView()},
-				new Object[]{new GameWeldingLogic(), new GameWeldingView()}};
+				new Object[]{new GameWeldingLogic(), new GameWeldingView()},
+				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;
 		gameinit();
-		setGame((MiniGameLogic)list[0][0], (MiniGameView)list[0][1]);
+		i=0;
+		setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -109,7 +111,8 @@ public class Main {
 
 			if (logicSlot.isDone())
 			{
-				System.exit(0);
+				i++;
+				setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
 			}
 		}
 	}
