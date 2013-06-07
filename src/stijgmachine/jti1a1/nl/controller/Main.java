@@ -19,6 +19,7 @@ import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.EndGameView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
+import stijgmachine.jti1a1.nl.view.TestView;
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
 
@@ -35,6 +36,7 @@ public class Main {
 	private static boolean fullscreen;
 	public static int resX = 1366; 
 	public static int resY = 768; 
+	public Object[][] list;
 	
 	public static void main(String[] args)
 	{
@@ -43,9 +45,13 @@ public class Main {
 	
 	public Main()
 	{
+		list = new Object[][]{
+				new Object[]{new GamePowerLogic(), new TestView()},
+				new Object[]{new EndGameLogic(), new EndGameView()},
+				new Object[]{new GameWeldingLogic(), new GameWeldingView()}};
 		fullscreen = false;
 		gameinit();
-		setGame(new EndGameLogic(), new EndGameView());
+		setGame((MiniGameLogic)list[0][0], (MiniGameView)list[0][1]);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -103,9 +109,6 @@ public class Main {
 
 			if (logicSlot.isDone())
 			{
-//				logicSlot = null;
-//				setGame(new TestLogic(), null);
-//				logicSlot.giveMotes(wiimotes);
 				System.exit(0);
 			}
 		}
