@@ -1,7 +1,10 @@
 package stijgmachine.jti1a1.nl.GamePower;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+
+import javax.swing.ImageIcon;
 
 import stijgmachine.jti1a1.nl.objects.phys2d.Circle;
 
@@ -22,7 +25,13 @@ public class GamePowerBall extends Circle
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		java.awt.Shape cirk = new Ellipse2D.Double(x2-radius,y2-radius,radius*2,radius*2);
-		g.fill(cirk);
+		AffineTransform tx = new AffineTransform();
+//		ImageIcon Image = new ImageIcon("src/clockpunk4.jpg");
+		ImageIcon Image = new ImageIcon("src/New_Energy_Ball.png");
+//		tx.translate((x2-radius)-10,(y2-radius));
+		tx.translate((x2-radius)-10,(y2-radius)-10);
+		g.clip(cirk);
+		g.drawImage(Image.getImage(),tx,null);
 		
 	}
 

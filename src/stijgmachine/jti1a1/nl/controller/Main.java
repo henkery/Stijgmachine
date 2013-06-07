@@ -68,6 +68,8 @@ public class Main {
 					frame.repaint();
 				}
 				
+
+
 			}
 		});
 		draw.start();
@@ -78,9 +80,9 @@ public class Main {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			logicSlot.tick();
-			
+
 			if (logicSlot.isDone())
 			{
 				logicSlot = null;
@@ -88,7 +90,6 @@ public class Main {
 				logicSlot.giveMotes(wiimotes);
 			}
 		}
-		
 	}
 
 	public MiniGameLogic getLogicSlot()

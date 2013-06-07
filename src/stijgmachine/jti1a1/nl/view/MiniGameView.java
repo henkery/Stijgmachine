@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,9 +26,16 @@ public abstract class MiniGameView extends JPanel {
 	public abstract int getID();
 	
 	public void drawObjects(ArrayList<GameObject> objects, Graphics2D g) {
-		for (GameObject item : objects)
+		try
 		{
-			item.draw(g, this.getSize().height, this.getSize().width, 0, 0);
+			for (GameObject item : objects)
+			{
+				item.draw(g, this.getSize().height, this.getSize().width, 0, 0);
+			}
+		}
+		catch(ConcurrentModificationException ex)
+		{
+//			System.out.println("Geen exception");
 		}
 	}
 	
