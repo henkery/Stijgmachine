@@ -9,6 +9,7 @@ import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
+import stijgmachine.jti1a1.nl.view.WaterSupplyView;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -33,11 +34,15 @@ public class WaterSupplyGame extends MiniGameLogic {
 	private int index = 0; // haat aan dit attribuut
 	private Point2D cursorLocation, pipeLocation, startLocation, attachLocation; // haat aan dit attribuut
 	private Dimension size; // haat aan dit attribuut
+	private WaterSupplyView view;
+	private int addTime = 0;
 
 	public WaterSupplyGame() {
+//		gameObjects.add(view);
 		gameObjects.add(new GameCursor());
 		startLocation = new Point2D.Double (0,200);
 		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
+//		view = new WaterSupplyView();
 	}
 
 	@Override
@@ -63,9 +68,15 @@ public class WaterSupplyGame extends MiniGameLogic {
 			if (!add)
 				drag = true;	
 		}
-		if(event.isButtonAJustReleased())
+		if(!event.isButtonAPressed())
 			drag = false;
-		if(event.isButtonBPressed()){
+		if(event.isButtonBJustReleased())
+//			map();
+		if(event.isButtonAHeld()){
+			if(!add)
+				drag = true;
+		}
+		if(event.isButtonUpPressed()){
 			if (!add){
 				if (gameObjects.size()-1 > 1)
 					gameObjects.remove(gameObjects.size()-1);
@@ -146,37 +157,36 @@ public class WaterSupplyGame extends MiniGameLogic {
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
-		if (add){
-			int i = index;
-			addPipe((int)Math.random()*0, i+1);
-			add = false;
+		if (add)
+			addTime++;
+		if(addTime > 500){
+			if (add){
+				addPipe((int)Math.random()*5, index);
+				add = false;
+				addTime = 0;
+			}
 		}
+		System.out.println("addTime: "+ addTime);
 		if (go){
 			((GameCursor)gameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
 //			pipeDrag();
 			map();
 		}
-		System.out.println("add: " + add);
-		System.out.println("List size: " + gameObjects.size());
 		for (GameObject o : gameObjects)
 		{
 			System.out.println(o.getX() + "," + o.getY());
 		}
-		if(!mapStart)
-		System.out.println("pipe backL : " +  pipe.getBackLocation());
 		
 	}
 	
 	public void removeSelectedPipe(){
 		for (GameObject gameObject : gameObjects){
 			if (gameObject.getID() == GamePipes.id){
-				System.out.println("Start of remove methode");
 				if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 50
 						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 50
 						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 50
 						&& getCursorLocation().getY() < ((GamePipes) gameObject).getLocation().getY() + 50){
-					System.out.println("remove pipe");
-					int ind = ((GamePipes)gameObject).getIndex();
+					int ind = ((GamePipes)gameObject).getIdPipe();
 					gameObjects.remove(ind);
 				}
 			}
@@ -193,7 +203,6 @@ public class WaterSupplyGame extends MiniGameLogic {
 			return;
 		for (GameObject gameObject : gameObjects){
 			if (gameObject.getID() == GamePipes.id){
-				System.out.println(((GamePipes)gameObject).getLocation());
 					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - size.getWidth()/2
 						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + size.getWidth()/2
 						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - size.getHeight()/2
@@ -247,7 +256,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 				if(mapStart){
 					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() &&	 ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() + size.getHeight() 
 						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() < startLocation.getX() + size.getWidth() ){
-						((GamePipes) gameObject).setLocation(new Point2D.Double(0,200));
+						((GamePipes) gameObject).setLocation(new Point2D.Double(80,100));
 						((GamePipes) gameObject).setMoveable(false);
 						pipe = new GamePipes(((GamePipes)gameObject).getLocation(), 0,size);
 						add = true;
@@ -261,11 +270,13 @@ public class WaterSupplyGame extends MiniGameLogic {
 							&& ((GamePipes)gameObject).getLocation().getY() > pipe.getLocation().getY()
 							&& ((GamePipes)gameObject).getLocation().getY() < pipe.getLocation().getY() + size.getHeight()) {
 						if(((GamePipes)gameObject).getConnection(((GamePipes)gameObject).getFrontDirection(),((GamePipes)gameObject).getBackDirection() , pipe.getFrontDirection(), pipe.getBackDirection())){
-							((GamePipes)gameObject).setLocation(pipe.getBackLocation()     );
+							
+							//Set a proper location for the gamePipes
+							((GamePipes)gameObject).setLocation(new Point2D.Double (pipe.getBackLocation().getX(), pipe.getBackLocation().getY()-size.getHeight()/2     ));
 							((GamePipes) gameObject).setMoveable(false);
 							pipe = ((GamePipes)gameObject);
 							add = true;
-							for (int i = 0; i<100000; i++){
+							for (int i = 0; i<10; i++){
 								System.out.println("The eagle has left the building!");
 							}
 						}
@@ -282,22 +293,22 @@ public class WaterSupplyGame extends MiniGameLogic {
 	private void addPipe(int number, int indexNr) {
 		switch (number) {
 			case 0: /* straight horizontal pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			case 1: /* straight vertical pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			case 2: /* bend up/right pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			case 3: /* bend right/down pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			case 4: /* bend down/left pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			case 5: /* bend left/up pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),indexNr, size));
+				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
 				break;
 			}
 		index++;

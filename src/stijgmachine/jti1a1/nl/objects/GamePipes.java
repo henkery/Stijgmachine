@@ -3,20 +3,31 @@ package stijgmachine.jti1a1.nl.objects;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
+import java.io.File;
+import java.io.IOException;
 
-import stijgmachine.jti1a1.nl.controller.Main;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class GamePipes extends GameObject {
 	private final int index; // haat aan dit attribuut
 	private Point2D frontLocation, backLocation; // haat aan dit attribuut
 	public static final int id = 777; 
 	private int frontDirection, backDirection;  // haat aan dit attribuut
-
+	private Image pipeImage;
+	
+	
 	private	Dimension size;
 	private boolean moveable = true;
+	private int ftDirOb1 ;
+	private int bkDirOb1 ;
+	private int ftDirOb2 ;
+	private int bkDirOb2 ;
+	private int idPipe;
 	
 
 	/** 
@@ -27,12 +38,13 @@ public class GamePipes extends GameObject {
 	 * 3 = down
 	 * **/
 	
-	public GamePipes(int x, int y, int index, Dimension size) {
+	public GamePipes(int x, int y, int index,int idPipe, Dimension size) {
 		super(x, y, GameObject.ABSOLUTE);
 		this.index = index;
 		this.x = x;
 		this.y = y;
 		this.size = size;
+		this.idPipe = idPipe;
 		setDirections(index);
 		
 	}
@@ -48,19 +60,29 @@ public class GamePipes extends GameObject {
 
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
-		// TODO Auto-generated method stub
 		switch(index){
 		case 0: //horizontal
-			g.setColor(new Color((int)Math.random()*255, (int)Math.random()*255, (int)Math.random()*255));
-			Rectangle2D rectH = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
-			g.fill(rectH);
+			pipeImage = new ImageIcon("./images/horPipe.png").getImage();
+			g.drawImage(pipeImage,x,y,null);
 			break;
 		default:
-		//case 1: // vertical
-			Rectangle2D rectV = new Rectangle2D.Double(x, y, size.getWidth(), size.getHeight());
-			g.fill(rectV);
+		case 1: // vertical
+			pipeImage = new ImageIcon("./images/vertPipe.png").getImage();
+			break;
+		case 2: // up right
+			pipeImage = new ImageIcon("./images/upRightPipe.png").getImage();
+			break;
+		case 3://right down
+			pipeImage = new ImageIcon("./images/rightDownPipe.png").getImage();
+			break;
+		case 4: //down left
+			pipeImage = new ImageIcon("./images/leftDownPipe.png").getImage();
+			break;
+		case 5: // left up
+			pipeImage = new ImageIcon("./images/leftUpPipe.png").getImage();
 			break;
 		}
+		g.drawImage(pipeImage,x,y,null);
 	}
 	
 	public void setDirections(int index){
@@ -87,11 +109,11 @@ public class GamePipes extends GameObject {
 	}
 	
 	public boolean getConnection(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
-		int ftDirOb1 = frontDirOb1;
-		int bkDirOb1 = backDirOb1 + 2;
+		this.ftDirOb1 = frontDirOb1;
+		this.bkDirOb1 = backDirOb1 + 2;
 		
-		int ftDirOb2 = frontDirOb2;
-		int bkDirOb2 = backDirOb2 + 2;
+		this.ftDirOb2 = frontDirOb2;
+		this.bkDirOb2 = backDirOb2 + 2;
 		
 		if (bkDirOb1 > 3 || bkDirOb2 > 3)
 		{
@@ -104,8 +126,15 @@ public class GamePipes extends GameObject {
 		return false;
 	}
 	
-	public void getConnectLocation(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
-		
+	public Point2D getConnectLocation(int frontDirOb1, int backDirOb1, int frontDirOb2, int backDirOb2){
+
+			
+			
+			
+			
+			
+			
+		return new Point2D.Double(frontDirOb2, backDirOb2);
 	}
 	
 	public int getFrontDirection(){
@@ -117,7 +146,8 @@ public class GamePipes extends GameObject {
 
 	public Point2D getFrontLocation(){
 		if (index == 0)
-			frontLocation = new Point2D.Double (getLocation().getX(),getLocation().getY() + (size.getHeight()/2));
+//			frontLocation = new Point2D.Double (getLocation().getX(),getLocation().getY() + (size.getHeight()/2));
+			return new Point(super.x,super.y);
 		if (index == 1)
 			frontLocation = new Point2D.Double(getLocation().getX()+(size.getWidth()/2), getLocation().getY());
 		if (index == 2)
@@ -148,18 +178,38 @@ public class GamePipes extends GameObject {
 		return backLocation;
 	}
 	
+	public void snap()
+	{
+		Pipeline closestPipeline = null;
+		double distance;
+		for()//
+			if(//x,y closer as a set distance from another pipeline)
+				if(//closer als closestPipeline)//if(currectDistance < distance)
+		if(closestPipeline == null)
+			return;
+				
+		closestPipeline.position
+		closestPipeline.index//1,2,3 of 0
+		
+		switch(index)
+		{
+		case 0:
+			this.y = closestPipeline.y;
+			this.x = closestPipeline.x + closestPipeline.getDimension().width;
+		break;
+		}
+		
+		
+	}
 	
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
 	@Override
 	// if object pressed click methode
 	public void click() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public int getIndex(){
@@ -182,6 +232,9 @@ public class GamePipes extends GameObject {
 	
 	public boolean getMoveAble(){
 		return moveable;
+	}
+	public int getIdPipe(){
+		return idPipe;
 	}
 	
 	public void update(int x, int y) {
