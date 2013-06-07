@@ -1,5 +1,8 @@
 package stijgmachine.jti1a1.nl.controller;
 
+import gameSteamCreation.SteamGameModel;
+import gameSteamCreation.SteamGamePanel;
+
 import java.awt.Frame;
 import java.util.ArrayList;
 
@@ -19,10 +22,11 @@ public class Main {
 	
 	private static MiniGameLogic logicSlot;
 	private static MiniGameView viewSlot;
+	private static SteamGameModel steamModel;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	public static int resX = 1600; 
+	public static int resY = 900; 
 	
 	public static void main(String[] args)
 	{
@@ -32,7 +36,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new phys2dtestLogic(), new Phys2dtestView());
+		setGame(new SteamGameModel(), new SteamGamePanel());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
@@ -55,7 +59,7 @@ public class Main {
 	private void gameloop()
 	{
 		Thread draw = new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				while (true) {
@@ -83,7 +87,7 @@ public class Main {
 			if (logicSlot.isDone())
 			{
 				logicSlot = null;
-				setGame(new TestLogic(), null);
+				setGame(new SteamGameModel(), null);
 				logicSlot.giveMotes(wiimotes);
 			}
 		}
@@ -125,8 +129,5 @@ public class Main {
 		if (logic != null)
 			logicSlot = logic;
 		logicSlot.giveMotes(wiimotes);
-	}
-	
-	
-	
+	}	
 }
