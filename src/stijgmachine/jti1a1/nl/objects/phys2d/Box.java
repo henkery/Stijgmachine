@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import net.phys2d.raw.shapes.DynamicShape;
 import net.phys2d.raw.shapes.Shape;
 
 public class Box extends stijgmachine.jti1a1.nl.objects.phys2d.Shape {
@@ -20,7 +21,7 @@ public class Box extends stijgmachine.jti1a1.nl.objects.phys2d.Shape {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Shape getShape() {
+	public DynamicShape getShape() {
 		// TODO Auto-generated method stub
 		return box;
 	}
@@ -34,7 +35,7 @@ public class Box extends stijgmachine.jti1a1.nl.objects.phys2d.Shape {
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		// TODO Auto-generated method stub
-		g.fill(new Rectangle2D.Double(x,y,h,w));
+		g.fill(new Rectangle2D.Double(x-(h/2),y-(w/2),h,w));
 		
 		
 	}

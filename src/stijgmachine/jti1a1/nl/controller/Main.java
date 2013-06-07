@@ -13,6 +13,9 @@ import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.EndGameLogic;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.model.TestLogic;
+
+import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
+import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.EndGameView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
@@ -66,7 +69,7 @@ public class Main {
 	private void gameloop()
 	{
 		Thread draw = new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				while (true) {
@@ -82,6 +85,8 @@ public class Main {
 				}
 				frame.repaint();
 				}
+				
+
 
 			}
 		});

@@ -37,7 +37,7 @@ public class GameWeldingView extends MiniGameView
 	@Override
 	public int getID()
 	{
-		return MiniGameView.GAMEWELDING;
+		return 0;
 	}
 	
 	public void paintComponent(Graphics g)

@@ -11,12 +11,12 @@ import stijgmachine.jti1a1.nl.objects.GameObject;
 public class Body extends GameObject {
 	
 	private net.phys2d.raw.Body body;
-	private Circle shape;
+	private Shape shape;
 
-	public Body(Circle circle, float f) {
+	public Body(Shape shape, float f) {
 		super(0, 0, 0);
-		body = new net.phys2d.raw.Body(circle.getShape(), f);
-		shape = circle;
+		body = new net.phys2d.raw.Body(shape.getShape(), f);
+		this.shape = shape;
 		// TODO Auto-generated constructor stub
 	}
 

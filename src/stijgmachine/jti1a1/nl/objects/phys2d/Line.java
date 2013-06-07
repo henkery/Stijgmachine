@@ -20,7 +20,7 @@ public class Line extends Shape {
 		// TODO Auto-generated constructor stub
 	}
 
-	public net.phys2d.raw.shapes.Shape getShape() {
+	public net.phys2d.raw.shapes.DynamicShape getShape() {
 		// TODO Auto-generated method stub
 		return line;
 	}
@@ -34,7 +34,6 @@ public class Line extends Shape {
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		g.draw(new Line2D.Double(new Point2D.Double(x, y), new Point2D.Double(this.x2, this.y2)));
-		System.out.println("line drawn");
 		// TODO Auto-generated method stub
 		
 	}
