@@ -17,6 +17,7 @@ public class GamePowerBall extends Circle
 		radius = (int) f;
 	}
 	
+	
 //	public void getImage()
 //	{
 //		ImageIcon image = new ImageIcon("src/stijgmachine.jti1a1.nl.GamePower/");
@@ -29,8 +30,8 @@ public class GamePowerBall extends Circle
 //		ImageIcon Image = new ImageIcon("src/clockpunk4.jpg");
 		ImageIcon Image = new ImageIcon("src/New_Energy_Ball.png");
 //		tx.translate((x2-radius)-10,(y2-radius));
-		tx.translate((x2-radius)-10,(y2-radius)-10);
-		g.clip(cirk);
+		tx.translate((x2-radius),(y2-radius));
+		
 		g.drawImage(Image.getImage(),tx,null);
 		
 	}
