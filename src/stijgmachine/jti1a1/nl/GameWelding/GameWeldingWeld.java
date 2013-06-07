@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.gameWelding;
+package stijgmachine.jti1a1.nl.GameWelding;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.gameWelding;
+package stijgmachine.jti1a1.nl.GameWelding;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +18,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Timer;
 
+import stijgmachine.jti1a1.nl.gameWelding.GameWeldingSteam;
+import stijgmachine.jti1a1.nl.gameWelding.Particle;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;

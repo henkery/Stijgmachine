@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.gameWelding;
+package stijgmachine.jti1a1.nl.GameWelding;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,7 +37,7 @@ public class GameWeldingView extends MiniGameView
 	@Override
 	public int getID()
 	{
-		return MiniGameView.GAMEWELDING;
+		return 0;
 	}
 	
 	public void paintComponent(Graphics g)

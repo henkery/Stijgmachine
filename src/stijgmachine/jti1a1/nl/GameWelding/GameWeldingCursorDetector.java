@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.gameWelding;
+package stijgmachine.jti1a1.nl.GameWelding;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
