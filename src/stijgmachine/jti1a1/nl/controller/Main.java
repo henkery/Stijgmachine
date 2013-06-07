@@ -1,5 +1,8 @@
 package stijgmachine.jti1a1.nl.controller;
 
+import gameSteamCreation.SteamGameModel;
+import gameSteamCreation.SteamGamePanel;
+
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -31,6 +34,7 @@ public class Main {
 	
 	private static MiniGameLogic logicSlot;
 	private static MiniGameView viewSlot;
+	private static SteamGameModel steamModel;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
 	private static boolean fullscreen;
@@ -161,8 +165,5 @@ public class Main {
 		if (logic != null)
 			logicSlot = logic;
 		logicSlot.giveMotes(wiimotes);
-	}
-	
-	
-	
+	}	
 }
