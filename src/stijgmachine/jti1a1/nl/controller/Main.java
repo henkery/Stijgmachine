@@ -23,9 +23,9 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static boolean fullscreen;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	private static boolean fullscreen;
+	public static int resX = 1366; 
+	public static int resY = 768; 
 	
 	public static void main(String[] args)
 	{
@@ -36,7 +36,7 @@ public class Main {
 	{
 		fullscreen = false;
 		gameinit();
-		setGame(new phys2dtestLogic(), new Phys2dtestView());
+		setGame(new EndGameLogic(), new EndGameView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);
