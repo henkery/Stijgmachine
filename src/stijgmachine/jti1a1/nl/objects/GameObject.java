@@ -69,4 +69,11 @@ public abstract class GameObject {
 		x = oldx;
 		y = oldy;
 	}
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 }

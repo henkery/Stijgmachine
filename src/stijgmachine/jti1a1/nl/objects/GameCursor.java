@@ -1,5 +1,6 @@
 package stijgmachine.jti1a1.nl.objects;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
@@ -20,6 +21,7 @@ public class GameCursor extends GameObject {
 
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
+		g.setColor(Color.BLUE);
 		g.draw(new Rectangle2D.Double(x,y,10,10));
 
 	}
