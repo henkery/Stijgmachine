@@ -36,6 +36,7 @@ public class SteamGameModel extends MiniGameLogic
 	private static boolean heatWheelMove = false;
 	private static boolean steamWheelMove = false;
 	private static boolean shovel = false;
+	private static Image backgroundImg;
 	private static Image heatWheelImg;
 	private static Image coalFiredImg;
 	private static Image coalPileImg; 
@@ -59,6 +60,7 @@ public class SteamGameModel extends MiniGameLogic
 	{	
 		setGameStarted(true);
 		setShovel(true);
+		backgroundImg = Toolkit.getDefaultToolkit().createImage("images/SteamViewWithoutCoals.png");
 		heatWheelImg = Toolkit.getDefaultToolkit().createImage("images/heatWheelSmall.png");
 		coalFiredImg = Toolkit.getDefaultToolkit().createImage("images/coalsFired.png");
 		coalPileImg = Toolkit.getDefaultToolkit().createImage("images/coalsFireplace.png");
@@ -191,17 +193,9 @@ public class SteamGameModel extends MiniGameLogic
 		return heatWheelMove;
 	}
 	
-	public Image setBackImg(Image img)
+	public static Image getBackImgStart()
 	{
-		img = Toolkit.getDefaultToolkit().createImage("images/SteamViewWithoutCoals.png");
-		return img;
-	}
-	
-	public Image getBackImgStart()
-	{
-		Image backimg = null;
-		backimg = setBackImg(backimg);
-		return backimg;
+		return backgroundImg;
 	}
 	
 	public static Image getBackImgShoveled()

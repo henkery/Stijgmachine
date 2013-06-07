@@ -33,7 +33,6 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 	private static final long	serialVersionUID	= 1L;
 	private Wiimote	wiimote;
 	private SteamGamePanel panel;
-	private SteamGameModel model;
 	private Timer timer = new Timer(1000/10,this);
 
 	public SteamGameControl()
@@ -94,9 +93,9 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		return SteamGameModel.getGameStarted();
 	}
 	
-	public Image getBackImgStart()
+	public static Image getBackImgStart()
 	{
-		return model.getBackImgStart();
+		return SteamGameModel.getBackImgStart();
 	}
 	
 	public static Image getBackImgShoveled()

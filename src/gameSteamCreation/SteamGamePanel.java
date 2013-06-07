@@ -30,7 +30,6 @@ public class SteamGamePanel extends MiniGameView
 	int screenWidth;
 	int screenHeight;
 	Image fire = null;
-	SteamGameControl control;
 	
 	public SteamGamePanel()
 	{
@@ -48,7 +47,7 @@ public class SteamGamePanel extends MiniGameView
 		
 		// HET TEKENENEN VAN DE BASIS ACHTERGROND
 		if(SteamGameControl.getGameStart()){
-			g2.drawImage(control.getBackImgStart(), 0, 0, screenWidth, screenHeight, null);
+			g2.drawImage(SteamGameControl.getBackImgStart(), 0, 0, screenWidth, screenHeight, null);
 			g2.drawImage(SteamGameControl.getLighter(),1000 , 780, 20, 40, null);
 		}
 		// HET TEKENEN VAN DE KOLEN IN DE OPEN HAARD 
