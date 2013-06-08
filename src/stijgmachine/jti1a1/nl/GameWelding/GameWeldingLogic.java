@@ -47,6 +47,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private GameWeldingWeld weld;
 	private GameWeldingCursor cursorLeft;
 	private GameWeldingCursor cursorRight;
+	private GameWeldingSparks sparks;
 	private GameWeldingSteam steam;
 	private AudioInputStream stream;
 	private AudioFormat format;
@@ -61,6 +62,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private boolean collisionDetected;
 	private boolean controlsActivated =  false;
 	private boolean isDone = false;
+	private boolean isWelding = false;
 	
 	
 	public GameWeldingLogic()
@@ -72,8 +74,28 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		weld = new GameWeldingWeld();
 		pointsHit.addAll(door.getPoints());
 		steam = new GameWeldingSteam();
+		sparks = new GameWeldingSparks(x, y);
 		
-		//Audio		
+		getAudio();
+		getImages();
+
+		items.add(containerLeft);
+		items.add(steam);
+		items.add(sparks);
+		items.add(door);
+		items.add(weld);
+		items.add(cursorLeft);
+		items.add(cursorRight);
+		
+		x = cursorRight.getX();
+		y = cursorRight.getY();
+		
+		Timer timer = new Timer(1000/100, this);
+		timer.start();
+	}
+	
+	public void getAudio()
+	{
 		file = new File("welding.wav");
 		try
 		{
@@ -86,19 +108,10 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			e1.printStackTrace();
 		}
 		format = stream.getFormat();		
-		// specify what kind of line we want to create
 		info = new DataLine.Info(Clip.class, format);
-		// create the line
 		try
 		{
 			clip = (Clip)AudioSystem.getLine(info);
-		} catch (LineUnavailableException e2)
-		{
-			e2.printStackTrace();
-		}
-		// load the samples from the stream
-		try
-		{
 			clip.open(stream);
 		} catch (LineUnavailableException e2)
 		{
@@ -106,35 +119,19 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		} catch (IOException e2)
 		{
 			e2.printStackTrace();
-		}
-		
+		}			
+	}
+	
+	public void getImages()
+	{
 		try
 		{
 			cursorLeft = new GameWeldingCursor("left", 4, 654, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
-		} catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		try
-		{
 			cursorRight = new GameWeldingCursor("right", -30, 160, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-
-		items.add(containerLeft);
-		items.add(steam);
-		items.add(door);
-		items.add(weld);
-		items.add(cursorLeft);
-		items.add(cursorRight);
-		
-		x = cursorRight.getX();
-		y = cursorRight.getY();
-		
-		Timer timer = new Timer(1000/100, this);
-		timer.start();
+		}			
 	}
 
 	@Override
@@ -156,7 +153,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 					if(weld.isStarted())
 					{
 						weld.continueWeld(x, y);
-						clip.start();
+						isWelding = true;
 					}									
 					for(Rectangle2D p : door.getPoints())
 					{
@@ -169,10 +166,12 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			}
 		}
 		
-		else if (!arg0.isButtonAHeld())
+		
+		
+		if (!arg0.isButtonAHeld())
 		{
 			weld.saveWeld();
-			clip.stop();
+			isWelding = false;
 		}
 		
 		isDone = pointsHit.isEmpty();
@@ -278,6 +277,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	public void onIrEvent(IREvent arg0)
 	{
 		cursorRight = ((GameWeldingCursor) items.get(items.size() - 1));
+		sparks = ((GameWeldingSparks) items.get(items.size() - 5));
 		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
 		inWeldingArea = door.getWeldingArea().intersects(cursorRight.getDetector().getRectangle());
 
@@ -287,7 +287,9 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			x = (int)(arg0.getAx()*1.65);
 			y = (int)(arg0.getAy()*1.65);
 			
-			cursorRight.update(x, y);	
+			cursorRight.update(x, y);
+			sparks.update(x, y);
+
 		}
 		
 //		System.out.println("Rechts x: "+arg0.getAx()+" y: "+arg0.getAy());
@@ -348,8 +350,15 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e)
-	{
-		for (Iterator<Particle> itr = steam.list.iterator(); itr.hasNext();)
+	{		
+		if(isWelding)
+		{
+			clip.start();
+			
+		}
+		else clip.stop();
+		
+		for (Iterator<Particle> itr = steam.getList().iterator(); itr.hasNext();)
 		{
 			Particle p = itr.next();
 
@@ -362,9 +371,9 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			}
 		}
 
-		if (steam.list.size() < 1000)
+		if (steam.getList().size() < 1000)
 		{
-			steam.list.add(new Particle("steam"));
+			steam.getList().add(new Particle("steam"));
 		}			
 
 	}
