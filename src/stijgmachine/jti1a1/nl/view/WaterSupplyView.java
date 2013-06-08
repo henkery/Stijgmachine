@@ -27,18 +27,20 @@ public class WaterSupplyView extends MiniGameView {
 	}
 
 	public void paintComponent(Graphics g) {
-		if (count > 500){
+		if (count > 300){
 			imageEventView.add(new RandomImageView());
 			count = 0;
 		}
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(imageBackground, 0, 0, null);
 
+		drawObjects(Main.getObjects(), g2);
+		
 		for (RandomImageView riv : imageEventView){
 			riv.randomRainDraw(g);
 			}
 		
-			Iterator it = imageEventView.iterator();
+			Iterator<RandomImageView> it = imageEventView.iterator();
 
 			while (it.hasNext()){
 				RandomImageView o = (RandomImageView)it.next();
@@ -47,7 +49,7 @@ public class WaterSupplyView extends MiniGameView {
 			}
 	
 		
-		drawObjects(Main.getObjects(), g2);
+
 		count += Math.random() * 5;
 	}
 

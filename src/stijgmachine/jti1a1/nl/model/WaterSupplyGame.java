@@ -2,14 +2,15 @@ package stijgmachine.jti1a1.nl.model;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import stijgmachine.jti1a1.nl.controller.Main;
+import stijgmachine.jti1a1.nl.controller.SwipeEvent;
+import stijgmachine.jti1a1.nl.controller.WiiMoteListener;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
-import stijgmachine.jti1a1.nl.view.WaterSupplyView;
+import stijgmachine.jti1a1.nl.objects.MusicPlayer;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -26,28 +27,26 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 public class WaterSupplyGame extends MiniGameLogic {
 
-	/* grote grid = 8x8 */
-	private ArrayList<GameObject> gameObjects = new ArrayList<GameObject>(); // haat aan dit attribuut
-	private GamePipes pipe; // haat aan dit attribuut
-	private boolean done, drag, go = false; // haat aan dit attribuut
-	private boolean add, mapStart = true; // haat aan dit attribuut
-	private int index = 0; // haat aan dit attribuut
-	private Point2D cursorLocation, pipeLocation, startLocation, attachLocation; // haat aan dit attribuut
-	private Dimension size; // haat aan dit attribuut
-	private WaterSupplyView view;
+	
+	private ArrayList<GameObject> gameObjects = new ArrayList<GameObject>(); 
+	private GamePipes pipe; 
+	private boolean done, drag, go = false; 
+	private boolean add, mapStart = true; 
+	private int index = 0; 
+	private Point2D cursorLocation, pipeLocation, startLocation; 
+	private Dimension size; 
 	private int addTime = 0;
+	private Wiimote wiimote;
+	private MusicPlayer musicPlayer = new MusicPlayer();
 
 	public WaterSupplyGame() {
-//		gameObjects.add(view);
 		gameObjects.add(new GameCursor());
-		startLocation = new Point2D.Double (0,200);
+		startLocation = new Point2D.Double (85,440);
 		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
-//		view = new WaterSupplyView();
 	}
 
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent event) {
-		// TODO Auto-generated method stub
 		if(event.isButtonDownPressed()){
 			gameObjects.clear();
 			gameObjects.add(new GameCursor());
@@ -70,8 +69,6 @@ public class WaterSupplyGame extends MiniGameLogic {
 		}
 		if(!event.isButtonAPressed())
 			drag = false;
-		if(event.isButtonBJustReleased())
-//			map();
 		if(event.isButtonAHeld()){
 			if(!add)
 				drag = true;
@@ -87,76 +84,69 @@ public class WaterSupplyGame extends MiniGameLogic {
 	
 
 	@Override
-	public void onClassicControllerInsertedEvent(
-			ClassicControllerInsertedEvent event) {
-		// TODO Auto-generated method stub
+	public void onClassicControllerInsertedEvent(ClassicControllerInsertedEvent event) {
 
 	}
 
 	@Override
 	public void onClassicControllerRemovedEvent(
 			ClassicControllerRemovedEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
-	@Override
 	public void onDisconnectionEvent(DisconnectionEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onExpansionEvent(ExpansionEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onIrEvent(IREvent event) {
-		setCursorLocation(new Point2D.Double((int)event.getAx(),(int)event.getAy()));
+		setCursorLocation(new Point2D.Double((int)(event.getAx() * 1.75),(int)(event.getAy() * 1.65)));
 		setPipeLocation(new Point2D.Double(((int)getCursorLocation().getX()),(int)getCursorLocation().getY()));
 	}
 
 	@Override
 	public void onMotionSensingEvent(MotionSensingEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onNunchukInsertedEvent(NunchukInsertedEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onNunchukRemovedEvent(NunchukRemovedEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onStatusEvent(StatusEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
 		if (add)
 			addTime++;
 		if(addTime > 500){
@@ -166,22 +156,17 @@ public class WaterSupplyGame extends MiniGameLogic {
 				addTime = 0;
 			}
 		}
+		
 		System.out.println("addTime: "+ addTime);
 		if (go){
 			((GameCursor)gameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
-//			pipeDrag();
 			map();
 		}
-		for (GameObject o : gameObjects)
-		{
-			System.out.println(o.getX() + "," + o.getY());
-		}
-		
 	}
 	
 	public void removeSelectedPipe(){
 		for (GameObject gameObject : gameObjects){
-			if (gameObject.getID() == GamePipes.id){
+			if (gameObject.getClass() == GamePipes.class){
 				if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - 50
 						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + 50
 						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - 50
@@ -202,7 +187,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 		if(!drag)
 			return;
 		for (GameObject gameObject : gameObjects){
-			if (gameObject.getID() == GamePipes.id){
+			if (gameObject.getClass()== GamePipes.class){
 					if (getCursorLocation().getX() > ((GamePipes) gameObject).getLocation().getX() - size.getWidth()/2
 						&& getCursorLocation().getX() < ((GamePipes) gameObject).getLocation().getX() + size.getWidth()/2
 						&& getCursorLocation().getY() > ((GamePipes) gameObject).getLocation().getY() - size.getHeight()/2
@@ -215,21 +200,21 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	@Override
 	public boolean isDone() {
-		// TODO Auto-generated method stub
 		return done;
 	}
 
 	@Override
 	public ArrayList<GameObject> getObjects() {
-		// TODO Auto-generated method stub
 		return gameObjects;
 	}
 
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
-		// TODO Auto-generated method stub
 		wiimotes[0].addWiiMoteEventListeners(this);
 		wiimotes[0].activateIRTRacking();
+		wiimotes[0].setSensorBarBelowScreen();
+		wiimotes[0].setVirtualResolution(1920, 1080);
+		wiimote = wiimotes[0];
 	}
 	
 	private void setCursorLocation(Point2D point){
@@ -250,13 +235,13 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	private void map(){
 		for(GameObject gameObject : gameObjects){
-			if (gameObject.getID() == GamePipes.id){
+			if (gameObject.getClass() == GamePipes.class){
 				pipeDrag();
 				// mapStart works
 				if(mapStart){
 					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() &&	 ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() + size.getHeight() 
 						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() < startLocation.getX() + size.getWidth() ){
-						((GamePipes) gameObject).setLocation(new Point2D.Double(80,100));
+						((GamePipes) gameObject).setLocation(new Point2D.Double(85,440));
 						((GamePipes) gameObject).setMoveable(false);
 						pipe = new GamePipes(((GamePipes)gameObject).getLocation(), 0,size);
 						add = true;
@@ -269,12 +254,13 @@ public class WaterSupplyGame extends MiniGameLogic {
 							&& ((GamePipes)gameObject).getLocation().getX() < pipe.getLocation().getX() + size.getWidth()
 							&& ((GamePipes)gameObject).getLocation().getY() > pipe.getLocation().getY()
 							&& ((GamePipes)gameObject).getLocation().getY() < pipe.getLocation().getY() + size.getHeight()) {
-						if(((GamePipes)gameObject).getConnection(((GamePipes)gameObject).getFrontDirection(),((GamePipes)gameObject).getBackDirection() , pipe.getFrontDirection(), pipe.getBackDirection())){
-							
+						if(((GamePipes)gameObject).getConnection(((GamePipes)gameObject).getFrontDirection(),((GamePipes)gameObject).getBackDirection() , pipe.getFrontDirection(), pipe.getBackDirection())){					
 							//Set a proper location for the gamePipes
 							((GamePipes)gameObject).setLocation(new Point2D.Double (pipe.getBackLocation().getX(), pipe.getBackLocation().getY()-size.getHeight()/2     ));
 							((GamePipes) gameObject).setMoveable(false);
 							pipe = ((GamePipes)gameObject);
+							if (pipe.getBackLocation().getX() > 1780)
+								gameOver();
 							add = true;
 							for (int i = 0; i<10; i++){
 								System.out.println("The eagle has left the building!");
@@ -287,10 +273,16 @@ public class WaterSupplyGame extends MiniGameLogic {
 	}
 	
 	public void gameOver() {
+		musicPlayer.playSound("./sound/waterFinished.wav", 0);
+		rumbleMote();
+		for (int time = 0; time < 10000; time++);{
+			System.out.println("Stall some time to play the sound");
+		}
 		done = true;
 	}
 
 	private void addPipe(int number, int indexNr) {
+		rumbleMote();
 		switch (number) {
 			case 0: /* straight horizontal pipe */
 				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
@@ -312,5 +304,12 @@ public class WaterSupplyGame extends MiniGameLogic {
 				break;
 			}
 		index++;
+	}
+	
+	private void rumbleMote(){
+		for (int t = 0; t < 20; t++){
+			wiimote.activateRumble();
+		}
+		wiimote.deactivateRumble();
 	}
 }
