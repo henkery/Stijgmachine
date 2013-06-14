@@ -1,15 +1,19 @@
 package gameSteamCreation;
 
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
 
+import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import wiiusej.Wiimote;
@@ -27,37 +31,22 @@ import wiiusej.wiiusejevents.wiiuseapievents.NunchukRemovedEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 
-public class SteamGameModel extends MiniGameLogic
+public class SteamGameModel extends MiniGameLogic implements ActionListener
 {
-	private static boolean gameStarted = false;
-	private static boolean coalShoveled = false;
-	private static boolean coalMove = false;
-	private static boolean lightCoal = false;
-	private static boolean heatWheelMove = false;
-	private static boolean steamWheelMove = false;
-	private static boolean shovel = false;
-	private static Image backgroundImg;
-	private static Image heatWheelImg;
-	private static Image coalFiredImg;
-	private static Image coalPileImg; 
-	private static Image redWarninglight;
-	private static Image greenWarningLight;
-	private static Image lighter;
-	private static BufferedImage wheelSprite = null;
-	private static BufferedImage wheelImg;
-	private static int counter = 0;
-	private static int xIndex;
-	private static int yIndex;
-	private static int index = 0;
-	private static int stopHeat = 0;
-	private static int stopSteam = 0;
+	private static boolean gameStarted = false,coalShoveled = false,coalMove = false,
+	lightCoal = false,heatWheelMove = false,steamWheelMove = false,shovel = false,gameDone = false;
+	private static Image backgroundImg,heatWheelImg,coalFiredImg,
+	coalPileImg,redWarninglight,greenWarningLight,lighter; 
+	private static BufferedImage wheelSprite = null,wheelImg;
+	private static int counter = 0,xIndex,yIndex,index = 0,stopHeat = 0,stopSteam = 0;
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	private Cursor cursor;
 	private GameText text;
+	private WaterSteam steam1,steam2,steam3,steam4;
 	
 	
 	public SteamGameModel()
-	{	
+	{	 
 		setGameStarted(true);
 		setShovel(true);
 		backgroundImg = Toolkit.getDefaultToolkit().createImage("images/SteamViewWithoutCoals.png");
@@ -76,8 +65,16 @@ public class SteamGameModel extends MiniGameLogic
 		}
 		cursor = new Cursor(0, 0, GameObject.ABSOLUTE);
 		text = new GameText(0, 0, GameObject.ABSOLUTE);
+		steam1 = new WaterSteam(130,650,GameObject.ABSOLUTE);
+		steam2 = new WaterSteam(170,650,GameObject.ABSOLUTE);
+		steam3 = new WaterSteam(200,650,GameObject.ABSOLUTE);
+		steam4 = new WaterSteam(230,650,GameObject.ABSOLUTE);
+		
 		objects.add(cursor);
 		objects.add(text);
+		
+		Timer timer = new Timer(1000/100,this);
+		timer.start();
 	}
 	
 	public static void update()
@@ -85,6 +82,16 @@ public class SteamGameModel extends MiniGameLogic
 		xIndex = (index % 12)* 540;
 		yIndex = 0;
 		index++;
+	}
+	
+	public static int translatepixelX(int xWaarde)
+	{
+		return (int) ((Main.resX/1600)*xWaarde);
+	}
+	
+	public static int translatepixelY(int yWaarde)
+	{
+		return (int)((Main.resY/900)*yWaarde);
 	}
 	
 	public static void updateStopSteam(int i)
@@ -193,8 +200,19 @@ public class SteamGameModel extends MiniGameLogic
 		return heatWheelMove;
 	}
 	
+	public static Image setBackImg(Image img)
+	{
+		img = Toolkit.getDefaultToolkit().createImage("images/SteamViewWithoutCoals.png");
+		return img;
+	}
+	
 	public static Image getBackImgStart()
 	{
+		Image backImg = null;
+		backImg = setBackImg(backImg);
+		if(backImg==null)
+		System.out.println("geen plaatje jonguh");
+		//return backImg;
 		return backgroundImg;
 	}
 	
@@ -239,24 +257,24 @@ public class SteamGameModel extends MiniGameLogic
 		if(e.isButtonAPressed())
 		{
 			// HET OPPAKKEN VAN DE SCHOP
-			if((cursor.x >= 1080 && cursor.x <= 1380) 
-					&& (cursor.y >= 780 && cursor.y <= 980) 
+			if((cursor.x >= translatepixelX(1080) && cursor.x <= translatepixelX(1380)) 
+					&& (cursor.y >= translatepixelY(780) && cursor.y <= translatepixelY(980)) 
 					&& getGameStarted() 
 					&& getCount() == 0)
 			{
 				setCounter(1);
 			}
 			// HET OPPAKKEN VAN DE KOLEN
-			else if((cursor.x >= 1260 && cursor.x <= 1560) 
-					&& (cursor.y >= 670 && cursor.y <= 870) 
+			else if((cursor.x >= translatepixelX(1260) && cursor.x <= translatepixelX(1560)) 
+					&& (cursor.y >= translatepixelY(670) && cursor.y <= translatepixelY(870)) 
 					&& getCount() == 1) 
 			{
 				setCoalShoveled(true);
 				setCounter(2);
 			}
 			//HET NEERLEGGEN VAN DE KOLEN
-			else if((cursor.x >= 710 && cursor.x <= 900) 
-					&& (cursor.y >= 620 && cursor.y <= 820)
+			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
+					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820))
 					&& getCoalShoveled()
 					&& getCount() == 2)
 			{
@@ -265,8 +283,8 @@ public class SteamGameModel extends MiniGameLogic
 			}
 				
 			// HET OPPAKKEN VAN DE AANSTEKER
-			else if((cursor.x >= 1000 && cursor.x <= 1050) 
-					&& (cursor.y >= 780 && cursor.y <= 830) 
+			else if((cursor.x >= translatepixelX(1000) && cursor.x <= translatepixelX(1050)) 
+					&& (cursor.y >= translatepixelY(780) && cursor.y <= translatepixelY(830)) 
 					&& getCount() == 3)
 			{
 				setCounter(4);
@@ -274,8 +292,8 @@ public class SteamGameModel extends MiniGameLogic
 			}
 
 			// HET AANSTEKEN VAN DE KOLEN
-			else if((cursor.x >= 710 && cursor.x <= 900) 
-					&& (cursor.y >= 620 && cursor.y <= 820 ) 
+			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
+					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820)) 
 					&& getCoalMoved() 
 					&& getCount() == 4)
 			{
@@ -284,32 +302,32 @@ public class SteamGameModel extends MiniGameLogic
 			}
 			
 			// HET OPPAKKEN VAN DE MOERSLEUTEL
-			else if((cursor.x >= 710 && cursor.x <= 900) 
-					&& (cursor.y >= 620 && cursor.y <= 820)  
+			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
+					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820))  
 					&& getCount() == 5)
 			{
 				setCounter(6);
 			}
 			
 			// HET DRAAIEN VAN DE EERSTE WIEL
-			else if((cursor.x >= 640 && cursor.x <= 690) 
-					&& (cursor.y >= 430 && cursor.y <= 480) 
+			else if((cursor.x >= translatepixelX(640) && cursor.x <= translatepixelX(690)) 
+					&& (cursor.y >= translatepixelY(430) && cursor.y <= translatepixelY(480)) 
 					&& coalLit() 
 					&& getCount() == 6)
 			{
+				objects.add(steam1);
 				setHeatWheelMoved(true);
 				setCounter(7);
 			}
 			// HET DRAAIEN VAN DE TWEEDE WIEL
-			else if((cursor.x >= 580 && cursor.x <= 660) 
-					&& (cursor.y >= 265 && cursor.y <= 345) 
+			else if((cursor.x >= translatepixelX(580) && cursor.x <= translatepixelX(660)) 
+					&& (cursor.y >= translatepixelY(265) && cursor.y <= translatepixelY(345)) 
 					&& getHeatWheelMoved() 
 					&& getCount() == 7)
 			{
 				setSteamWheelMoved(true);
 				setCounter(8);
 			}
-			
 		}
 	}
 
@@ -348,6 +366,10 @@ public class SteamGameModel extends MiniGameLogic
 	@Override
 	public void onIrEvent(IREvent e)
 	{
+		for(GameObject g : objects)
+			if(g.getClass() == Cursor.class)
+				cursor = (Cursor)g;
+				
 		cursor.update(e.getAx(), e.getAy());
 	}
 
@@ -380,7 +402,7 @@ public class SteamGameModel extends MiniGameLogic
 	@Override
 	public boolean isDone()
 	{
-		return false;
+		return gameDone;
 	}
 
 	@Override
@@ -404,5 +426,32 @@ public class SteamGameModel extends MiniGameLogic
 	public static boolean getShovel()
 	{
 		return shovel;
+	}
+
+	public static boolean getGameDone()
+	{
+		return gameDone;
+	}
+
+	public static void setGameDone(boolean b)
+	{
+		gameDone = b;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		for(Iterator<Particle> itr = steam1.getSteam().iterator(); itr.hasNext();)
+		{
+			Particle p = itr.next();
+			
+			if(p.getY() < 600)
+				itr.remove();
+			else
+				p.update();
+		}
+		
+		if(steam1.getSteam().size() < 100)
+			steam1.getSteam().add(new Particle());
 	}
 }

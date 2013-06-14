@@ -25,8 +25,8 @@ public class Main {
 	private static SteamGameModel steamModel;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 1600; 
-	public static int resY = 900; 
+	public static int resX = 1900; 
+	public static int resY = 1080; 
 	
 	public static void main(String[] args)
 	{
@@ -86,9 +86,7 @@ public class Main {
 
 			if (logicSlot.isDone())
 			{
-				logicSlot = null;
-				setGame(new SteamGameModel(), null);
-				logicSlot.giveMotes(wiimotes);
+				System.exit(0);
 			}
 		}
 	}

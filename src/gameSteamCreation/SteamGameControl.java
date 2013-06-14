@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import stijgmachine.jti1a1.nl.controller.Main;
+
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -49,7 +51,7 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		//panel.addMouseListener(handler);
 		//panel.addMouseMotionListener(handler);
 		
-		timer.start();
+		//timer.start();
 	}
 	
 	public SteamGameControl(Wiimote w)
@@ -212,6 +214,16 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		return SteamGameModel.getWheelImg();
 	}
 	
+	public static int translateX(int xWaarde)
+	{
+		return SteamGameModel.translatepixelX(xWaarde);
+	}
+	
+	public static int translateY(int yWaarde)
+	{
+		return SteamGameModel.translatepixelY(yWaarde);
+	}
+	
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0)
 	{
@@ -304,6 +316,16 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 			System.out.println("U heeft gewonnen!!!! :D ");
 			timer.stop();
 		}
+	}
+
+	public static boolean getGameDone()
+	{
+		return SteamGameModel.getGameDone();
+	}
+
+	public static void setGameDone(boolean b)
+	{
+		SteamGameModel.setGameDone(b);
 	}
 
 }
