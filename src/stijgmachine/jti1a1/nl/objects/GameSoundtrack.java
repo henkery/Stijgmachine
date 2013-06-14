@@ -38,8 +38,8 @@ public class GameSoundtrack
 	
 	public static void GameMusic() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
-		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("soundtrack.wav")).getFormat()));
-		clip.open(AudioSystem.getAudioInputStream(new File("soundtrack.wav")));
+		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("")).getFormat()));
+		clip.open(AudioSystem.getAudioInputStream(new File("")));
 		clip.start();
 	}
 	

@@ -61,7 +61,7 @@ public class Main {
 
 	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
-		GameSoundtrack.GameMusic();
+//		GameSoundtrack.GameMusic();
 		Thread draw = new Thread(new Runnable() {
 
 			@Override
