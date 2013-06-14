@@ -36,8 +36,12 @@ public class EndGameLogic extends MiniGameLogic {
 	private ArrayList<GameObject> objects;
 	private GameCursor cursor;
 	private DraggableImage dragging;
+	private boolean block;
+	private boolean reallyDone;
 	
 	public EndGameLogic () {
+		block = false;
+		reallyDone = false;
 		objects = new ArrayList<GameObject>();
 		try {
 			objects.add(new GameImage(scaleX(-270), scaleY(180),scaleX(560),scaleX(176), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/platform.png"))));
@@ -78,6 +82,10 @@ public class EndGameLogic extends MiniGameLogic {
 	@Override
 	public boolean isDone() {
 		// TODO Auto-generated method stub
+		return reallyDone;
+	}
+	
+	public boolean isReadyForAnimation() {
 		for (GameObject o : objects) {
 			if (o.getClass() == DraggableImage.class) {
 				if (!((DraggableImage) o).isDone())
@@ -89,32 +97,59 @@ public class EndGameLogic extends MiniGameLogic {
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
+		if (block == false) {
+			if (isReadyForAnimation()) {
+				cursor.update(999999, 99999);
+				block = true;
+				objects = new ArrayList<GameObject>();
+				try {
+					objects.add(new GameImage(scaleX(-270), scaleY(180),scaleX(560),scaleX(176), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/platform.png"))));
+					objects.add(new GameImage(scaleX(-150), scaleY(-348),scaleX(298),scaleX(641), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/rocket.png"))));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		else {
+			playAnimationTick();
+		}
 
 	}
 
+
+
+	private void playAnimationTick() {
+		((GameImage)objects.get(1)).setY(((GameImage)objects.get(1)).getY()-1);
+		
+	}
+
+
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0) {
-		if (arg0.isButtonAPressed()) {
-			if (dragging == null) {
-				for (GameObject o : objects) {
-					if (o.getClass() == DraggableImage.class) {
-						if (((DraggableImage) o).isWithin(cursor.x, cursor.y))
-							dragging = (DraggableImage) o;
-					}
-				}
-			}
-			else {
-				for (GameObject o : objects) {
-					if (o.getClass() == ObjectHolder.class) {
-						if (((ObjectHolder) o).isWithin(cursor.x, cursor.y) && ((ObjectHolder) o).idMatch(dragging.getid())) {
-							o.click();
-							dragging.finish();
+		if (!block) {
+			if (arg0.isButtonAPressed()) {
+				if (dragging == null) {
+					for (GameObject o : objects) {
+						if (o.getClass() == DraggableImage.class) {
+							if (((DraggableImage) o).isWithin(cursor.x, cursor.y))
+								dragging = (DraggableImage) o;
 						}
-						
 					}
 				}
-				dragging = null;
+				else {
+					for (GameObject o : objects) {
+						if (o.getClass() == ObjectHolder.class) {
+							if (((ObjectHolder) o).isWithin(cursor.x, cursor.y) && ((ObjectHolder) o).idMatch(dragging.getid())) {
+								o.click();
+								dragging.finish();
+							}
+							
+						}
+					}
+					dragging = null;
+				}
 			}
 		}
 //		
@@ -160,9 +195,11 @@ public class EndGameLogic extends MiniGameLogic {
 
 	@Override
 	public void onIrEvent(IREvent arg0) {
-		cursor.update(arg0.getAx(), arg0.getAy());
-		if (dragging != null)
-			dragging.update(arg0.getAx(), arg0.getAy());
+		if (!block) {
+			cursor.update(arg0.getAx(), arg0.getAy());
+			if (dragging != null)
+				dragging.update(arg0.getAx(), arg0.getAy());
+		}
 	}
 
 	@Override
