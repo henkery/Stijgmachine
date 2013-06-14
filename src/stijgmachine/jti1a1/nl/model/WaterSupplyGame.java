@@ -3,11 +3,11 @@ package stijgmachine.jti1a1.nl.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import stijgmachine.jti1a1.nl.controller.Main;
-import stijgmachine.jti1a1.nl.controller.SwipeEvent;
-import stijgmachine.jti1a1.nl.controller.WiiMoteListener;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
+import stijgmachine.jti1a1.nl.objects.GameMineCart;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
 import stijgmachine.jti1a1.nl.objects.MusicPlayer;
@@ -29,6 +29,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	
 	private ArrayList<GameObject> gameObjects = new ArrayList<GameObject>(); 
+	private ArrayList<GamePipes> floatingPipes = new ArrayList<GamePipes>();
 	private GamePipes pipe; 
 	private boolean done, drag, go = false; 
 	private boolean add, mapStart = true; 
@@ -38,11 +39,22 @@ public class WaterSupplyGame extends MiniGameLogic {
 	private int addTime = 0;
 	private Wiimote wiimote;
 	private MusicPlayer musicPlayer = new MusicPlayer();
+	private GameMineCart cart;
+	private GamePipes floatingPipe;
 
 	public WaterSupplyGame() {
 		gameObjects.add(new GameCursor());
 		startLocation = new Point2D.Double (85,440);
 		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
+		cart = new GameMineCart(0, 60, 0, size);
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(175, 880), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(155+ size.getWidth(), 870), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(175+ (size.getWidth()*2), 880), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(1500, 880), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(1300, 860), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(1100, 870), 0, size));
+		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(700, 890),0,size));
+
 	}
 
 	@Override
@@ -147,13 +159,28 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	@Override
 	public void tick() {
+
+		for (GamePipes o: floatingPipes){
+			o.move();
+		}
 		if (add)
 			addTime++;
 		if(addTime > 500){
 			if (add){
-				addPipe((int)Math.random()*5, index);
-				add = false;
-				addTime = 0;
+				Iterator it = floatingPipes.iterator();
+				while(it.hasNext()){
+					GamePipes o = (GamePipes) it.next();
+				if (getCursorLocation().getX() > o.getLocation().getX()
+							&& getCursorLocation().getX() < o.getLocation().getX() + size.getWidth()
+							&& getCursorLocation().getY() > o.getLocation().getY() 
+							&& getCursorLocation().getY() < o.getLocation().getY() + size.getWidth()){
+						addPipe((int)Math.random()*5, index);
+						add = false;
+						it.remove();
+						
+					}
+				}	
+	 			
 			}
 		}
 		
@@ -205,14 +232,16 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	@Override
 	public ArrayList<GameObject> getObjects() {
-		return gameObjects;
+		ArrayList<GameObject> list = new ArrayList<GameObject>();
+		list.addAll(gameObjects);
+		list.addAll(floatingPipes);
+		return list;
 	}
 
 	@Override
 	public void giveMotes(Wiimote[] wiimotes) {
 		wiimotes[0].addWiiMoteEventListeners(this);
 		wiimotes[0].activateIRTRacking();
-		wiimotes[0].setSensorBarBelowScreen();
 		wiimotes[0].setVirtualResolution(1920, 1080);
 		wiimote = wiimotes[0];
 	}
@@ -241,7 +270,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 				if(mapStart){
 					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() &&	 ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() + size.getHeight() 
 						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() < startLocation.getX() + size.getWidth() ){
-						((GamePipes) gameObject).setLocation(new Point2D.Double(85,440));
+						((GamePipes) gameObject).setLocation(new Point2D.Double(95,440));
 						((GamePipes) gameObject).setMoveable(false);
 						pipe = new GamePipes(((GamePipes)gameObject).getLocation(), 0,size);
 						add = true;
@@ -282,28 +311,38 @@ public class WaterSupplyGame extends MiniGameLogic {
 	}
 
 	private void addPipe(int number, int indexNr) {
-		rumbleMote();
-		switch (number) {
-			case 0: /* straight horizontal pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			case 1: /* straight vertical pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			case 2: /* bend up/right pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			case 3: /* bend right/down pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			case 4: /* bend down/left pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			case 5: /* bend left/up pipe */
-				gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
-				break;
-			}
-		index++;
+			for (GamePipes o: floatingPipes){
+				if (getCursorLocation().getX() > o.getLocation().getX()
+					&& getCursorLocation().getX() < o.getLocation().getX() + size.getWidth()
+					&& getCursorLocation().getY() > o.getLocation().getY() 
+					&& getCursorLocation().getY() < o.getLocation().getY() + size.getWidth()){
+					addTime = 0;
+					
+					rumbleMote();
+					switch (number) {
+						case 0: /* straight horizontal pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						case 1: /* straight vertical pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						case 2: /* bend up/right pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						case 3: /* bend right/down pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						case 4: /* bend down/left pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						case 5: /* bend left/up pipe */
+							gameObjects.add(new GamePipes((int)getPipeLocation().getX(),(int)getPipeLocation().getY(),number,indexNr, size));
+							break;
+						}
+					index++;
+				}
+			
+		}
 	}
 	
 	private void rumbleMote(){
@@ -311,5 +350,9 @@ public class WaterSupplyGame extends MiniGameLogic {
 			wiimote.activateRumble();
 		}
 		wiimote.deactivateRumble();
+	}
+
+	public ArrayList<GamePipes> getFloatingPipes() {
+		return floatingPipes;
 	}
 }

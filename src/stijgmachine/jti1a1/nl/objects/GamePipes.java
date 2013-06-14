@@ -14,10 +14,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class GamePipes extends GameObject {
-	private final int index; // haat aan dit attribuut
-	private Point2D frontLocation, backLocation; // haat aan dit attribuut
+	private final int index; 
+	private Point2D frontLocation, backLocation;
 	public static final int id = 777; 
-	private int frontDirection, backDirection;  // haat aan dit attribuut
+	private int frontDirection, backDirection;  
 	private Image pipeImage;
 	
 	
@@ -28,6 +28,7 @@ public class GamePipes extends GameObject {
 	private int ftDirOb2 ;
 	private int bkDirOb2 ;
 	private int idPipe;
+	private boolean yUp = true;
 	
 
 	/** 
@@ -176,31 +177,7 @@ public class GamePipes extends GameObject {
 		if (index == 5)
 			backLocation = new Point2D.Double(getLocation().getX() + (size.getWidth()/2) ,getLocation().getY());
 		return backLocation;
-	}
-	
-	public void snap()
-	{
-		Pipeline closestPipeline = null;
-		double distance;
-		for()//
-			if(//x,y closer as a set distance from another pipeline)
-				if(//closer als closestPipeline)//if(currectDistance < distance)
-		if(closestPipeline == null)
-			return;
-				
-		closestPipeline.position
-		closestPipeline.index//1,2,3 of 0
-		
-		switch(index)
-		{
-		case 0:
-			this.y = closestPipeline.y;
-			this.x = closestPipeline.x + closestPipeline.getDimension().width;
-		break;
-		}
-		
-		
-	}
+	}	
 	
 	@Override
 	public int getID() {
@@ -246,5 +223,28 @@ public class GamePipes extends GameObject {
 //		this.y = (int) ((Main.resY/768.0f * y));
 		
 	}
-
+	
+	private void moveUp(){
+		y--;
+	}
+	
+	private void moveDown(){
+		y++;
+	}
+	
+	public void move(){
+		System.out.println(yUp);
+		if (yUp){
+			if (y <= 900 && y >= 850)
+				moveUp();
+			if (y <= 850)
+				yUp = false;
+			}
+		if (!yUp){
+			if (y <= 900 && y >= 850)
+				moveDown();
+			if (y >= 900)
+				yUp = true;
+		}		
+	}	
 }
