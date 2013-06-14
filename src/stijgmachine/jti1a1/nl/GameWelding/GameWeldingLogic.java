@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
+import stijgmachine.jti1a1.nl.objects.GameSoundtrack;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -49,11 +50,8 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private GameWeldingCursor cursorRight;
 	private GameWeldingSparks sparks;
 	private GameWeldingSteam steam;
-	private AudioInputStream stream;
-	private AudioFormat format;
 	private Clip clip;
-	private DataLine.Info info;
-	private File file;
+
 
 	private int x;
 	private int y;
@@ -65,7 +63,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private boolean isWelding = false;
 	
 	
-	public GameWeldingLogic()
+	public GameWeldingLogic() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
 		items = new ArrayList<GameObject>();
 		pointsHit = new ArrayList<Rectangle2D>();
@@ -90,36 +88,16 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		x = cursorRight.getX();
 		y = cursorRight.getY();
 		
+		GameSoundtrack.GameMusic();
+		
 		Timer timer = new Timer(1000/100, this);
 		timer.start();
 	}
 	
-	public void getAudio()
+	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
-		file = new File("welding.wav");
-		try
-		{
-			stream = AudioSystem.getAudioInputStream(file);
-		} catch (UnsupportedAudioFileException e1)
-		{
-			e1.printStackTrace();
-		} catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		format = stream.getFormat();		
-		info = new DataLine.Info(Clip.class, format);
-		try
-		{
-			clip = (Clip)AudioSystem.getLine(info);
-			clip.open(stream);
-		} catch (LineUnavailableException e2)
-		{
-			e2.printStackTrace();
-		} catch (IOException e2)
-		{
-			e2.printStackTrace();
-		}			
+		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("welding.wav")).getFormat()));
+		clip.open(AudioSystem.getAudioInputStream(new File("welding.wav")));			
 	}
 	
 	public void getImages()
@@ -353,8 +331,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	{		
 		if(isWelding)
 		{
-			clip.start();
-			
+			clip.start();			
 		}
 		else clip.stop();
 		
