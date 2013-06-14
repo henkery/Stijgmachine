@@ -51,6 +51,8 @@ public class Main {
 	public Main()
 	{
 		list = new Object[][]{
+				new Object[]{new AssemblyLineLogic(), new TestView()},
+				new Object[]{new SteamGameModel(), new SteamGamePanel()},
 				new Object[]{new GamePowerLogic(), new TestView()},
 				new Object[]{new GameWeldingLogic(), new GameWeldingView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
