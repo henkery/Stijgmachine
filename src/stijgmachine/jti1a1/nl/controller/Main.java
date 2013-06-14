@@ -16,6 +16,9 @@ import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.EndGameLogic;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.model.TestLogic;
+import openingscreen.OpeningModel;
+import openingscreen.OpeningView;
+
 
 import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
 import stijgmachine.jti1a1.nl.model.*;
@@ -35,12 +38,11 @@ public class Main {
 	
 	private static MiniGameLogic logicSlot;
 	private static MiniGameView viewSlot;
-	private static SteamGameModel steamModel;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
 	private static boolean fullscreen;
-	public static int resX = 1366; 
-	public static int resY = 768; 
+	public static int resX = 1920; 
+	public static int resY = 1080; 
 	public Object[][] list;
 	private int i;
 	
@@ -52,8 +54,9 @@ public class Main {
 	public Main()
 	{
 		list = new Object[][]{
+				new Object[]{new OpeningModel(), new OpeningView()},
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-//				new Object[]{new SteamGameModel(), new SteamGamePanel()},
+				new Object[]{new SteamGameModel(), new SteamGamePanel()},
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new GamePowerLogic(), new TestView()},
 				new Object[]{new AssemblyLineLogic(), new TestView()},
@@ -68,7 +71,7 @@ public class Main {
 		setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(viewSlot);
+		frame.getContentPane().add(viewSlot);;
 		frame.setVisible(true);
 		callResize();
 		gameloop();
@@ -103,6 +106,7 @@ public class Main {
 					gd.setFullScreenWindow(frame);
 					frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 				}
+				
 				frame.repaint();
 				}
 				
@@ -124,7 +128,12 @@ public class Main {
 			if (logicSlot.isDone())
 			{
 				i++;
+//				frame.removeAll();
+				frame.getContentPane().removeAll();
 				setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
+				frame.getContentPane().add(viewSlot);
+				frame.getContentPane().validate();
+				frame.repaint();
 			}
 		}
 	}

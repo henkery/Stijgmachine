@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import stijgmachine.jti1a1.nl.controller.Main;
+
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -37,19 +39,6 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 
 	public SteamGameControl()
 	{
-		//SteamGameModel model = new SteamGameModel();
-		System.out.println(SteamGameModel.getGameStarted());
-		System.out.println(getGameStart());
-		//getGameStarted();
-		//SteamGamePanel panel = new SteamGamePanel();
-		//panel.setGameStarted();
-		//SteamGamePanel view = new SteamGamePanel();
-		//SteamHandler handler = new SteamHandler();
-		
-		//panel.addMouseListener(handler);
-		//panel.addMouseMotionListener(handler);
-		
-		timer.start();
 	}
 	
 	public SteamGameControl(Wiimote w)
@@ -57,17 +46,6 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		this.wiimote = w;
 	}
 
-	/*public static void main(String []args)
-	{
-//		Wiimote[] wiimotes = WiiUseApiManager.getWiimotes(1, true);
-//      Wiimote wiimote = wiimotes[0];
-//      wiimote.activateIRTRacking();
-//      wiimote.activateMotionSensing();
-//      wiimote.addWiiMoteEventListeners(new SteamGameModel(wiimote));
-		//SteamGameControl control = new SteamGameControl();
-		SteamGameControl control = new SteamGameControl();
-	}*/
-	
 	public static void setGameStart()
 	{
 		SteamGameModel.setGameStarted(true);
@@ -116,6 +94,11 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 	public static Image getLighter()
 	{
 		return SteamGameModel.getLighter();
+	}
+	
+	public static Image getFire()
+	{
+		return SteamGameModel.getFire();
 	}
 	
 	public static void setCoalLit(boolean lit)
@@ -212,6 +195,16 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		return SteamGameModel.getWheelImg();
 	}
 	
+	public static int translateX(int xWaarde)
+	{
+		return SteamGameModel.translatepixelX(xWaarde);
+	}
+	
+	public static int translateY(int yWaarde)
+	{
+		return SteamGameModel.translatepixelY(yWaarde);
+	}
+	
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0)
 	{
@@ -304,6 +297,16 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 			System.out.println("U heeft gewonnen!!!! :D ");
 			timer.stop();
 		}
+	}
+
+	public static boolean getGameDone()
+	{
+		return SteamGameModel.getGameDone();
+	}
+
+	public static void setGameDone(boolean b)
+	{
+		SteamGameModel.setGameDone(b);
 	}
 
 }

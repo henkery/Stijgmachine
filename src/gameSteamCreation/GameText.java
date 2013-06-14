@@ -24,7 +24,7 @@ public class GameText extends GameObject
 		Font oldfont = g.getFont();
 		g.setFont(oldfont.deriveFont(fontsize));
 		g.setColor(Color.green);
-		if(SteamGameControl.getCounter()==8)
+		if(SteamGameControl.getCounter()==10)
 		g.drawString(content, 600, 400);
 		//System.out.println(l/2 + " " + w/2);
 		g.setFont(oldfont);

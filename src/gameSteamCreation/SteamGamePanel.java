@@ -29,7 +29,6 @@ public class SteamGamePanel extends MiniGameView
 	public boolean coalLit = false;
 	int screenWidth;
 	int screenHeight;
-	Image fire = null;
 	
 	public SteamGamePanel()
 	{
@@ -37,73 +36,76 @@ public class SteamGamePanel extends MiniGameView
 		screenWidth = (int)screenSize.getWidth();
 		screenHeight = (int)screenSize.getHeight();
 	
-		fire = Toolkit.getDefaultToolkit().createImage("images/animatedfire.gif");
 	}
 	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		
+		if(!SteamGameControl.getGameDone()){
 		// HET TEKENENEN VAN DE BASIS ACHTERGROND
 		if(SteamGameControl.getGameStart()){
 			g2.drawImage(SteamGameControl.getBackImgStart(), 0, 0, screenWidth, screenHeight, null);
-			g2.drawImage(SteamGameControl.getLighter(),1000 , 780, 20, 40, null);
+			g2.drawImage(SteamGameControl.getLighter(),SteamGameModel.translatepixelX(1000) , SteamGameModel.translatepixelY(780), 20, 40, null);
 		}
 		// HET TEKENEN VAN DE KOLEN IN DE OPEN HAARD 
 		if(SteamGameControl.getCoalMoved())
 		{
-			g2.drawImage(SteamGameControl.getCoalPileImage(), 707, 751, 192, 70, null);
+			g2.drawImage(SteamGameControl.getCoalPileImage(), SteamGameModel.translatepixelX(707), SteamGameModel.translatepixelY(751), 192, 70, null);
 		}
 		// HET NIET DRAAIEN VAN DE HETE STOOM WIEL
 		if(!SteamGameControl.getHeatWheelMoved())
-			g2.drawImage(SteamGameControl.getHeatWheelImage(),640,430,50,50,null);
+			g2.drawImage(SteamGameControl.getHeatWheelImage(),SteamGameControl.translateX(640),SteamGameControl.translateY(430),50,50,null);
 		// HET DRAAIEN VAN DE HETE STOOM WIEL
 		if(SteamGameControl.getHeatWheelMoved())
 		{
 			if(SteamGameControl.getStopHeat() < 12)
 				drawHeatWheel(g2);
 			else
-				g2.drawImage(SteamGameControl.getHeatWheelImage(),640,430,50,50,null);
+				g2.drawImage(SteamGameControl.getHeatWheelImage(),SteamGameControl.translateX(640),SteamGameControl.translateY(430),50,50,null);
 		}
 		if(!SteamGameControl.getSteamWheelMoved())
-			g2.drawImage(SteamGameControl.getHeatWheelImage(), 580, 265, 80, 80, null);
+			g2.drawImage(SteamGameControl.getHeatWheelImage(), SteamGameControl.translateX(580), SteamGameControl.translateY(265), 80, 80, null);
 		if(SteamGameControl.getSteamWheelMoved())
 		{
 			if(SteamGameControl.getStopSteam() < 12 && SteamGameControl.getStopHeat() >= 12)
 				drawWheel(g2);
 			else
-				g2.drawImage(SteamGameControl.getHeatWheelImage(), 580, 265, 80, 80, null);
+				g2.drawImage(SteamGameControl.getHeatWheelImage(), SteamGameControl.translateX(580), SteamGameControl.translateY(265), 80, 80, null);
 		}
 		// HET BRANDEN VAN DE KOLEN
 		if(SteamGameControl.getCoalLit())
 		{
-			g2.drawImage(fire, 730, 680, 80, 120,null);
-			g2.drawImage(fire, 800, 690, 70, 110,null);
-			g2.drawImage(fire, 750, 650, 100, 150,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(730), SteamGameControl.translateY(680), 80, 120,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(800), SteamGameControl.translateY(690), 70, 110,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(750), SteamGameControl.translateY(650), 100, 150,null);
 		}
 		// HET BRANDEN VAN HET RODE LICHT
 		if(SteamGameControl.getCounter() <= 8){
-			g2.drawImage(SteamGameControl.getRedWarning(), 600, 120, 102,60, null);
+			g2.drawImage(SteamGameControl.getRedWarning(), SteamGameControl.translateX(600), SteamGameControl.translateY(120), 102,60, null);
 		}
 		// HET BRANDEN VAN HET GROENE LICHT
 		if(SteamGameControl.getCounter() == 8 && SteamGameControl.getStopSteam() == 12){
-			g2.drawImage(SteamGameControl.getGreenWarning(),600,120,102,60,null);
+			g2.drawImage(SteamGameControl.getGreenWarning(),SteamGameControl.translateX(600),SteamGameControl.translateY(120),102,60,null);
+			SteamGameControl.setCount(9);
 		}
 		drawObjects(Main.getObjects(), g2);
+		if(SteamGameControl.getCounter() == 9)
+			SteamGameControl.setGameDone(true);
+		}
 	}
 
 	
 	public void drawWheel(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
-		g2.drawImage(SteamGameControl.getWheelImg(), 580, 265, 80, 80, null);
+		g2.drawImage(SteamGameControl.getWheelImg(), SteamGameControl.translateX(580), SteamGameControl.translateY(265), 80, 80, null);
 		SteamGameControl.updateStopSteam(1);
 	}
 	
 	public void drawHeatWheel(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D)g;
-		g2.drawImage(SteamGameControl.getWheelImg(), 640, 430, 50, 50, null);
+		g2.drawImage(SteamGameControl.getWheelImg(), SteamGameControl.translateX(640), SteamGameControl.translateY(430), 50, 50, null);
 		SteamGameControl.updateStopHeat(1);
 	}
 
