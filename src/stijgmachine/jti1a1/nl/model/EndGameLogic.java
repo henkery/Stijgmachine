@@ -44,6 +44,7 @@ public class EndGameLogic extends MiniGameLogic {
 		reallyDone = false;
 		objects = new ArrayList<GameObject>();
 		try {
+			objects.add(new GameImage(0, 0,Main.resX,Main.resY, GameObject.ABSOLUTE, ImageIO.read(getClass().getResource("/res/RocketBack.png"))));
 			objects.add(new GameImage(scaleX(-270), scaleY(180),scaleX(560),scaleX(176), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/platform.png"))));
 			objects.add(new GameImage(scaleX(-150), scaleY(-348),scaleX(298),scaleX(641), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/rocket.png"))));
 			objects.add(new ObjectHolder(scaleX(-30), scaleY(-200), scaleX(60), scaleY(120), 8, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/door-holder.png")), ImageIO.read(getClass().getResource("/res/Rocket_Door_FIXED-with-holder.png"))));
@@ -103,6 +104,7 @@ public class EndGameLogic extends MiniGameLogic {
 				block = true;
 				objects = new ArrayList<GameObject>();
 				try {
+					objects.add(new GameImage(0, 0,Main.resX,Main.resY, GameObject.ABSOLUTE, ImageIO.read(getClass().getResource("/res/RocketBack.png"))));
 					objects.add(new GameImage(scaleX(-270), scaleY(180),scaleX(560),scaleX(176), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/platform.png"))));
 					objects.add(new GameImage(scaleX(-150), scaleY(-348),scaleX(298),scaleX(641), GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/rocket.png"))));
 				} catch (IOException e) {
@@ -121,7 +123,9 @@ public class EndGameLogic extends MiniGameLogic {
 
 
 	private void playAnimationTick() {
-		((GameImage)objects.get(1)).setY(((GameImage)objects.get(1)).getY()-1);
+		((GameImage)objects.get(2)).setY(((GameImage)objects.get(2)).getY()-1);
+		if (((GameImage)objects.get(2)).getY() < Main.resY-(3*Main.resY))
+			reallyDone = true;
 		
 	}
 
