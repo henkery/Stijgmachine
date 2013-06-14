@@ -87,9 +87,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		
 		x = cursorRight.getX();
 		y = cursorRight.getY();
-		
-		GameSoundtrack.GameMusic();
-		
+				
 		Timer timer = new Timer(1000/100, this);
 		timer.start();
 	}
