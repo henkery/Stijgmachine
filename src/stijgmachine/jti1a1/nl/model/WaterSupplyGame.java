@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
-import stijgmachine.jti1a1.nl.objects.GameMineCart;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
 import stijgmachine.jti1a1.nl.objects.MusicPlayer;
@@ -39,14 +38,12 @@ public class WaterSupplyGame extends MiniGameLogic {
 	private int addTime = 0;
 	private Wiimote wiimote;
 	private MusicPlayer musicPlayer = new MusicPlayer();
-	private GameMineCart cart;
 	private GamePipes floatingPipe;
 
 	public WaterSupplyGame() {
 		gameObjects.add(new GameCursor());
 		startLocation = new Point2D.Double (85,440);
 		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
-		cart = new GameMineCart(0, 60, 0, size);
 		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(175, 880), 0, size));
 		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(155+ size.getWidth(), 870), 0, size));
 		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(175+ (size.getWidth()*2), 880), 0, size));
@@ -159,32 +156,28 @@ public class WaterSupplyGame extends MiniGameLogic {
 
 	@Override
 	public void tick() {
-
+		addTime ++;
 		for (GamePipes o: floatingPipes){
 			o.move();
 		}
-		if (add)
-			addTime++;
-		if(addTime > 500){
-			if (add){
-				Iterator it = floatingPipes.iterator();
-				while(it.hasNext()){
-					GamePipes o = (GamePipes) it.next();
-				if (getCursorLocation().getX() > o.getLocation().getX()
-							&& getCursorLocation().getX() < o.getLocation().getX() + size.getWidth()
-							&& getCursorLocation().getY() > o.getLocation().getY() 
-							&& getCursorLocation().getY() < o.getLocation().getY() + size.getWidth()){
-						addPipe((int)Math.random()*5, index);
-						add = false;
-						it.remove();
-						
-					}
-				}	
-	 			
-			}
-		}
 		
-		System.out.println("addTime: "+ addTime);
+		if (addTime >= 100){
+		if (add){
+			Iterator it = floatingPipes.iterator();
+			while(it.hasNext()){
+				GamePipes o = (GamePipes) it.next();
+			if (getCursorLocation().getX() > o.getLocation().getX()
+						&& getCursorLocation().getX() < o.getLocation().getX() + size.getWidth()
+						&& getCursorLocation().getY() > o.getLocation().getY() 
+						&& getCursorLocation().getY() < o.getLocation().getY() + size.getWidth()){
+					addPipe((int)Math.random()*5, index);
+					addTime = 0;
+					add = false;
+					it.remove();	
+				}
+			}	
+		}
+		}
 		if (go){
 			((GameCursor)gameObjects.get(0)).update((int)getCursorLocation().getX(),(int)getCursorLocation().getY());
 			map();
@@ -285,15 +278,12 @@ public class WaterSupplyGame extends MiniGameLogic {
 							&& ((GamePipes)gameObject).getLocation().getY() < pipe.getLocation().getY() + size.getHeight()) {
 						if(((GamePipes)gameObject).getConnection(((GamePipes)gameObject).getFrontDirection(),((GamePipes)gameObject).getBackDirection() , pipe.getFrontDirection(), pipe.getBackDirection())){					
 							//Set a proper location for the gamePipes
-							((GamePipes)gameObject).setLocation(new Point2D.Double (pipe.getBackLocation().getX(), pipe.getBackLocation().getY()-size.getHeight()/2     ));
+							((GamePipes)gameObject).setLocation(new Point2D.Double (pipe.getBackLocation().getX(), pipe.getBackLocation().getY()-size.getHeight()/2));
 							((GamePipes) gameObject).setMoveable(false);
 							pipe = ((GamePipes)gameObject);
 							if (pipe.getBackLocation().getX() > 1700)
 								gameOver();
 							add = true;
-							for (int i = 0; i<10; i++){
-								System.out.println("The eagle has left the building!");
-							}
 						}
 					}
 				}
