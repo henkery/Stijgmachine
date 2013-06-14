@@ -270,7 +270,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 				if(mapStart){
 					if ( ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() &&	 ((GamePipes) gameObject).getLocation().getY() < startLocation.getY() + size.getHeight() 
 						&&((GamePipes)gameObject).getLocation().getX() > startLocation.getX() && ((GamePipes) gameObject).getLocation().getX() < startLocation.getX() + size.getWidth() ){
-						((GamePipes) gameObject).setLocation(new Point2D.Double(95,440));
+						((GamePipes) gameObject).setLocation(new Point2D.Double(105,440));
 						((GamePipes) gameObject).setMoveable(false);
 						pipe = new GamePipes(((GamePipes)gameObject).getLocation(), 0,size);
 						add = true;
@@ -288,7 +288,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 							((GamePipes)gameObject).setLocation(new Point2D.Double (pipe.getBackLocation().getX(), pipe.getBackLocation().getY()-size.getHeight()/2     ));
 							((GamePipes) gameObject).setMoveable(false);
 							pipe = ((GamePipes)gameObject);
-							if (pipe.getBackLocation().getX() > 1780)
+							if (pipe.getBackLocation().getX() > 1700)
 								gameOver();
 							add = true;
 							for (int i = 0; i<10; i++){
@@ -350,9 +350,5 @@ public class WaterSupplyGame extends MiniGameLogic {
 			wiimote.activateRumble();
 		}
 		wiimote.deactivateRumble();
-	}
-
-	public ArrayList<GamePipes> getFloatingPipes() {
-		return floatingPipes;
 	}
 }
