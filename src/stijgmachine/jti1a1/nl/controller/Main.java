@@ -1,6 +1,8 @@
 package stijgmachine.jti1a1.nl.controller;
 
 import java.awt.Frame;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -22,8 +24,9 @@ public class Main {
 	private static MiniGameView viewSlot;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
-	public static int resX = 800; 
-	public static int resY = 600; 
+	public static boolean fullscreen;
+	public static int resX = 1920; 
+	public static int resY = 1080; 
 	
 	public static void main(String[] args)
 	{
@@ -32,6 +35,7 @@ public class Main {
 	
 	public Main()
 	{
+		fullscreen = false;
 		gameinit();
 		setGame(new GamePowerLogic(), new StartMenuView());
 		frame = new JFrame();
@@ -40,6 +44,7 @@ public class Main {
 		frame.setVisible(true);
 		callResize();
 		gameloop();
+		
 	}
 
 	private void gameinit() {
@@ -60,12 +65,19 @@ public class Main {
 			@Override
 			public void run() {
 				while (true) {
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					frame.repaint();
+
+				try {
+				Thread.sleep(10);
+				} catch (InterruptedException e) {
+				e.printStackTrace();
+				}
+				if (Main.fullscreen) {
+					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+					gd.setFullScreenWindow(frame);
+					frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+				}
+				frame.repaint();
+
 				}
 				
 
@@ -90,6 +102,14 @@ public class Main {
 				logicSlot.giveMotes(wiimotes);
 			}
 		}
+	}
+
+	public static boolean isFullscreen() {
+		return fullscreen;
+	}
+
+	public static void setFullscreen(boolean fullscreen) {
+		Main.fullscreen = fullscreen;
 	}
 
 	public MiniGameLogic getLogicSlot()

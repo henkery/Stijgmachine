@@ -32,16 +32,16 @@ public class GameButton extends GameMenuItem {
 	@Override
 	public void draw(Graphics2D g, int h, int wM, int x2, int y2) {
 		Graphics2D g2 = g;
-		int[] loc = getPosition(x, y, x2, y2, h, wM, relativeTo);
+		
 		if (pointed)
 			g2.setColor(Color.red);
 		else
 			g2.setColor(Color.black);
-		g2.fill(new Rectangle2D.Double(loc[0], loc[1], l, w));
+		g2.fill(new Rectangle2D.Double(x, y, l, w));
 		g2.setColor(Color.white);
 		Font oldfont = g2.getFont();
 		g2.setFont(oldfont.deriveFont(fontsize));
-		g2.drawString(content, loc[0]-((content.length()/2)), loc[1]+(w/2));
+		g2.drawString(content, x-((content.length()/2)), y+(w/2));
 		//System.out.println(l/2 + " " + w/2);
 		g2.setFont(oldfont);
 

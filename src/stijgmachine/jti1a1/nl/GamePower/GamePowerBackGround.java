@@ -30,17 +30,17 @@ public class GamePowerBackGround extends GameLabel
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		// TODO Auto-generated method stub
 		AffineTransform tx = new AffineTransform();
-		ImageIcon image = new ImageIcon("src/factBack1.jpg");
+		ImageIcon image = new ImageIcon("src/res/powerstation_inside_empty.png");
 //		ImageIcon image2 = new ImageIcon("src/SteamPipe1.png");
-		ImageIcon image4 = new ImageIcon("src/energy-holder.png");
-		ImageIcon image5 = new ImageIcon("src/cursor.png");
+		ImageIcon image4 = new ImageIcon("src/res/energy-holder.png");
+		ImageIcon image5 = new ImageIcon("src/res/cursor.png");
 //		ImageIcon image3 = new ImageIcon("src/CogWall4.png");
 		tx.translate(0,0);
 		g.drawImage(image.getImage(),tx,null);
-		tx.translate(550, 450);
+		tx.translate(1200, 700);
 //		g.drawImage(image2.getImage(),tx,null);
 		g.drawImage(image4.getImage(),tx,null);
-		tx.translate(-550,-450);
+		tx.translate(-1200,-700);
 //		tx.translate(400,0);
 //		g.drawImage(image3.getImage(),tx,null);
 		tx.translate(p1.x, p1.y);

@@ -28,14 +28,16 @@ public abstract class MiniGameView extends JPanel {
 	public void drawObjects(ArrayList<GameObject> objects, Graphics2D g) {
 		try
 		{
+
 			for (GameObject item : objects)
 			{
-				item.draw(g, this.getSize().height, this.getSize().width, 0, 0);
+				item.predraw(g, this.getSize().height, this.getSize().width, 0, 0);
 			}
 		}
 		catch(ConcurrentModificationException ex)
 		{
 //			System.out.println("Geen exception");
+
 		}
 	}
 	

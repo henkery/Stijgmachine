@@ -11,7 +11,6 @@ public class StartMenuView extends MiniGameView {
 	public StartMenuView()
 	{
 		super();
-		this.add(new JLabel("hem"));
 	}
 
 	public int getID() {

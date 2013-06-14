@@ -13,15 +13,13 @@ public class GameObjectContainer extends GameObject {
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
 		// TODO Auto-generated method stub
-		int[] loc = getPosition(x, y, x2, y2, h, w, relativeTo);
-
 		if (border)
 		{
-			g.draw(new Rectangle2D.Double(loc[0],loc[1],h,w));
+			g.draw(new Rectangle2D.Double(x,y,h,w));
 		}
 		for (GameObject item : objects)
 		{
-			item.draw(g, h, w, loc[0], loc[1]);
+			item.draw(g, h, w, x, y);
 		}
 	}
 

@@ -28,7 +28,7 @@ public class GamePowerBall extends Circle
 		java.awt.Shape cirk = new Ellipse2D.Double(x2-radius,y2-radius,radius*2,radius*2);
 		AffineTransform tx = new AffineTransform();
 //		ImageIcon Image = new ImageIcon("src/clockpunk4.jpg");
-		ImageIcon Image = new ImageIcon("src/New_Energy_Ball.png");
+		ImageIcon Image = new ImageIcon("src/res/New_Energy_Ball.png");
 //		tx.translate((x2-radius)-10,(y2-radius));
 		tx.translate((x2-radius),(y2-radius));
 		
