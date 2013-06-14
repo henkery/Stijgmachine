@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import openingscreen.OpeningModel;
+import openingscreen.OpeningView;
+
 
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
@@ -22,7 +25,6 @@ public class Main {
 	
 	private static MiniGameLogic logicSlot;
 	private static MiniGameView viewSlot;
-	private static SteamGameModel steamModel;
 	private static JFrame frame;
 	private Wiimote[] wiimotes;
 	public static int resX = 1900; 
@@ -36,7 +38,7 @@ public class Main {
 	public Main()
 	{
 		gameinit();
-		setGame(new SteamGameModel(), new SteamGamePanel());
+		setGame(new OpeningModel(), new OpeningView());
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);

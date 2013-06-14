@@ -29,7 +29,6 @@ public class SteamGamePanel extends MiniGameView
 	public boolean coalLit = false;
 	int screenWidth;
 	int screenHeight;
-	Image fire = null;
 	
 	public SteamGamePanel()
 	{
@@ -37,7 +36,6 @@ public class SteamGamePanel extends MiniGameView
 		screenWidth = (int)screenSize.getWidth();
 		screenHeight = (int)screenSize.getHeight();
 	
-		fire = Toolkit.getDefaultToolkit().createImage("images/animatedfire.gif");
 	}
 	
 	public void paintComponent(Graphics g)
@@ -78,9 +76,9 @@ public class SteamGamePanel extends MiniGameView
 		// HET BRANDEN VAN DE KOLEN
 		if(SteamGameControl.getCoalLit())
 		{
-			g2.drawImage(fire, SteamGameControl.translateX(730), SteamGameControl.translateY(680), 80, 120,null);
-			g2.drawImage(fire, SteamGameControl.translateX(800), SteamGameControl.translateY(690), 70, 110,null);
-			g2.drawImage(fire, SteamGameControl.translateX(750), SteamGameControl.translateY(650), 100, 150,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(730), SteamGameControl.translateY(680), 80, 120,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(800), SteamGameControl.translateY(690), 70, 110,null);
+			g2.drawImage(SteamGameControl.getFire(), SteamGameControl.translateX(750), SteamGameControl.translateY(650), 100, 150,null);
 		}
 		// HET BRANDEN VAN HET RODE LICHT
 		if(SteamGameControl.getCounter() <= 8){

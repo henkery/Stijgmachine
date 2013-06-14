@@ -39,19 +39,6 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 
 	public SteamGameControl()
 	{
-		//SteamGameModel model = new SteamGameModel();
-		System.out.println(SteamGameModel.getGameStarted());
-		System.out.println(getGameStart());
-		//getGameStarted();
-		//SteamGamePanel panel = new SteamGamePanel();
-		//panel.setGameStarted();
-		//SteamGamePanel view = new SteamGamePanel();
-		//SteamHandler handler = new SteamHandler();
-		
-		//panel.addMouseListener(handler);
-		//panel.addMouseMotionListener(handler);
-		
-		//timer.start();
 	}
 	
 	public SteamGameControl(Wiimote w)
@@ -59,17 +46,6 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		this.wiimote = w;
 	}
 
-	/*public static void main(String []args)
-	{
-//		Wiimote[] wiimotes = WiiUseApiManager.getWiimotes(1, true);
-//      Wiimote wiimote = wiimotes[0];
-//      wiimote.activateIRTRacking();
-//      wiimote.activateMotionSensing();
-//      wiimote.addWiiMoteEventListeners(new SteamGameModel(wiimote));
-		//SteamGameControl control = new SteamGameControl();
-		SteamGameControl control = new SteamGameControl();
-	}*/
-	
 	public static void setGameStart()
 	{
 		SteamGameModel.setGameStarted(true);
@@ -118,6 +94,11 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 	public static Image getLighter()
 	{
 		return SteamGameModel.getLighter();
+	}
+	
+	public static Image getFire()
+	{
+		return SteamGameModel.getFire();
 	}
 	
 	public static void setCoalLit(boolean lit)

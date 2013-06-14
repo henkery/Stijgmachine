@@ -36,7 +36,7 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 	private static boolean gameStarted = false,coalShoveled = false,coalMove = false,
 	lightCoal = false,heatWheelMove = false,steamWheelMove = false,shovel = false,gameDone = false;
 	private static Image backgroundImg,heatWheelImg,coalFiredImg,
-	coalPileImg,redWarninglight,greenWarningLight,lighter; 
+	coalPileImg,redWarninglight,greenWarningLight,lighter,fire; 
 	private static BufferedImage wheelSprite = null,wheelImg;
 	private static int counter = 0,xIndex,yIndex,index = 0,stopHeat = 0,stopSteam = 0;
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
@@ -56,6 +56,7 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 		redWarninglight = Toolkit.getDefaultToolkit().createImage("images/warning-lamp-red.png");
 		greenWarningLight = Toolkit.getDefaultToolkit().createImage("images/warning-lamp-green.png");
 		lighter = Toolkit.getDefaultToolkit().createImage("images/lighterFloorImg.png");
+		fire = Toolkit.getDefaultToolkit().createImage("images/animatedfire.gif");
 		try{
 			wheelSprite = ImageIO.read(new File("images/spriteturningwheel.png"));
 		}
@@ -249,6 +250,11 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 	public static Image getLighter()
 	{
 		return lighter;
+	}
+	
+	public static Image getFire()
+	{
+		return fire;
 	}
 
 	@Override
