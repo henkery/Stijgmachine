@@ -69,4 +69,5 @@ public abstract class GameObject {
 		x = oldx;
 		y = oldy;
 	}
+
 }
