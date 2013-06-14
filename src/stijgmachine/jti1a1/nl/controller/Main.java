@@ -12,9 +12,9 @@ import stijgmachine.jti1a1.nl.gameWelding.GameWeldingLogic;
 import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
-import stijgmachine.jti1a1.nl.objects.GameSoundtrack;
+import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryLogic;
+import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
-import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
 
 public class Main {
@@ -30,15 +30,15 @@ public class Main {
 	public static int resX = 1920; 
 	public static int resY = 1080; 
 	
-	public static void main(String[] args) throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	public static void main(String[] args) throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 		new Main();
 	}
 	
-	public Main() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	public Main() throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 		gameinit();
-		setGame(new GameWeldingLogic(), new GameWeldingView());
+		setGame(new StartScreenStoryLogic(), new StartScreenStoryView() /*new GameWeldingLogic(), new GameWeldingView()*/);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(viewSlot);

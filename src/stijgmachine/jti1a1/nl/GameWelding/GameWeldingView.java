@@ -16,22 +16,12 @@ public class GameWeldingView extends MiniGameView
 	private BufferedImage background;
 	private BufferedImage backgroundLeft;
 	
-	public GameWeldingView()
+	public GameWeldingView() throws IOException
 	{
 		super();
-		try
-		{
-			background = ImageIO.read(getClass().getResource("/res/machine_inside_empty.png"));
-		} catch (IOException e)
-		{
-		}
-		try
-		{
-			backgroundLeft = ImageIO.read(getClass().getResource("/res/machine_inside_left.png"));
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		background = ImageIO.read(getClass().getResource("/res/machine_inside_empty.png"));
+		backgroundLeft = ImageIO.read(getClass().getResource("/res/machine_inside_left.png"));
+
 	}
 
 	@Override

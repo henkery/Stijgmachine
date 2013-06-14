@@ -36,6 +36,13 @@ public class GameSoundtrack
 		clip.open(AudioSystem.getAudioInputStream(new File(s)));
 	}
 	
+	public static void IntroTune() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	{
+		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("intro_slatendo.wav")).getFormat()));
+		clip.open(AudioSystem.getAudioInputStream(new File("intro_slatendo.wav")));
+		clip.start();
+	}
+	
 	public static void GameMusic() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
 		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("")).getFormat()));

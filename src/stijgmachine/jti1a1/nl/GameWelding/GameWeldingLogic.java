@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
@@ -21,7 +19,6 @@ import javax.swing.Timer;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
-import stijgmachine.jti1a1.nl.objects.GameSoundtrack;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
