@@ -9,6 +9,7 @@ import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GamePipes;
+import stijgmachine.jti1a1.nl.objects.GrappleCursor;
 import stijgmachine.jti1a1.nl.objects.MusicPlayer;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
@@ -58,7 +59,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 	public void onButtonsEvent(WiimoteButtonsEvent event) {
 		if(event.isButtonDownPressed()){
 			gameObjects.clear();
-			gameObjects.add(new GameCursor());
+			gameObjects.add(new GrappleCursor());
 			index = 0;
 			add = true;
 			drag = false;

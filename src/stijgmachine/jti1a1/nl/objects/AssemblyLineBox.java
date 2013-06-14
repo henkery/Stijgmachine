@@ -21,10 +21,9 @@ public class AssemblyLineBox extends GameObject
     public static int round = 0;
     private static int x = -80;
     private static int y;
-    private static boolean asRound = false;
+    public static boolean asRound = false;
     private boolean asSwitch = false;
     private boolean asSteam = false;
-    private AssemblyLineSteam steam = new AssemblyLineSteam();
     private BufferedImage box = null;
     
     public AssemblyLineBox() {
@@ -47,10 +46,8 @@ public class AssemblyLineBox extends GameObject
         } else {
                 if(round < 4) {
                     if(asSteam == true) {
-                        steam.setRound(asSteam);
                         asSteam = false;
                     } else {
-                        steam.setRound(asSteam);
                         asSteam = true;
                     }
                     asRound = true;
@@ -95,14 +92,14 @@ public class AssemblyLineBox extends GameObject
     public void setRound(boolean asRound) {
         this.asRound = asRound;
     }
-    
+       
     public Rectangle getBounds() {
         return (new Rectangle(x,y,80,44));
     }
-
+    
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
-        g.drawImage(box,x,y,80,44, null);	
+		g.drawImage(box,x,y,80,44, null);	
 	}
 
 	@Override

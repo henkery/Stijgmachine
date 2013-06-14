@@ -23,6 +23,7 @@ import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.view.EndGameView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
 import stijgmachine.jti1a1.nl.view.TestView;
+import stijgmachine.jti1a1.nl.view.WaterSupplyView;
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
 
@@ -52,9 +53,14 @@ public class Main {
 	{
 		list = new Object[][]{
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new SteamGameModel(), new SteamGamePanel()},
+//				new Object[]{new SteamGameModel(), new SteamGamePanel()},
+				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new GamePowerLogic(), new TestView()},
+				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new GameWeldingLogic(), new GameWeldingView()},
+				new Object[]{new AssemblyLineLogic(), new TestView()},
+				new Object[]{new WaterSupplyGame(), new WaterSupplyView()},
+				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;
 		gameinit();

@@ -1,22 +1,13 @@
 package stijgmachine.jti1a1.nl.model;
 
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.Timer;
 
 import stijgmachine.jti1a1.nl.controller.Main;
 import stijgmachine.jti1a1.nl.objects.AssemblyLineBackground;
@@ -25,7 +16,6 @@ import stijgmachine.jti1a1.nl.objects.AssemblyLineCloud;
 import stijgmachine.jti1a1.nl.objects.AssemblyLineMoveRocket;
 import stijgmachine.jti1a1.nl.objects.AssemblyLineRotateRocket;
 import stijgmachine.jti1a1.nl.objects.AssemblyLineShelf;
-import stijgmachine.jti1a1.nl.objects.AssemblyLineSteam;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
@@ -49,7 +39,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
  * @author Vincent Stout
  * @version 1.2
  */
-public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
+public class AssemblyLineLogic extends MiniGameLogic {
     
 	private ArrayList<GameObject> gameObject = new ArrayList<GameObject>();
     private AssemblyLineBox box = new AssemblyLineBox();
@@ -59,10 +49,10 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
     private boolean asDir;
     private boolean asRocket = true;
     private boolean asSwitchObject = true;
-    private boolean asRound = false;
     private int yDirection;
     private int collision;
     private int count;
+    private int tick;
  
     public AssemblyLineLogic() {   	
     	addSound();
@@ -70,10 +60,7 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
     	addCloud();
     	addShelf();
     	addBox();
-    	//addSteam();
     	addRocket();
-        Timer t = new Timer(50,this);
-        t.start();
     }
     
     public void addSound() {
@@ -86,6 +73,17 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
        } catch (Exception e) {
     	   System.out.println(e.getMessage());
        }                 
+    }
+    
+    public void addExplosionSound() {
+        try {
+     	   Clip clip = AudioSystem.getClip();
+     	   AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("../sounds/ExplosionSound.wav"));
+     	   clip.open(inputStream);
+     	   clip.start(); 
+        } catch (Exception e) {
+     	   System.out.println(e.getMessage());
+        } 
     }
 
     public void addShelf() {
@@ -118,11 +116,6 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
             }
             asRocket = true;
         }
-    }
-    
-    public void addSteam() {
-        for(int x = getXDirection(); x < Main.resX; x+=getXDirection())
-        	 gameObject.add(new AssemblyLineSteam(x,yDirection));
     }
     
     public void addBox() {
@@ -221,14 +214,37 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
+		if(tick != 10) {
+			tick+=2;
+		} else {
+			tick = 0;
+	      changeRound();
+	        checkCollision();  
+	    	for(GameObject o : gameObject) {
+	    		if(o.getClass() == AssemblyLineMoveRocket.class)
+	    			((AssemblyLineMoveRocket) o).update();
+	    		if(o.getClass() == AssemblyLineRotateRocket.class)
+	    			((AssemblyLineRotateRocket) o).update();
+	    		if(o.getClass() == AssemblyLineCloud.class)
+	    			((AssemblyLineCloud)o).update();
+	    		if(asDir == true) {
+	    			if(o.getClass() == AssemblyLineShelf.class)
+	    				((AssemblyLineShelf)o).left();
+	    			if(o.getClass() == AssemblyLineBox.class) 
+	    				((AssemblyLineBox)o).left();		
+	    		} else {
+	    			if(o.getClass() == AssemblyLineShelf.class)
+	    				((AssemblyLineShelf)o).right();
+	    			if(o.getClass() == AssemblyLineBox.class) 
+	    				((AssemblyLineBox)o).right();		
+	    		}
+	    	}
+		}
 	}
 
 	@Override
 	public boolean isDone() {
-		// TODO Auto-generated method stub
-		return false;
+		return AssemblyLineBox.asRound;
 	}
 
 	@Override
@@ -245,38 +261,6 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
 	public void clearList() {
 		gameObject.clear();
 	}
-	
-    public void actionPerformed(ActionEvent e) {
-    	if(asRound == true) {
-    		changeRound();
-    		asRound = false;
-    	}
-        checkCollision();  
-        
-    	for(GameObject o : gameObject) {
-    		if(o.getClass() == AssemblyLineMoveRocket.class)
-    			((AssemblyLineMoveRocket) o).update();
-    		if(o.getClass() == AssemblyLineRotateRocket.class)
-    			((AssemblyLineRotateRocket) o).update();
-    		if(o.getClass() == AssemblyLineSteam.class)
-    			((AssemblyLineSteam)o).update();
-    		if(o.getClass() == AssemblyLineCloud.class)
-    			((AssemblyLineCloud)o).update();
-    		if(asDir == true) {
-    			if(o.getClass() == AssemblyLineShelf.class)
-    				((AssemblyLineShelf)o).left();
-    			if(o.getClass() == AssemblyLineBox.class) {
-    				((AssemblyLineBox)o).left();		
-    			}
-    		} else {
-    			if(o.getClass() == AssemblyLineShelf.class)
-    				((AssemblyLineShelf)o).right();
-    			if(o.getClass() == AssemblyLineBox.class) {
-    				((AssemblyLineBox)o).right();		
-    			}
-    		}
-    	}
-    }
     
     public void changeRound() {
 
@@ -298,12 +282,7 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
     						if(object.getClass() == AssemblyLineRotateRocket.class) {
     							it.remove();
     						}
-    						if(object.getClass() == AssemblyLineSteam.class) {
-    							it.remove();
-    						}
-
     					}
-    					//addSteam();
     					addRocket();
     					if(AssemblyLineBox.round > 3) {
     						asDir = true;
@@ -318,8 +297,6 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
         				it.remove();
         			if(object.getClass() == AssemblyLineMoveRocket.class)
         				it.remove();
-        			if(object.getClass() == AssemblyLineSteam.class)
-        				it.remove();
         		}
            }
     }
@@ -330,6 +307,7 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
           Rectangle r1 = ((AssemblyLineMoveRocket)o1).getBounds();
           Rectangle r2 = box.getBounds();
           if (r1.intersects(r2)){
+        	  addExplosionSound();
         	  if(AssemblyLineBox.round > 3 && AssemblyLineBox.round < 6)
         		  box.setBox(Main.resX);
         	  else
@@ -344,22 +322,19 @@ public class AssemblyLineLogic extends MiniGameLogic implements ActionListener {
     	     Rectangle r3 = ((AssemblyLineRotateRocket)o2).getBounds();
              Rectangle r4 = box.getBounds();
           	   if (r3.intersects(r4)) {
+          		 addExplosionSound();
              	  if(AssemblyLineBox.round > 3 && AssemblyLineBox.round < 6)
             		  box.setBox(Main.resX);
             	  else
             		  box.setBox(0);
                  background.countCollision();
-          	   } 
+          	 } 
           }
-       }
-    }
+        }
+      }
     
     public int getCollision() {
     	return collision;
-    }
-    
-    public void changeRound(boolean asRound) {
-    	this.asRound = asRound;
     }
 	
 }
