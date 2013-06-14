@@ -8,13 +8,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import stijgmachine.jti1a1.nl.gameWelding.GameWeldingLogic;
-import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryLogic;
 import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
+import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
 
 public class Main {
@@ -50,12 +49,12 @@ public class Main {
 
 	private void gameinit() {
 		System.out.println("Connecting wiimotes...");
-//		while (wiimotes == null)
-//		{
-//			wiimotes = WiiUseApiManager.getWiimotes(1, true);
-//			if (wiimotes.length < 1)
-//				wiimotes = null;
-//		}
+		while (wiimotes == null)
+		{
+			wiimotes = WiiUseApiManager.getWiimotes(1, true);
+			if (wiimotes.length < 1)
+				wiimotes = null;
+		}
 		
 	}
 
@@ -133,7 +132,7 @@ public class Main {
 			viewSlot = view;
 		if (logic != null)
 			logicSlot = logic;
-//		logicSlot.giveMotes(wiimotes);
+		logicSlot.giveMotes(wiimotes);
 	}
 	
 	
