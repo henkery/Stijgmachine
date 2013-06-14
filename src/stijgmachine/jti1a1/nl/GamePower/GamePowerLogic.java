@@ -49,6 +49,7 @@ public class GamePowerLogic extends MiniGameLogic
 	private boolean countTicks = false;
 	private boolean finish = false;
 	private GamePowerEndText endText = new GamePowerEndText(50,50,GameObject.RELATIVE_FROM_TOPLEFT,"Game Completed",36,"Old English Text MT");
+	private GamePowerEndText instructie = new GamePowerEndText(0, 425, GameObject.RELATIVE_FROM_TOPLEFT, "Het Doel van het spel is de energie bal\nIn de buis te krijgen dit doe je doormiddel van een lijn te tekenen met je cursor\n houd A ingedrukt om een lijn te tekenen en druk op B op de bal te resetten\ndruk op het bovenste pijltje om de lijnen te verwijderen", 16, "Old English Text MT");
 	private boolean addOnce = false;
 	private GamePowerBackGround back = new GamePowerBackGround(0,0,GameObject.RELATIVE_FROM_TOPLEFT,"",1);
 	private Wiimote mote;
@@ -60,6 +61,7 @@ public class GamePowerLogic extends MiniGameLogic
 		bal.setPosition(50,50);
 //		wereld.add(box);
 		addObstacles();
+		objects.add(instructie);
 		objects.add(cursor);
 		objects.add(bal);
 		
