@@ -3,11 +3,13 @@ package stijgmachine.jti1a1.nl.controller;
 import gameSteamCreation.SteamGameModel;
 import gameSteamCreation.SteamGamePanel;
 
-import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,7 +17,6 @@ import stijgmachine.jti1a1.nl.gameWelding.GameWeldingLogic;
 import stijgmachine.jti1a1.nl.gameWelding.GameWeldingView;
 import stijgmachine.jti1a1.nl.model.EndGameLogic;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
-import stijgmachine.jti1a1.nl.model.TestLogic;
 import openingscreen.OpeningModel;
 import openingscreen.OpeningView;
 
@@ -46,12 +47,12 @@ public class Main {
 	public Object[][] list;
 	private int i;
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 		new Main();
 	}
 	
-	public Main()
+	public Main() throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 		list = new Object[][]{
 				new Object[]{new OpeningModel(), new OpeningView()},
@@ -89,8 +90,9 @@ public class Main {
 		
 	}
 
-	private void gameloop()
+	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
+//		GameSoundtrack.GameMusic();
 		Thread draw = new Thread(new Runnable() {
 			
 			@Override

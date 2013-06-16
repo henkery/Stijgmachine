@@ -33,6 +33,7 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 	 * 
 	 */
 	private static final long	serialVersionUID	= 1L;
+	private static boolean gameDone;
 	private Wiimote	wiimote;
 	private SteamGamePanel panel;
 	private Timer timer = new Timer(1000/10,this);
@@ -299,14 +300,16 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 		}
 	}
 
-	public static boolean getGameDone()
-	{
-		return SteamGameModel.getGameDone();
+	public static void setGameDone(boolean b) {
+		// TODO Auto-generated method stub
+		SteamGameControl.gameDone = b;
+		
 	}
 
-	public static void setGameDone(boolean b)
-	{
-		SteamGameModel.setGameDone(b);
+	public static boolean getGameDone() {
+		// TODO Auto-generated method stub
+		return SteamGameControl.gameDone;
 	}
+
 
 }

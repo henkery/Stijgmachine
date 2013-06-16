@@ -349,7 +349,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		for (Iterator<Particle> itr = steam.list.iterator(); itr.hasNext();)
+		for (Iterator<Particle> itr = steam.getList().iterator(); itr.hasNext();)
 		{
 			Particle p = itr.next();
 
@@ -362,9 +362,9 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			}
 		}
 
-		if (steam.list.size() < 1000)
+		if (steam.getList().size() < 1000)
 		{
-			steam.list.add(new Particle("steam"));
+			steam.getList().add(new Particle("steam"));
 		}			
 
 	}

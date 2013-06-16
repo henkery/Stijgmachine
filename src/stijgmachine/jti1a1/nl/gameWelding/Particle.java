@@ -7,9 +7,11 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.plaf.ColorUIResource;
 
+import stijgmachine.jti1a1.nl.controller.Main;
+
 public class Particle
 {
-	private double x = 1380, y = 250;
+	private double x, y;
 	private double t = 0;
 	private double speed;
 	private double angle;
@@ -20,10 +22,16 @@ public class Particle
 	{
 		if(s == "steam")
 		{
+			this.x = 1380;
+			this.y = 250;
 			speed = Math.random() * 200.0;
 			angle = Math.random() * 60 + 60.0;
 			alpha = 0.40f;
 			size = Math.random() * 100;
+		}
+		else
+		{
+			
 		}
 	}
 	

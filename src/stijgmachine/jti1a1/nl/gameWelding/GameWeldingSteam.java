@@ -13,11 +13,17 @@ import stijgmachine.jti1a1.nl.objects.GameObject;
 
 public class GameWeldingSteam extends GameObject
 {
-	public ArrayList<Particle> list = new ArrayList<Particle>();
+	private ArrayList<Particle> list = new ArrayList<Particle>();
+
 
 	public GameWeldingSteam()
 	{
 		super(1420, 250, 204);
+	}
+	
+	public ArrayList<Particle> getList()
+	{
+		return list;
 	}
 	
 	@Override
