@@ -23,7 +23,8 @@ public class GameCursor extends GameObject {
 
 	@Override
 	public void draw(Graphics2D g, int height, int width, int x2, int y2) {
-		g.draw(new Rectangle2D.Double(x,y,10,10));
+//		g.draw(new Rectangle2D.Double(x,y,10,10));
+
 	}
 
 	@Override

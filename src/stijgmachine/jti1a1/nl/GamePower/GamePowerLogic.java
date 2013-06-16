@@ -1,10 +1,24 @@
 package stijgmachine.jti1a1.nl.GamePower;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import net.phys2d.math.Vector2f;
 import net.phys2d.raw.strategies.QuadSpaceStrategy;
@@ -49,12 +63,29 @@ public class GamePowerLogic extends MiniGameLogic
 	private boolean countTicks = false;
 	private boolean finish = false;
 	private GamePowerEndText endText = new GamePowerEndText(50,50,GameObject.RELATIVE_FROM_TOPLEFT,"Game Completed",36,"Old English Text MT");
+	private GamePowerText instructie = new GamePowerText(850, 0, GameObject.RELATIVE_FROM_TOPLEFT, "Het Doel van het spel is de energie bal\nIn de socket te krijgen,\nDit doe je doormiddel van een lijn te tekenen met je cursor\nHoud A ingedrukt om een lijn te tekenen en druk op B op de bal te resetten\nDruk op het bovenste pijltje om de lijnen te verwijderen", 16, "Copperplate Gothic Bold");
 	private boolean addOnce = false;
 	private GamePowerBackGround back = new GamePowerBackGround(0,0,GameObject.RELATIVE_FROM_TOPLEFT,"",1);
 	private Wiimote mote;
+	private int tickCounter2 = 0;
+	private Clip clip;
 	
 	public GamePowerLogic()
 	{
+		
+		try {
+			getAudio();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		objects.add(back);
 		wereld.add(bal);
 		bal.setPosition(50,50);
@@ -62,8 +93,18 @@ public class GamePowerLogic extends MiniGameLogic
 		addObstacles();
 		objects.add(cursor);
 		objects.add(bal);
+		objects.add(instructie);
 		
 	}
+	
+	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	{
+		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")).getFormat()));
+		clip.open(AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")));	
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+
+
 	
 	public void addObstacles()
 	{
@@ -74,6 +115,10 @@ public class GamePowerLogic extends MiniGameLogic
 		StaticBody obstacle5 = new StaticBody("Obstacle5", new Box(10,600,200,500,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody obstacle6 = new StaticBody("Obstacle6", new Box(200,10,495,255,GameObject.RELATIVE_FROM_TOPLEFT));
 		StaticBody obstacle7 = new StaticBody("Obstacle7", new Box(200,10,700,350,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle8 = new StaticBody("Obstacle8", new Box(400,10,600,550,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle9 = new StaticBody("Obstacle9", new Box(10, 355, 800, 175, GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle10 = new StaticBody("Obstacle10", new Box(400,10,950,550,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody obstacle11 = new StaticBody("Obstacle11", new Box(710,10,1655,550,GameObject.RELATIVE_FROM_TOPLEFT));
 		obstacle1.setPosition(400, 0);
 		obstacle2.setPosition(0, 400);
 		obstacle3.setPosition(400, 500);
@@ -81,16 +126,21 @@ public class GamePowerLogic extends MiniGameLogic
 		obstacle5.setPosition(200, 500);
 		obstacle6.setPosition(495, 255);
 		obstacle7.setPosition(700, 350);
+		obstacle8.setPosition(600, 550);
+		obstacle9.setPosition(800, 175);
+		obstacle10.setPosition(950, 550);
+		obstacle11.setPosition(1655, 550);
 		
 //		StaticBody obstacle3 = new StaticBody("Line", new Line(0, 200, 100, 200, GameObject.RELATIVE_FROM_TOPLEFT));
-		StaticBody basketLine1 = new StaticBody("g1", new Line(550,450,550,500,GameObject.RELATIVE_FROM_TOPLEFT));
-		StaticBody basketLine2 = new StaticBody("g2", new Line(550,500,600,500,GameObject.RELATIVE_FROM_TOPLEFT));
-		StaticBody basketLine3 = new StaticBody("g3", new Line(600,500,600,450,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine1 = new StaticBody("g1", new Line(1200,700,1200,750,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine2 = new StaticBody("g2", new Line(1200,750,1250,750,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody basketLine3 = new StaticBody("g3", new Line(1250,750,1250,700,GameObject.RELATIVE_FROM_TOPLEFT));
 		
-		StaticBody gameContainer = new StaticBody("GameContainer", new Box(2000,2000,0,0,GameObject.RELATIVE_FROM_TOPLEFT));
+		StaticBody gameContainer = new StaticBody("GameContainer", new Box(4000,2000,0,0,GameObject.RELATIVE_FROM_TOPLEFT));
 		gameContainer.setPosition(0, 0);
 		
 		wereld.add(gameContainer);
+		
 		
 		wereld.add(basketLine1);
 		wereld.add(basketLine2);
@@ -103,12 +153,16 @@ public class GamePowerLogic extends MiniGameLogic
 		wereld.add(obstacle5);
 		wereld.add(obstacle6);
 		wereld.add(obstacle7);
+		wereld.add(obstacle8);
+		wereld.add(obstacle9);
+		wereld.add(obstacle10);
+		wereld.add(obstacle11);
 		
 		
 		
-//		objects.add(basketLine1);
-//		objects.add(basketLine2);
-//		objects.add(basketLine3);
+		objects.add(basketLine1);
+		objects.add(basketLine2);
+		objects.add(basketLine3);
 		
 		objects.add(obstacle1);
 		objects.add(obstacle2);
@@ -117,13 +171,17 @@ public class GamePowerLogic extends MiniGameLogic
 		objects.add(obstacle5);
 		objects.add(obstacle6);
 		objects.add(obstacle7);
+		objects.add(obstacle8);
+		objects.add(obstacle9);
+		objects.add(obstacle10);
+		objects.add(obstacle11);
 	}
 	
 	public void goal()
 	{
-		if(bal.getPosition().getX() > 550 && bal.getPosition().getX() < 600)
+		if(bal.getPosition().getX() > 1200 && bal.getPosition().getX() < 1250)
 		{
-			if(bal.getPosition().getY() > 450 && bal.getPosition().getY() < 500)
+			if(bal.getPosition().getY() > 700 && bal.getPosition().getY() < 750)
 			{
 				finish = true;
 			}
@@ -245,7 +303,9 @@ public class GamePowerLogic extends MiniGameLogic
 	public void resetBall()
 	{
 		if(countTicks != true)
-		wereld.add(box);
+		{
+			wereld.add(box);
+		}
 		
 		bal.setPosition(50,50);
 		box.setPosition(50, 50);
@@ -367,6 +427,15 @@ public class GamePowerLogic extends MiniGameLogic
 		goal();
 		drawFinishWords();
 //		refreshBall();
+		tickCounter2++;
+		if(tickCounter2 == 11000)
+		{
+//			clip.stop();
+//			clip.start();
+//			System.out.println("Test");
+		}
+		tickCounter2%=11000;
+		
 		if(countTicks)
 		{
 			tickCounter +=1;
