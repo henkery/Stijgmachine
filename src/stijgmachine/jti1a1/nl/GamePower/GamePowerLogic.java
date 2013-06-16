@@ -26,6 +26,7 @@ import net.phys2d.raw.strategies.QuadSpaceStrategy;
 import stijgmachine.jti1a1.nl.model.MiniGameLogic;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.GrappleCursor;
 import stijgmachine.jti1a1.nl.objects.phys2d.Body;
 import stijgmachine.jti1a1.nl.objects.phys2d.Circle;
 import stijgmachine.jti1a1.nl.objects.phys2d.Line;
@@ -55,7 +56,7 @@ public class GamePowerLogic extends MiniGameLogic
 	private ArrayList<Body> obstacles = new ArrayList<Body>();
 	private ArrayList<Body> prevLines = new ArrayList<Body>();
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
-	private GameCursor cursor = new GameCursor();
+	private GameCursor cursor = new GrappleCursor();
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private StaticBody box = new StaticBody("Containement box",new Box(50,50,100,300,GameObject.RELATIVE_FROM_TOPLEFT));
 	private boolean pressed = false;

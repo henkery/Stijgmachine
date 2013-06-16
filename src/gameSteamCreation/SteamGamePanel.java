@@ -27,14 +27,9 @@ public class SteamGamePanel extends MiniGameView
 	 */
 	private static final long	serialVersionUID	= 1L;
 	public boolean coalLit = false;
-	int screenWidth;
-	int screenHeight;
 	
 	public SteamGamePanel()
 	{
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		screenWidth = (int)screenSize.getWidth();
-		screenHeight = (int)screenSize.getHeight();
 	
 	}
 	
@@ -45,7 +40,7 @@ public class SteamGamePanel extends MiniGameView
 		if(!SteamGameControl.getGameDone()){
 		// HET TEKENENEN VAN DE BASIS ACHTERGROND
 		if(SteamGameControl.getGameStart()){
-			g2.drawImage(SteamGameControl.getBackImgStart(), 0, 0, screenWidth, screenHeight, null);
+			g2.drawImage(SteamGameControl.getBackImgStart(), 0, 0, Main.resX, Main.resY, null);
 			g2.drawImage(SteamGameControl.getLighter(),SteamGameModel.translatepixelX(1000) , SteamGameModel.translatepixelY(780), 20, 40, null);
 		}
 		// HET TEKENEN VAN DE KOLEN IN DE OPEN HAARD 

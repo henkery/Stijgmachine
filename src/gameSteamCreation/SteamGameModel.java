@@ -75,7 +75,7 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 		objects.add(text);
 		
 		Timer timer = new Timer(1000/100,this);
-		timer.start();
+//		timer.start();
 	}
 	
 	public static void update()

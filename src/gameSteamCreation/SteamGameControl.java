@@ -302,13 +302,13 @@ public class SteamGameControl extends JFrame implements WiimoteListener,ActionLi
 
 	public static void setGameDone(boolean b) {
 		// TODO Auto-generated method stub
-		SteamGameControl.gameDone = b;
+		SteamGameModel.setGameDone(b);
 		
 	}
 
 	public static boolean getGameDone() {
 		// TODO Auto-generated method stub
-		return SteamGameControl.gameDone;
+		return SteamGameModel.getGameDone();
 	}
 
 

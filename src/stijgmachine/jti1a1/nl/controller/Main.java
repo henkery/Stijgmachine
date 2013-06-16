@@ -24,6 +24,8 @@ import openingscreen.OpeningView;
 import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryLogic;
+import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryView;
 import stijgmachine.jti1a1.nl.view.EndGameView;
 import stijgmachine.jti1a1.nl.view.MiniGameView;
 import stijgmachine.jti1a1.nl.view.TestView;
@@ -56,14 +58,15 @@ public class Main {
 	{
 		list = new Object[][]{
 				new Object[]{new OpeningModel(), new OpeningView()},
-				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new SteamGameModel(), new SteamGamePanel()},
+				new Object[]{new StartScreenStoryLogic(), new StartScreenStoryView()},//starts to early, suggestion. wait for first tick
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new GamePowerLogic(), new TestView()},
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new GameWeldingLogic(), new GameWeldingView()},
+//				new Object[]{new WaterSupplyGame(), new WaterSupplyView()}, //not working
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new WaterSupplyGame(), new WaterSupplyView()},
+				new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
+				new Object[]{new AssemblyLineLogic(), new TestView()},
+//				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //not working
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;

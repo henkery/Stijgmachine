@@ -42,7 +42,7 @@ public class WaterSupplyGame extends MiniGameLogic {
 	private GamePipes floatingPipe;
 
 	public WaterSupplyGame() {
-		gameObjects.add(new GameCursor());
+		gameObjects.add(new GrappleCursor());
 		startLocation = new Point2D.Double (85,440);
 		this.size = new Dimension(Main.resX / 8,Main.resY / 8);
 		floatingPipes.add(floatingPipe = new GamePipes(new Point2D.Double(175, 880), 0, size));

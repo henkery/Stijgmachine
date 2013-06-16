@@ -8,12 +8,12 @@ import javax.swing.ImageIcon;
 
 import gameSteamCreation.Cursor;
 
-public class GrappleCursor extends Cursor {
+public class GrappleCursor extends GameCursor {
 	
 	private Image cursorImage;
 	
 	public GrappleCursor() {
-		super(0, 0, GameObject.ABSOLUTE);
+		//super(0, 0, GameObject.ABSOLUTE);
 		cursorImage = new ImageIcon("./images/gameCursor.png").getImage();
 		// TODO Auto-generated constructor stub
 	}
