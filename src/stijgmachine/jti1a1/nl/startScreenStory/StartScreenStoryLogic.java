@@ -30,12 +30,13 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class StartScreenStoryLogic extends MiniGameLogic implements ActionListener
 {
 	private boolean isDone = false;
+	private boolean soundStarted  = false;
 	private int counter = 0;
 
 	public StartScreenStoryLogic() throws IOException, LineUnavailableException, UnsupportedAudioFileException
 	{
 		StartScreenStoryView.setBackground(ImageIO.read(getClass().getResource("/res/intro_slatendo.png")));
-		GameSoundtrack.IntroTune();
+//		GameSoundtrack.IntroTune();
 		Timer t = new Timer(3000,this);
 		t.start();	
 	}
@@ -151,8 +152,24 @@ public class StartScreenStoryLogic extends MiniGameLogic implements ActionListen
 	@Override
 	public void tick()
 	{
-		// TODO Auto-generated method stub
-		
+		if(!soundStarted)
+		{
+			try {
+				GameSoundtrack.IntroTune();
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			soundStarted = true;
+		}
+
+
 	}
 
 	@Override

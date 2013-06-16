@@ -24,6 +24,7 @@ import openingscreen.OpeningView;
 import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
 import stijgmachine.jti1a1.nl.model.*;
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.GameSoundtrack;
 import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryLogic;
 import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryView;
 import stijgmachine.jti1a1.nl.view.EndGameView;
@@ -66,7 +67,7 @@ public class Main {
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-//				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //not working
+				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;
@@ -84,18 +85,18 @@ public class Main {
 
 	private void gameinit() {
 		System.out.println("Connecting wiimotes...");
-		while (wiimotes == null)
-		{
-			wiimotes = WiiUseApiManager.getWiimotes(1, true);
-			if (wiimotes.length < 1)
-				wiimotes = null;
-		}
-		
+//		while (wiimotes == null)
+//		{
+//			wiimotes = WiiUseApiManager.getWiimotes(1, true);
+//			if (wiimotes.length < 1)
+//				wiimotes = null;
+//		}
+//		
 	}
 
 	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
-//		GameSoundtrack.GameMusic();
+		GameSoundtrack.GameMusic();
 		Thread draw = new Thread(new Runnable() {
 			
 			@Override
@@ -186,6 +187,6 @@ public class Main {
 			viewSlot = view;
 		if (logic != null)
 			logicSlot = logic;
-		logicSlot.giveMotes(wiimotes);
+//		logicSlot.giveMotes(wiimotes);
 	}	
 }

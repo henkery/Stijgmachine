@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.GameWelding;
+package stijgmachine.jti1a1.nl.gameWelding;
 
 import stijgmachine.jti1a1.nl.objects.GameObjectContainer;
 

@@ -49,13 +49,14 @@ public class AssemblyLineLogic extends MiniGameLogic {
     private boolean asDir;
     private boolean asRocket = true;
     private boolean asSwitchObject = true;
+    private boolean soundStarted = false;
     private int yDirection;
     private int collision;
     private int count;
     private int tick;
  
     public AssemblyLineLogic() {   	
-    	addSound();
+//    	addSound();
     	addBackground();
     	addCloud();
     	addShelf();
@@ -214,6 +215,11 @@ public class AssemblyLineLogic extends MiniGameLogic {
 
 	@Override
 	public void tick() {
+		if(!soundStarted)
+		{
+			addSound();
+			soundStarted = true;
+		}
 		if(tick != 10) {
 			tick+=2;
 		} else {

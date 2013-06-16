@@ -1,4 +1,4 @@
-package stijgmachine.jti1a1.nl.GameWelding;
+package stijgmachine.jti1a1.nl.gameWelding;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,12 +16,22 @@ public class GameWeldingView extends MiniGameView
 	private BufferedImage background;
 	private BufferedImage backgroundLeft;
 	
-	public GameWeldingView() throws IOException
+	public GameWeldingView()
 	{
 		super();
-		background = ImageIO.read(getClass().getResource("/res/machine_inside_empty.png"));
-		backgroundLeft = ImageIO.read(getClass().getResource("/res/machine_inside_left.png"));
-
+		try
+		{
+			background = ImageIO.read(getClass().getResource("/res/machine_inside_empty.png"));
+		} catch (IOException e)
+		{
+		}
+		try
+		{
+			backgroundLeft = ImageIO.read(getClass().getResource("/res/machine_inside_left.png"));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -143,7 +143,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		weld = (GameWeldingWeld) items.get(items.size()-3);
 		door = (GameWeldingDoor) items.get(items.size()-4);
 		
-		if(arg0.isButtonHomePressed()) controlsActivated = true;
+		if(arg0.isButtonBPressed()) controlsActivated = true;
 		
 		else if(controlsActivated && collisionDetected && inWeldingArea)
 		{

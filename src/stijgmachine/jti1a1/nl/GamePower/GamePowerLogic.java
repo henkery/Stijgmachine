@@ -73,19 +73,19 @@ public class GamePowerLogic extends MiniGameLogic
 	
 	public GamePowerLogic()
 	{
-		
-		try {
-			getAudio();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Commented for this is handled elsewhere
+//		try {
+//			getAudio();
+//		} catch (LineUnavailableException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnsupportedAudioFileException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		objects.add(back);
 		wereld.add(bal);
@@ -98,12 +98,13 @@ public class GamePowerLogic extends MiniGameLogic
 		
 	}
 	
-	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
-	{
-		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")).getFormat()));
-		clip.open(AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")));	
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
-	}
+	//Commented for this is handled elsewhere
+//	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+//	{
+//		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")).getFormat()));
+//		clip.open(AudioSystem.getAudioInputStream(new File("src/res/GamePowerTheme4.wav")));	
+//		clip.loop(Clip.LOOP_CONTINUOUSLY);
+//	}
 
 
 	
