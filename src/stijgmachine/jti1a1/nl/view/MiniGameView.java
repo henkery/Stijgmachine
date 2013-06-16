@@ -19,13 +19,13 @@ public abstract class MiniGameView extends JPanel {
 	
 	public MiniGameView()
 	{
-		this.setPreferredSize(new Dimension(1366, 768));
 	}
 	
 	public abstract int getID();
 	
 	public void drawObjects(ArrayList<GameObject> objects, Graphics2D g) {
-		for (GameObject item : objects)
+		GameObject[] lel = objects.toArray(new GameObject[0]);
+		for (GameObject item : lel)
 		{
 			item.predraw(g, this.getSize().height, this.getSize().width, 0, 0);
 		}

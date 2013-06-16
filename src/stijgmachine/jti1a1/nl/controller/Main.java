@@ -67,7 +67,7 @@ public class Main {
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
 				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
+//				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;
@@ -85,18 +85,19 @@ public class Main {
 
 	private void gameinit() {
 		System.out.println("Connecting wiimotes...");
-//		while (wiimotes == null)
-//		{
-//			wiimotes = WiiUseApiManager.getWiimotes(1, true);
-//			if (wiimotes.length < 1)
-//				wiimotes = null;
-//		}
-//		
+		while (wiimotes == null)
+		{
+			wiimotes = WiiUseApiManager.getWiimotes(1, true);
+			if (wiimotes.length < 1)
+				wiimotes = null;
+		}
+		
 	}
 
 	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
-		GameSoundtrack.GameMusic();
+//		if (i != 1)
+//			GameSoundtrack.GameMusic();
 		Thread draw = new Thread(new Runnable() {
 			
 			@Override
@@ -183,10 +184,12 @@ public class Main {
 	}
 	
 	public void setGame(MiniGameLogic logic, MiniGameView view) {
+		wiimotes[0].removeWiiMoteEventListeners(logicSlot);
 		if (view != null)
 			viewSlot = view;
 		if (logic != null)
 			logicSlot = logic;
-//		logicSlot.giveMotes(wiimotes);
+		wiimotes[0].removeWiiMoteEventListeners(logicSlot);
+		logicSlot.giveMotes(wiimotes);
 	}	
 }

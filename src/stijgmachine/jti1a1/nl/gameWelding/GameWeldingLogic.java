@@ -74,7 +74,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		steam = new GameWeldingSteam();
 		
 		//Audio		
-		file = new File("welding.wav");
+		file = new File("src/res/welding.wav");
 		try
 		{
 			stream = AudioSystem.getAudioInputStream(file);
@@ -97,16 +97,16 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			e2.printStackTrace();
 		}
 		// load the samples from the stream
-		try
-		{
-			clip.open(stream);
-		} catch (LineUnavailableException e2)
-		{
-			e2.printStackTrace();
-		} catch (IOException e2)
-		{
-			e2.printStackTrace();
-		}
+//		try
+//		{
+//			clip.open(stream);
+//		} catch (LineUnavailableException e2)
+//		{
+//			e2.printStackTrace();
+//		} catch (IOException e2)
+//		{
+//			e2.printStackTrace();
+//		}
 		
 		try
 		{

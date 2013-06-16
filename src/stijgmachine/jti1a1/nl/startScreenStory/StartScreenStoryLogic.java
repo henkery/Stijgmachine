@@ -32,17 +32,19 @@ public class StartScreenStoryLogic extends MiniGameLogic implements ActionListen
 	private boolean isDone = false;
 	private boolean soundStarted  = false;
 	private int counter = 0;
+	private Timer t;
 
 	public StartScreenStoryLogic() throws IOException, LineUnavailableException, UnsupportedAudioFileException
 	{
 		StartScreenStoryView.setBackground(ImageIO.read(getClass().getResource("/res/intro_slatendo.png")));
 //		GameSoundtrack.IntroTune();
-		Timer t = new Timer(3000,this);
-		t.start();	
+		t = new Timer(3000,this);
+//		t.start();	
 	}
 
 	public void setDone(boolean isDone)
 	{
+		t.stop();
 		this.isDone = isDone;
 	}
 	
@@ -167,6 +169,7 @@ public class StartScreenStoryLogic extends MiniGameLogic implements ActionListen
 				e.printStackTrace();
 			}
 			soundStarted = true;
+			t.start();
 		}
 
 
