@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
@@ -47,12 +45,10 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private GameWeldingWeld weld;
 	private GameWeldingCursor cursorLeft;
 	private GameWeldingCursor cursorRight;
+	private GameWeldingSparks sparks;
 	private GameWeldingSteam steam;
-	private AudioInputStream stream;
-	private AudioFormat format;
 	private Clip clip;
-	private DataLine.Info info;
-	private File file;
+
 
 	private int x;
 	private int y;
@@ -61,9 +57,10 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	private boolean collisionDetected;
 	private boolean controlsActivated =  false;
 	private boolean isDone = false;
+	private boolean isWelding = false;
 	
 	
-	public GameWeldingLogic()
+	public GameWeldingLogic() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
 		items = new ArrayList<GameObject>();
 		pointsHit = new ArrayList<Rectangle2D>();
@@ -72,59 +69,63 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		weld = new GameWeldingWeld();
 		pointsHit.addAll(door.getPoints());
 		steam = new GameWeldingSteam();
+		sparks = new GameWeldingSparks(x, y);
 		
-		//Audio		
-		file = new File("src/res/welding.wav");
-		try
-		{
-			stream = AudioSystem.getAudioInputStream(file);
-		} catch (UnsupportedAudioFileException e1)
-		{
-			e1.printStackTrace();
-		} catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		format = stream.getFormat();		
-		// specify what kind of line we want to create
-		info = new DataLine.Info(Clip.class, format);
-		// create the line
-		try
-		{
-			clip = (Clip)AudioSystem.getLine(info);
-		} catch (LineUnavailableException e2)
-		{
-			e2.printStackTrace();
-		}
-		// load the samples from the stream
+//		//Audio		
+//		file = new File("src/res/welding.wav");
 //		try
 //		{
-//			clip.open(stream);
+//			stream = AudioSystem.getAudioInputStream(file);
+//		} catch (UnsupportedAudioFileException e1)
+//		{
+//			e1.printStackTrace();
+//		} catch (IOException e1)
+//		{
+//			e1.printStackTrace();
+//		}
+//		format = stream.getFormat();		
+//		// specify what kind of line we want to create
+//		info = new DataLine.Info(Clip.class, format);
+//		// create the line
+//		try
+//		{
+//			clip = (Clip)AudioSystem.getLine(info);
 //		} catch (LineUnavailableException e2)
 //		{
 //			e2.printStackTrace();
-//		} catch (IOException e2)
-//		{
-//			e2.printStackTrace();
 //		}
-		
-		try
-		{
-			cursorLeft = new GameWeldingCursor("left", 4, 654, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
-		} catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		try
-		{
-			cursorRight = new GameWeldingCursor("right", -30, 160, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+//		// load the samples from the stream
+////		try
+////		{
+////			clip.open(stream);
+////		} catch (LineUnavailableException e2)
+////		{
+////			e2.printStackTrace();
+////		} catch (IOException e2)
+////		{
+////			e2.printStackTrace();
+////		}
+//		
+//		try
+//		{
+//			cursorLeft = new GameWeldingCursor("left", 4, 654, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
+//		} catch (IOException e1)
+//		{
+//			e1.printStackTrace();
+//		}
+//		try
+//		{
+//			cursorRight = new GameWeldingCursor("right", -30, 160, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
+//		} catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+		getAudio();
+		getImages();
 
 		items.add(containerLeft);
 		items.add(steam);
+		items.add(sparks);
 		items.add(door);
 		items.add(weld);
 		items.add(cursorLeft);
@@ -132,9 +133,27 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 		
 		x = cursorRight.getX();
 		y = cursorRight.getY();
-		
+				
 		Timer timer = new Timer(1000/100, this);
 		timer.start();
+	}
+	
+	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	{
+		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("src/res/welding.wav")).getFormat()));
+		clip.open(AudioSystem.getAudioInputStream(new File("src/res/welding.wav")));			
+	}
+	
+	public void getImages()
+	{
+		try
+		{
+			cursorLeft = new GameWeldingCursor("left", 4, 654, ImageIO.read(getClass().getResource("/res/welding_wire.png")));
+			cursorRight = new GameWeldingCursor("right", -30, 160, ImageIO.read(getClass().getResource("/res/welding_torch.png")));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}			
 	}
 
 	@Override
@@ -156,7 +175,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 					if(weld.isStarted())
 					{
 						weld.continueWeld(x, y);
-						clip.start();
+						isWelding = true;
 					}									
 					for(Rectangle2D p : door.getPoints())
 					{
@@ -169,10 +188,12 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			}
 		}
 		
-		else if (!arg0.isButtonAHeld())
+		
+		
+		if (!arg0.isButtonAHeld())
 		{
 			weld.saveWeld();
-			clip.stop();
+			isWelding = false;
 		}
 		
 		isDone = pointsHit.isEmpty();
@@ -278,6 +299,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	public void onIrEvent(IREvent arg0)
 	{
 		cursorRight = ((GameWeldingCursor) items.get(items.size() - 1));
+		sparks = ((GameWeldingSparks) items.get(items.size() - 5));
 		collisionDetected = cursorLeft.getDetector().getRectangle().intersects(cursorRight.getDetector().getRectangle());
 		inWeldingArea = door.getWeldingArea().intersects(cursorRight.getDetector().getRectangle());
 
@@ -287,7 +309,9 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 			x = (int)(arg0.getAx()*1.65);
 			y = (int)(arg0.getAy()*1.65);
 			
-			cursorRight.update(x, y);	
+			cursorRight.update(x, y);
+			sparks.update(x, y);
+
 		}
 		
 //		System.out.println("Rechts x: "+arg0.getAx()+" y: "+arg0.getAy());
@@ -348,7 +372,13 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e)
-	{
+	{		
+		if(isWelding)
+		{
+			clip.start();			
+		}
+		else clip.stop();
+		
 		for (Iterator<Particle> itr = steam.getList().iterator(); itr.hasNext();)
 		{
 			Particle p = itr.next();
