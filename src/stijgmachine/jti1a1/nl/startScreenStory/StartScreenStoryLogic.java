@@ -62,7 +62,7 @@ public class StartScreenStoryLogic extends MiniGameLogic implements ActionListen
 		}
 		System.out.println(counter);
 		
-		if(counter == 4) isDone = true;
+		if(counter == 6) isDone = true;
 	}
 
 	@Override
@@ -179,6 +179,8 @@ public class StartScreenStoryLogic extends MiniGameLogic implements ActionListen
 	public boolean isDone()
 	{
 		// TODO Auto-generated method stub
+		if (isDone)
+			t.stop();
 		return isDone;
 	}
 

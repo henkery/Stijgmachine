@@ -16,6 +16,7 @@ import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameImage;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GrappleCursor;
+import stijgmachine.jti1a1.nl.objects.NewCursor;
 import stijgmachine.jti1a1.nl.objects.endgame.DraggableImage;
 import stijgmachine.jti1a1.nl.objects.endgame.ObjectHolder;
 import wiiusej.Wiimote;
@@ -35,7 +36,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class EndGameLogic extends MiniGameLogic {
 	
 	private ArrayList<GameObject> objects;
-	private GameCursor cursor;
+	private NewCursor cursor;
 	private DraggableImage dragging;
 	private boolean block;
 	private boolean reallyDone;
@@ -64,7 +65,7 @@ public class EndGameLogic extends MiniGameLogic {
 			e.printStackTrace();
 		}
 		
-		cursor = new GrappleCursor();
+		cursor = new NewCursor();
 		objects.add(cursor);
 	}
 	

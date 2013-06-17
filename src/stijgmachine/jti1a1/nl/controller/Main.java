@@ -70,7 +70,7 @@ public class Main {
 				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
 				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
-		fullscreen = false;
+		fullscreen = true;
 		gameinit();
 		i=0;
 		setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
@@ -94,11 +94,11 @@ public class Main {
 		
 	}
 
-	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException
+	private void gameloop() throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 //		if (i != 1)
 //			GameSoundtrack.GameMusic();
-//		GameSoundtrack.GameMusic();
+		GameSoundtrack.GameMusic();
 		Thread draw = new Thread(new Runnable() {
 			
 			@Override
@@ -136,6 +136,22 @@ public class Main {
 			if (logicSlot.isDone())
 			{
 				i++;
+				if (i >= list.length) {
+					list = new Object[][]{
+							new Object[]{new OpeningModel(), new OpeningView()},
+							new Object[]{new StartScreenStoryLogic(), new StartScreenStoryView()},//starts to early, suggestion. wait for first tick
+							new Object[]{new AssemblyLineLogic(), new TestView()},
+							new Object[]{new GamePowerLogic(), new TestView()},
+							new Object[]{new AssemblyLineLogic(), new TestView()},
+							new Object[]{new WaterSupplyGame(), new WaterSupplyView()}, //not working
+							new Object[]{new AssemblyLineLogic(), new TestView()},
+							new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
+							new Object[]{new AssemblyLineLogic(), new TestView()},
+							new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
+							new Object[]{new AssemblyLineLogic(), new TestView()},
+							new Object[]{new EndGameLogic(), new EndGameView()}};
+					i = 0;
+				}
 //				frame.removeAll();
 				frame.getContentPane().removeAll();
 				setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);

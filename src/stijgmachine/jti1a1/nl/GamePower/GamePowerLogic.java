@@ -56,7 +56,7 @@ public class GamePowerLogic extends MiniGameLogic
 	private ArrayList<Body> obstacles = new ArrayList<Body>();
 	private ArrayList<Body> prevLines = new ArrayList<Body>();
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
-	private GameCursor cursor = new GrappleCursor();
+	private GameCursor cursor = new GameCursor();
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private StaticBody box = new StaticBody("Containement box",new Box(50,50,100,300,GameObject.RELATIVE_FROM_TOPLEFT));
 	private boolean pressed = false;
