@@ -15,6 +15,7 @@ import stijgmachine.jti1a1.nl.objects.GameButton;
 import stijgmachine.jti1a1.nl.objects.GameCursor;
 import stijgmachine.jti1a1.nl.objects.GameImage;
 import stijgmachine.jti1a1.nl.objects.GameObject;
+import stijgmachine.jti1a1.nl.objects.GrappleCursor;
 import stijgmachine.jti1a1.nl.objects.endgame.DraggableImage;
 import stijgmachine.jti1a1.nl.objects.endgame.ObjectHolder;
 import wiiusej.Wiimote;
@@ -63,7 +64,7 @@ public class EndGameLogic extends MiniGameLogic {
 			e.printStackTrace();
 		}
 		
-		cursor = new GameCursor();
+		cursor = new GrappleCursor();
 		objects.add(cursor);
 	}
 	

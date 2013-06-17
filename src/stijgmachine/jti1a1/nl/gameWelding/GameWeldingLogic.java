@@ -141,7 +141,7 @@ public class GameWeldingLogic extends MiniGameLogic implements ActionListener
 	public void getAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException
 	{
 		clip = (Clip)AudioSystem.getLine(new DataLine.Info(Clip.class, AudioSystem.getAudioInputStream(new File("src/res/welding.wav")).getFormat()));
-		clip.open(AudioSystem.getAudioInputStream(new File("src/res/welding.wav")));			
+//		clip.open(AudioSystem.getAudioInputStream(new File("src/res/welding.wav")));			
 	}
 	
 	public void getImages()
