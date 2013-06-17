@@ -18,7 +18,7 @@ public class WaterSteam extends GameObject
 	
 	public WaterSteam()
 	{
-		super(200,650,GameObject.ABSOLUTE);
+		super(200,1000,GameObject.ABSOLUTE);
 	}
 
 	@Override

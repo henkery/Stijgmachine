@@ -153,6 +153,8 @@ public class OpeningModel extends MiniGameLogic
 	@Override
 	public void giveMotes(Wiimote[] wiimotes)
 	{
+		wiimotes[0].addWiiMoteEventListeners(this);
+		wiimotes[0].activateIRTRacking();	
 	}
 	
 }

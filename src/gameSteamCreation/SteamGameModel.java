@@ -66,10 +66,10 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 		}
 		cursor = new Cursor(0, 0, GameObject.ABSOLUTE);
 		text = new GameText(0, 0, GameObject.ABSOLUTE);
-		steam1 = new WaterSteam(130,650,GameObject.ABSOLUTE);
-		steam2 = new WaterSteam(170,650,GameObject.ABSOLUTE);
-		steam3 = new WaterSteam(200,650,GameObject.ABSOLUTE);
-		steam4 = new WaterSteam(230,650,GameObject.ABSOLUTE);
+		steam1 = new WaterSteam(130,1000,GameObject.ABSOLUTE);
+		steam2 = new WaterSteam(170,800,GameObject.ABSOLUTE);
+		steam3 = new WaterSteam(200,800,GameObject.ABSOLUTE);
+		steam4 = new WaterSteam(230,800,GameObject.ABSOLUTE);
 		
 		objects.add(cursor);
 		objects.add(text);
@@ -271,16 +271,16 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 				setCounter(1);
 			}
 			// HET OPPAKKEN VAN DE KOLEN
-			else if((cursor.x >= translatepixelX(1260) && cursor.x <= translatepixelX(1560)) 
-					&& (cursor.y >= translatepixelY(670) && cursor.y <= translatepixelY(870)) 
+			else if((cursor.x >= translatepixelX(1660) && cursor.x <= translatepixelX(1960)) 
+					&& (cursor.y >= translatepixelY(870) && cursor.y <= translatepixelY(920)) 
 					&& getCount() == 1) 
 			{
 				setCoalShoveled(true);
 				setCounter(2);
 			}
 			//HET NEERLEGGEN VAN DE KOLEN
-			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
-					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820))
+			else if((cursor.x >= translatepixelX(810) && cursor.x <= translatepixelX(1100)) 
+					&& (cursor.y >= translatepixelY(760) && cursor.y <= translatepixelY(980))
 					&& getCoalShoveled()
 					&& getCount() == 2)
 			{
@@ -289,8 +289,8 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 			}
 				
 			// HET OPPAKKEN VAN DE AANSTEKER
-			else if((cursor.x >= translatepixelX(1000) && cursor.x <= translatepixelX(1050)) 
-					&& (cursor.y >= translatepixelY(780) && cursor.y <= translatepixelY(830)) 
+			else if((cursor.x >= translatepixelX(1200) && cursor.x <= translatepixelX(1250)) 
+					&& (cursor.y >= translatepixelY(930) && cursor.y <= translatepixelY(970)) 
 					&& getCount() == 3)
 			{
 				setCounter(4);
@@ -298,8 +298,8 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 			}
 
 			// HET AANSTEKEN VAN DE KOLEN
-			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
-					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820)) 
+			else if((cursor.x >= translatepixelX(860) && cursor.x <= translatepixelX(1100)) 
+					&& (cursor.y >= translatepixelY(820) && cursor.y <= translatepixelY(1020)) 
 					&& getCoalMoved() 
 					&& getCount() == 4)
 			{
@@ -308,26 +308,26 @@ public class SteamGameModel extends MiniGameLogic implements ActionListener
 			}
 			
 			// HET OPPAKKEN VAN DE MOERSLEUTEL
-			else if((cursor.x >= translatepixelX(710) && cursor.x <= translatepixelX(900)) 
-					&& (cursor.y >= translatepixelY(620) && cursor.y <= translatepixelY(820))  
+			else if((cursor.x >= translatepixelX(860) && cursor.x <= translatepixelX(1100)) 
+					&& (cursor.y >= translatepixelY(820) && cursor.y <= translatepixelY(1020))  
 					&& getCount() == 5)
 			{
 				setCounter(6);
 			}
 			
 			// HET DRAAIEN VAN DE EERSTE WIEL
-			else if((cursor.x >= translatepixelX(640) && cursor.x <= translatepixelX(690)) 
-					&& (cursor.y >= translatepixelY(430) && cursor.y <= translatepixelY(480)) 
+			else if((cursor.x >= translatepixelX(780) && cursor.x <= translatepixelX(820)) 
+					&& (cursor.y >= translatepixelY(520) && cursor.y <= translatepixelY(560)) 
 					&& coalLit() 
 					&& getCount() == 6)
 			{
-				objects.add(steam1);
+				//objects.add(steam1);
 				setHeatWheelMoved(true);
 				setCounter(7);
 			}
 			// HET DRAAIEN VAN DE TWEEDE WIEL
-			else if((cursor.x >= translatepixelX(580) && cursor.x <= translatepixelX(660)) 
-					&& (cursor.y >= translatepixelY(265) && cursor.y <= translatepixelY(345)) 
+			else if((cursor.x >= translatepixelX(700) && cursor.x <= translatepixelX(760)) 
+					&& (cursor.y >= translatepixelY(325) && cursor.y <= translatepixelY(365)) 
 					&& getHeatWheelMoved() 
 					&& getCount() == 7)
 			{
