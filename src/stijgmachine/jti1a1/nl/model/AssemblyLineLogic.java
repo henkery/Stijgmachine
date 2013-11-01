@@ -54,6 +54,7 @@ public class AssemblyLineLogic extends MiniGameLogic {
     private int collision;
     private int count;
     private int tick;
+	private Clip clip;
  
     public AssemblyLineLogic() {   	
 //    	addSound();
@@ -66,7 +67,7 @@ public class AssemblyLineLogic extends MiniGameLogic {
     
     public void addSound() {
        try {
-    	   Clip clip = AudioSystem.getClip();
+    	   clip = AudioSystem.getClip();
     	   AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("../sounds/MachineSound.wav"));
     	   clip.open(inputStream);
     	   clip.start(); 
@@ -250,6 +251,7 @@ public class AssemblyLineLogic extends MiniGameLogic {
 
 	@Override
 	public boolean isDone() {
+		if (AssemblyLineBox.asRound) clip.stop();
 		return AssemblyLineBox.asRound;
 	}
 

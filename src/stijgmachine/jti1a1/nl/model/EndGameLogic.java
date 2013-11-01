@@ -40,8 +40,10 @@ public class EndGameLogic extends MiniGameLogic {
 	private DraggableImage dragging;
 	private boolean block;
 	private boolean reallyDone;
+	private int waiter;
 	
 	public EndGameLogic () {
+		waiter = 0;
 		block = false;
 		reallyDone = false;
 		objects = new ArrayList<GameObject>();
@@ -53,10 +55,10 @@ public class EndGameLogic extends MiniGameLogic {
 			objects.add(new ObjectHolder(scaleX(40), scaleY(-20), scaleX(60), scaleY(60), 7, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/water-tank-holder-without-tank.png")), ImageIO.read(getClass().getResource("/res/water-tank-holder-with-tank.png"))));
 			objects.add(new ObjectHolder(scaleX(-70), scaleY(50), scaleX(80), scaleY(30), 6, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/steam-tank-holder-without-tank.png")), ImageIO.read(getClass().getResource("/res/steam-tank-holder-with-tank.png"))));
 			objects.add(new ObjectHolder(scaleX(-45), scaleY(-10), scaleX(50), scaleY(50), 9, GameObject.RELATIVE_FROM_CENTER, ImageIO.read(getClass().getResource("/res/energy-holder.png")), ImageIO.read(getClass().getResource("/res/energy-holder-with-energy.png"))));
-			objects.add(new DraggableImage(scaleX(0), scaleY(0), scaleX(60), scaleY(120), 8, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/rocketDoorHeel.png"))));
-			objects.add(new DraggableImage(scaleX(0), scaleY(0), scaleX(70), scaleY(20), 6, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/Steam-tank.png"))));
-			objects.add(new DraggableImage(scaleX(0), scaleY(0), scaleX(50), scaleY(50), 7, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/wooden-water-tank.png"))));
-			objects.add(new DraggableImage(scaleX(0), scaleY(0), scaleX(50), scaleY(50), 9, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/New_Energy_Ball.png"))));
+			objects.add(new DraggableImage(scaleX(1000), scaleY(540), scaleX(60), scaleY(120), 8, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/rocketDoorHeel.png"))));
+			objects.add(new DraggableImage(scaleX(1000), scaleY(545), scaleX(70), scaleY(20), 6, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/Steam-tank.png"))));
+			objects.add(new DraggableImage(scaleX(1000), scaleY(555), scaleX(50), scaleY(50), 7, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/wooden-water-tank.png"))));
+			objects.add(new DraggableImage(scaleX(1000), scaleY(550), scaleX(50), scaleY(50), 9, GameObject.RELATIVE_FROM_TOPLEFT, ImageIO.read(getClass().getResource("/res/New_Energy_Ball.png"))));
 //			ImageIcon icon = new ImageIcon();//
 			//icon.
 //			objects.add(new ObjectHolder(0, 0, 30, 30, GameObject.RELATIVE_FROM_CENTER, null));
@@ -135,16 +137,21 @@ public class EndGameLogic extends MiniGameLogic {
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent arg0) {
 		if (!block) {
+			if (waiter >0) waiter--;
 			if (arg0.isButtonAPressed()) {
 				if (dragging == null) {
 					for (GameObject o : objects) {
 						if (o.getClass() == DraggableImage.class) {
 							if (((DraggableImage) o).isWithin(cursor.x, cursor.y))
+							{
 								dragging = (DraggableImage) o;
+								waiter = 4;
+							}
+							
 						}
 					}
 				}
-				else {
+				else if (waiter ==0) {
 					for (GameObject o : objects) {
 						if (o.getClass() == ObjectHolder.class) {
 							if (((ObjectHolder) o).isWithin(cursor.x, cursor.y) && ((ObjectHolder) o).idMatch(dragging.getid())) {

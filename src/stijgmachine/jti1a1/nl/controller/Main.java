@@ -23,6 +23,7 @@ import openingscreen.OpeningView;
 
 import stijgmachine.jti1a1.nl.GamePower.GamePowerLogic;
 import stijgmachine.jti1a1.nl.model.*;
+import stijgmachine.jti1a1.nl.objects.AssemblyLineBox;
 import stijgmachine.jti1a1.nl.objects.GameObject;
 import stijgmachine.jti1a1.nl.objects.GameSoundtrack;
 import stijgmachine.jti1a1.nl.startScreenStory.StartScreenStoryLogic;
@@ -58,17 +59,17 @@ public class Main {
 	public Main() throws LineUnavailableException, UnsupportedAudioFileException, IOException, InterruptedException
 	{
 		list = new Object[][]{
-				new Object[]{new OpeningModel(), new OpeningView()},
-				new Object[]{new StartScreenStoryLogic(), new StartScreenStoryView()},//starts to early, suggestion. wait for first tick
+				//new Object[]{new OpeningModel(), new OpeningView()},
+				//new Object[]{new StartScreenStoryLogic(), new StartScreenStoryView()},//starts to early, suggestion. wait for first tick
 //				new Object[]{new AssemblyLineLogic(), new TestView()},
 //				new Object[]{new GamePowerLogic(), new TestView()},
 //				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new WaterSupplyGame(), new WaterSupplyView()}, //not working
-				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
-				new Object[]{new AssemblyLineLogic(), new TestView()},
-				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
-				new Object[]{new AssemblyLineLogic(), new TestView()},
+				//new Object[]{new WaterSupplyGame(), new WaterSupplyView()}, //not working
+//				new Object[]{new AssemblyLineLogic(), new TestView()},
+//				new Object[]{new SteamGameModel(), new SteamGamePanel()},// works weird
+//				new Object[]{new AssemblyLineLogic(), new TestView()},
+//				new Object[]{new GameWeldingLogic(), new GameWeldingView()}, //press home button for controls
+//				new Object[]{new AssemblyLineLogic(), new TestView()},
 				new Object[]{new EndGameLogic(), new EndGameView()}};
 		fullscreen = false;
 		gameinit();
@@ -140,8 +141,8 @@ public class Main {
 					list = new Object[][]{
 							new Object[]{new OpeningModel(), new OpeningView()},
 							new Object[]{new StartScreenStoryLogic(), new StartScreenStoryView()},//starts to early, suggestion. wait for first tick
-							new Object[]{new AssemblyLineLogic(), new TestView()},
-							new Object[]{new GamePowerLogic(), new TestView()},
+							//new Object[]{new AssemblyLineLogic(), new TestView()},
+							//new Object[]{new GamePowerLogic(), new TestView()},
 							new Object[]{new AssemblyLineLogic(), new TestView()},
 							new Object[]{new WaterSupplyGame(), new WaterSupplyView()}, //not working
 							new Object[]{new AssemblyLineLogic(), new TestView()},
@@ -152,6 +153,7 @@ public class Main {
 							new Object[]{new EndGameLogic(), new EndGameView()}};
 					i = 0;
 				}
+				AssemblyLineBox.round = 0;
 //				frame.removeAll();
 				frame.getContentPane().removeAll();
 				setGame((MiniGameLogic)list[i][0], (MiniGameView)list[i][1]);
